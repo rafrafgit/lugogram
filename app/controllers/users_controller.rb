@@ -13,11 +13,15 @@ class UsersController < ApplicationController
   end
 
   def new
+    @user = User.new(params[:user])
   end
 
   def create
+    @user = User.new(params[:user])
     if @user.save
       sign_in @user
+      # Tell the UserMailer to send a welcome Email after save
+      UserMailer.welcome_email(@user).deliver
       flash[:success] = "Welcome to Lugogram!"
       redirect_to @user
     else
@@ -41,8 +45,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-    
 
     def correct_user
       @user = User.find(params[:id])

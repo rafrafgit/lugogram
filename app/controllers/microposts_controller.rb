@@ -4,7 +4,8 @@ class MicropostsController < ApplicationController
   def create
     @micropost = current_user.microposts.build(params[:micropost])
     if @micropost.save
-      flash[:success] = "Micropost created!"
+      current_user.sendTelegramEmail
+      flash[:success] = "Micropost created! Email delivered."
       redirect_to root_url
     else
       render 'static_pages/home'
