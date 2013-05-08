@@ -1,14 +1,13 @@
 <% if signed_in? %>
-  <div class="row">
-    <aside class="span4">
-      <section>
+  <table><tr>
+    <td valign="top">   
         <%= render 'shared/micropost_form' %>
-      </section>
-      <section>
-        <%= render 'layouts/cute.html' %>
-      </section>
-    </aside>
-  </div>  
+    </td>  
+  <td width="40">&nbsp;</td>
+  <td valign="top">   
+        <%= render 'layouts/cute.html' %>  
+  </td> 
+</tr></table>
 <% else %>
   <div class="center hero-unit">
     <h1>Welcome to Lugogram</h1>
