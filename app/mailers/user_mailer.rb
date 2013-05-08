@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   default :from => "donotreply@example.com"
- 
+
   def welcome_email(user)
     @user = user
     @url  = "http://lugogram.com/signin"
@@ -8,11 +8,14 @@ class UserMailer < ActionMailer::Base
   end
 
   def lugogram_email(user)
-    layout = 'lugogram_email'
+    micropost = user.microposts[0]
+    #layout = micropost.filter
     @user = user
-    @url  = "http://lugogram.com/signin"
-    @lugogram_message = user.microposts[0].content
-    mail(:to => user.email, :subject => "Lugogram for you")
+    @lugogram_message = micropost.content
+    mail(:to => user.email, :subject => "Lugogram for you") do |format|
+      format.html { render :layout => micropost.filter }
+      #format.text
+    end
   end
 
 end

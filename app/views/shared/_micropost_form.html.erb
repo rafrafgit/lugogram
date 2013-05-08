@@ -2,6 +2,7 @@
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
     <%= f.text_area :content, placeholder: "Compose new Lugogram" %>
+    <%= f.select :filter, "<option>standard</option><option>cute</option><option>formal</option><option>crazy</option>".html_safe %>
   </div>
   <%= f.submit "Send", class: "btn btn-large btn-primary" %>
 <% end %>

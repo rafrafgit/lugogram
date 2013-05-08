@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+  	<style type="text/css">  
+	    div {
+	    	background-color: #eaeaea;
+	    	border-radius(6px);
+	      	padding: 60px;
+	      	margin-bottom: 30px;
+	    }
+	    h1 {
+	      	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	      	font-size: 60px;
+	      	font-weight: 200;
+	    	line-height: 30px;
+	    	text-align: center;
+	    	color: red;
+	    } 
+	    p {
+	    	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	    	font-size: 10px;
+	    	color: #gray;
+	    }
+	  </style>
+    <div><h1><%= @lugogram_message %></h1></div>
+    <p>Love from <%= @user.name %></p>
+    <p>An answer is not expected, just lean back and enjoy.</p>
+  </body>
+</html>
