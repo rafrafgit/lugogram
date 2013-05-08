@@ -8,10 +8,11 @@ class UserMailer < ActionMailer::Base
   end
 
   def lugogram_email(user)
+    layout = 'lugogram_email'
     @user = user
     @url  = "http://lugogram.com/signin"
     @lugogram_message = user.microposts[0].content
-    mail(:from => user.email, :to => user.email, :subject => "Micropost " + @lugogram_message)
+    mail(:to => user.email, :subject => "Lugogram for you")
   end
 
 end

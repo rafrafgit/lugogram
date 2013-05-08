@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
     UserMailer.welcome_email(self).deliver
   end
 
-  def sendTelegramEmail
+  def sendLugogramEmail
       UserMailer.lugogram_email(self).deliver
   end
 

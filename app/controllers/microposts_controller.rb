@@ -4,7 +4,7 @@ class MicropostsController < ApplicationController
   def create
     @micropost = current_user.microposts.build(params[:micropost])
     if @micropost.save
-      current_user.sendTelegramEmail
+      current_user.sendLugogramEmail
       flash[:success] = "Micropost created! Email delivered."
       redirect_to root_url
     else
