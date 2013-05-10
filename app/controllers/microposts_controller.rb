@@ -5,7 +5,7 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(params[:micropost])
     if @micropost.save
       current_user.sendLugogramEmail
-      flash[:success] = "Micropost created! Email delivered." + @micropost.content + " with style: " + @micropost.filter 
+      flash[:success] = "Lugogram sent."
       redirect_to root_url
     else
       render 'static_pages/home'

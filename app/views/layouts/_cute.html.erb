@@ -6,35 +6,51 @@
   <body>
   	<style type="text/css">  
 
-  		.body {
-  			background-color: #efefef;
-  		}
-	    .superCute {
-	    	background-color: #eee;
-	    	border-radius(6px);
+ 		.cuteEmail{
+ 			background-color: #eee;
+ 			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ 			
+ 		}
+	    .messageBox {
+	    	background-color: pink;
+	      	border-color: gray;
 	      	padding: 60px;
-	      	margin-bottom: 30px;
+	      	margin-top: 30px;
+ 			margin-left: 10px;
+ 			margin-right: 10px;
+ 			margin-bottom: 30px;
 	      	border-radius: 4px;
 			-moz-border-radius: 4px;
-			-webkit-border-radius: 4px;
-	    
-		    
-		      	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		      	font-size: 60px;
-		      	font-weight: 200;
-		    	line-height: 30px;
-		    	text-align: center;
-		    	color: pink;
-		    
+			-webkit-border-radius: 4px;    
+		    			    
+	    }
+	    .aftertext {
+	    	margin-top: 30px;
+ 			margin-left: 10px;
+ 			margin-right: 10px;
+ 			margin-bottom: 30px;
+	    }
+	    h1 {
+	    	font-size: 60px;
+	      	font-weight: 200;
+	    	line-height: 30px;
+	    	text-align: center;
+	    	color: black;
 	    }
 	    p {
-	    	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	    	font-size: 10px;
-	    	color: #gray;
+	    	color: gray;
 	    }
 	  </style>
     <p>Preview:</p>
-    <h1 class="superCute">your message</h1>
-    <p >From cutie</p>
+    <div class="cuteEmail">
+    	<br>
+    	<div class="messageBox">
+    		<h1>your message here...</h1>
+    	</div>
+   		<div class="aftertext">
+   			<p>From cutie</p>
+   		</div>	
+   	</div>
   </body>
 </html>
