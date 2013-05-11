@@ -5,7 +5,8 @@
           <%= render 'shared/error_messages', object: f.object %>
           <div class="field">
             <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new Lugogram" %>
-            <%= f.select :filter, "<option>standard</option><option>cute</option><option>formal</option><option>crazy</option>".html_safe %>
+            <%= f.email_field :recipients, placeholder: "to Email"  %>
+            <input type="hidden" id="micropost.filter" value="cute" />
           </div>
           <%= f.submit "Send", class: "btn btn-large btn-primary" %>
           <div>Characters left: <span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></div>
