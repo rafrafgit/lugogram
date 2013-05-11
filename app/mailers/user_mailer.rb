@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "donotreply@example.com"
+  default :from => "Lugogram@example.com"
 
   def welcome_email(user)
     @user = user
@@ -9,10 +9,9 @@ class UserMailer < ActionMailer::Base
 
   def lugogram_email(user)
     micropost = user.microposts[0]
-    #layout = micropost.filter
     @user = user
     @lugogram_message = micropost.content
-    mail(:to => user.email, :subject => "Lugogram for you") do |format|
+    mail(:to => user.email, :subject => "Message for you") do |format|
       format.html { render :layout => micropost.filter }
       #format.text
     end

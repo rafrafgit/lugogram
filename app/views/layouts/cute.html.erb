@@ -4,14 +4,14 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <div class="cuteEmail" style="background-color: #eee;font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
-    	<br/><div class="messageBox" style="background-color: pink;border-color: gray;padding: 60px;margin-top: 30px;margin-left: 10px;margin-right: 10px;margin-bottom: 30px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-    		<h1 style="font-size: 60px;font-weight: 200;line-height: 30px;text-align: center;color: black"><%= @lugogram_message %></h1>
+    <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+    	<br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+    		<h1 style="font-size: 60px;font-weight: 200;line-height:1;text-align: center;color: black"><%= @lugogram_message %></h1>
+        <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Love from <%= @user.name %></p>
     	</div>
-   		<div class="aftertext" style="margin-top: 30px;margin-left: 10px;margin-right: 10px;margin-bottom: 30px">
-   			<p style="font-size: 10px;color: gray">Love from <%= @user.name %></p>
-   			<p style="font-size: 10px;color: gray">An answer to this email is not expected, just enjoy.</p>
-   		</div>	
+   		<div class="aftertext" style="margin-top: 30px;margin-bottom: 30px">
+   		 <p style="font-size: 10px;color: gray">This is a <a href="lugogram.com"><span style="font-size: 10px;color: gray">Lugogram</span></a> and <%= @user.name %> is not expecting you to answer it.</p>
+      </div>	
    		<br/>
    	</div>
   </body>

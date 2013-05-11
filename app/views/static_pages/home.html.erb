@@ -4,27 +4,38 @@
         <%= form_for(@micropost) do |f| %>
           <%= render 'shared/error_messages', object: f.object %>
           <div class="field">
-            <%= f.text_area :content, placeholder: "Compose new Lugogram" %>
+            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new Lugogram" %>
             <%= f.select :filter, "<option>standard</option><option>cute</option><option>formal</option><option>crazy</option>".html_safe %>
           </div>
           <%= f.submit "Send", class: "btn btn-large btn-primary" %>
+          <div>Characters left: <span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></div>
+        
         <% end %>
+
     </td>  
   <td width="40">&nbsp;</td>
   <td valign="top">   
-        <%= render 'layouts/cute.html' %>  
+    Preview <br/>
+    <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+      <br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+        <h1 id="message" style="font-size: 60px;font-weight: 200;line-height:1;text-align: center;color: black">Your message here</h1>
+        <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Love from <%= current_user.name %></p>
+      </div>
+      <div class="aftertext" style="margin-top: 30px;margin-bottom: 30px">
+        <p style="font-size: 10px;color: gray">This is a <a href="lugogram.com"><span style="font-size: 10px;color: gray">Lugogram</span></a> and <%= current_user.name %> is not expecting you to answer it.</p>
+      </div>  
+    </div>
+
   </td> 
 </tr></table>
 <% else %>
   <div class="center hero-unit">
-    <h1>Welcome to Lugogram</h1>
-
+    <h1>Welcome to Lugogram </h1>
     <h2>
-      This is....
+      Ever wanted to message your friends without the endless replys back and forth? 
+      Lugogram is for you. It takes away the social convention of having to reply to messages because with a Lugogram it is simply not possible to reply.
     </h2>
-
-    <%= link_to "Sign up now!", signup_path, 
-                                class: "btn btn-large btn-primary" %>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
   </div>
 
 <% end %> 
