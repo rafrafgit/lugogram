@@ -23,7 +23,7 @@ class UsersController < ApplicationController
       # Tell the UserMailer to send a welcome Email after save
       UserMailer.welcome_email(@user).deliver
       flash[:success] = "Welcome to Lugogram!"
-      redirect_to @user
+      redirect_to 'home'
     else
       render 'new'
     end

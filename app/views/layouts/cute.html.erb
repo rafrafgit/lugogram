@@ -6,12 +6,13 @@
   <body>
     <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
     	<br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-    		<%= image_tag("http://m3.licdn.com/mpr/pub/image-VbZuCXznRQpUH8ASigjoI_c7PycAM2HweTZ1Aui3PHK7LvWsVbZ1GBRnPJ1D9EOgAFQK/martin-ramsin.jpg", :size => "40x40") %>
+    		<%= image_tag("http://m3.licdn.com/mpr/pub/image-VbZuCXznRQpUH8ASigjoI_c7PycAM2HweTZ1Aui3PHK7LvWsVbZ1GBRnPJ1D9EOgAFQK/martin-ramsin.jpg", :size => "50x50") %>
         <h1 style="font-size: 60px;font-weight: 200;line-height:1;text-align: center;color: black"><%= @lugogram_message %></h1>
         <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Love from <%= @user.name %></p>
     	</div>
    		<div class="aftertext" style="margin-top: 30px;margin-bottom: 30px">
-   		 <p style="font-size: 10px;color: gray">This is a <a href="lugogram.com"><span style="font-size: 10px;color: gray">Lugogram</span></a> and <%= @user.name %> is not expecting you to answer it.</p>
+   		 <p style="font-size: 10px;color: gray">This is a <a href="lugogram.com"><span style="font-size: 10px;color: gray">Lugogram</span></a>. <%= @user.name %> is not expecting you to answer it. Just lean back and enjoy.
+       </p>
       </div>	
    		<br/>
    	</div>

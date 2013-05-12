@@ -1,15 +1,4 @@
 <% provide(:title, @user.name) %>
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-        <br>
-        <%= pluralize(@user.microposts.count, "Lugograms") %>
-      </h1>
-    </section>
-  </aside>
   <div class="span8">
     <% if @user.microposts.any? %>
       <ol class="microposts">
@@ -17,4 +6,3 @@
       </ol>
     <% end %>
   </div>
-</div>
