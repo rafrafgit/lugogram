@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :microposts
 
   before_save { |user| user.email = email.downcase }
-  before_save { |user| user.avatar = "http://istc-pc-test-media.cs.washington.edu/images/default-profile-pic.png" }
+  before_save { |user| user.avatar = "https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png" }
   before_save :create_remember_token
 
   validates :name, presence: true, length: { maximum: 50 }
