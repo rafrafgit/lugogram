@@ -1,45 +1,38 @@
 <% if signed_in? %>
-  <table><tr>
-    <td valign="top">   
+   <div class="hero-unit">
         <%= form_for(@micropost) do |f| %>
           <%= render 'shared/error_messages', object: f.object %>
           <div class="field">
-            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new Lugogram" %>
-            <%= f.email_field :recipients, placeholder: "to Email"  %>
+            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new message" %>  
             <input type="hidden" id="micropost.filter" value="cute" />
+            <%= f.email_field :recipients, placeholder: "to Email"  %>
           </div>
-          <%= f.submit "Send", class: "btn btn-large btn-primary" %>
-          <div>Characters left: <span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></div>
-        
+          <div><%= f.submit "Send", class: "btn btn-large btn-primary" %></div>      
         <% end %>
-
-    </td>  
-  <td width="40">&nbsp;</td>
-  <td valign="top">   
-    Preview <br/>
-    <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+        <p align="right" size="10"><span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></p> 
+  </div>      
+  <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
       <br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-        <%= image_tag("avatar.jpg", :size => "50x50") %>
-        <h1 id="message" style="font-size: 60px;font-weight: 200;line-height:1;text-align: center;color: black">Your message here</h1>
-        <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Love from <%= current_user.name %></p>
+        <%= image_tag(current_user.avatar, :size => "50x50") %>
+        <h1 id="message" style="font-size: 60px;font-weight: 200;line-height:1;text-align: center;color: black">Preview. Your message here</h1>
+        <br/><p align="right" style="font-size: 10px;color: black;font-style: italic"><%= current_user.name %></p>
       </div>
       <div class="aftertext" style="margin-top: 30px;margin-bottom: 30px">
         <p style="font-size: 10px;color: gray">This is a <a href="lugogram.com"><span style="font-size: 10px;color: gray">Lugogram</span></a>. <%= current_user.name %> is not expecting you to answer it. Just lean back and enjoy.</p>
       </div>  
-    </div>
-
-  </td> 
-</tr></table>
+ </div>
+ 
 <% else %>
-  <div class="center hero-unit" background-color="#8BE8C8">
-    <h1>Welcome to Lugogram!</h1>
-    <h3>
-      Message your friends without endless replys      
-    </h3>
-    <h4>
-      Lugogram removes the social convention of replying to messages because with a Lugogram it's simply not possible to reply.
-    </h4>
+
+
+<div class="center hero-unit" background-color="#8BE8C8">
+    <h1>Messaging without replys</h1>
+    <p>
+      Hacking the social convention of having to reply to messages. 
+      A Lugogram is simply not possible to reply to.
+    </p>
     <br/>
-    <p><%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %></p>
+    <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>
   </div>
+
 <% end %> 
