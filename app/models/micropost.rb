@@ -9,9 +9,7 @@ class Micropost < ActiveRecord::Base
   validates :user_id, presence: true
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :recipients, presence:   true,
-                    format:     { with: VALID_EMAIL_REGEX },
-                    uniqueness: { case_sensitive: false }
+  validates :recipients, presence:   true, format: { with: VALID_EMAIL_REGEX }
   
   default_scope order: 'microposts.created_at DESC'
 end
