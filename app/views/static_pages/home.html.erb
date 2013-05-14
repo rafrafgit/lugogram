@@ -1,10 +1,17 @@
 <% if signed_in? %>
+   <script>
+    function change(){
+        var el1 = document.getElementById("message");
+        var el2 = document.getElementById("micropost_content");
+        el1.innerHTML = el2.value;
+    }
+    </script>
    <div class="hero-unit">
         <%= form_for(@micropost) do |f| %>
           <%= render 'shared/error_messages', object: f.object %>
           <div class="field">
-            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new message" %>  
-            <input type="hidden" id="micropost.filter" value="cute" />
+            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new message", onkeyup: "change()" %>  
+            <input type="hidden" id="micropost_filter" value="cute" />
             <%= f.email_field :recipients, placeholder: "to Email"  %>
           </div>
           <div><%= f.submit "Send", class: "btn btn-large btn-primary" %></div>      
@@ -14,7 +21,7 @@
   <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
       <br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
         <%= image_tag(current_user.avatar, :size => "48x48") %>
-        <h1 id="message" style="font-size: 40px;font-weight: 200;line-height:1;text-align: center;color: black">Preview. Your message here</h1>
+        <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black">Preview. Your message here</h1>
         <br/><p align="right" style="font-size: 10px;color: black;font-style: italic"><%= current_user.name %></p>
       </div>
         
