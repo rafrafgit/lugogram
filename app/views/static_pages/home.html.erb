@@ -21,7 +21,7 @@
   <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
       <br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
         <%= image_tag(current_user.avatar, :size => "48x48") %>
-        <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black">Preview. Your message here</h1>
+        <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 30px;">Preview. Your message here</h1>
         <br/><p align="right" style="font-size: 10px;color: black;font-style: italic"><%= current_user.name %></p>
       </div>
         
@@ -30,13 +30,40 @@
 <% else %>
 
 
-<div class="center hero-unit" background-color="#8BE8C8">
-    <h1>Messaging without replys</h1>
-    <p>
-      Hacking the social convention of having to reply to messages. 
-    </p>
-    <br/>
-    <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>
-  </div>
+<div class="center hero-unit" style="background-color: #ffffff;">
+      <h1>Messaging without replys</h1>
+      <p>
+        Hacking the social convention of having to reply to messages. 
+      </p>
+      <br/>
+      <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>  
+    </div>
+  <p style="font-size: 10px;color: gray;">Samples</p>
+  
+  
+
+ <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+    <br/><div class="messageBox" style="background-color: #ff77a8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+      <%= image_tag("https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png", :size => "48x48") %>
+      <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 30px;">Missing you :(</h1>
+      <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Julia</p>
+      </div>       
+ </div>
+
+ <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+    <br/><div class="messageBox" style="background-color: #fcbf49;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+      <%= image_tag("https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png", :size => "48x48") %>
+      <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 30px;">We are leaving for the pizza place now, feel free to join.</h1>
+      <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Lisa</p>
+      </div>       
+ </div>
+
+ <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+    <br/><div class="messageBox" style="background-color: #8BE8C8;border-color: gray;padding: 30px;margin-top: 20px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+      <%= image_tag("https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png", :size => "48x48") %>
+      <h1 id="message" style="font-size: 44px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 30px;">Don't forget the milk!</h1>
+      <br/><p align="right" style="font-size: 10px;color: black;font-style: italic">Ben</p>
+      </div>       
+ </div>
 
 <% end %> 

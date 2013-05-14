@@ -1,8 +1,13 @@
 <% provide(:title, @user.name) %>
+  
   <div class="span8">
+	<%= image_tag(current_user.avatar, :size => "48x48") %>
+  	<h1><%= @user.name %></h1>
     <% if @user.microposts.any? %>
       <ol class="microposts">
         <%= render @microposts %>
       </ol>
+    <% else %>
+    	<p>You dont have no history yet.</p>
     <% end %>
   </div>
