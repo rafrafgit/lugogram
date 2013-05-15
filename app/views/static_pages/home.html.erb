@@ -1,31 +1,25 @@
 <% if signed_in? %>
-   <script>
+  <script>
     function change(){
         var el1 = document.getElementById("message");
         var el2 = document.getElementById("micropost_content");
         el1.innerHTML = el2.value;
     }
     </script>
-   <div class="hero-unit">
-        <%= form_for(@micropost) do |f| %>
-          <%= render 'shared/error_messages', object: f.object %>
-          <div class="field">
-            <%= f.text_area :content, rows: "5", cols: "20", outline: "none", resize: "none", placeholder: "Compose new message", onkeyup: "change()" %>  
-            <input type="hidden" id="micropost_filter" value="cute" />
-            <%= f.email_field :recipients, placeholder: "to Email"  %>
-          </div>
-          <div><%= f.submit "Send", class: "btn btn-large btn-primary" %></div>      
-        <% end %>
-        <p align="right" size="10"><span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></p> 
-  </div>      
-  
-  <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Preview. Your message here', color: '#8BE8C8' %>
-        
- </div>
- 
+
+    <% current_color = randomColor() %>  
+    <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Your message here', color: current_color %>
+    <%= form_for(@micropost) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>   
+      <div class="field">
+      <%= f.text_area :content, rows: "3", cols: "6", placeholder: " ", maxlength: "100", autofocus: "true", onkeyup: "change()"  %>   
+      <%= f.hidden_field :filter, value: current_color %>              
+      <%= f.email_field :recipients, placeholder: "to Email"  %><%= f.submit "Send", class: "btn btn-large btn-primary" %>
+     </div>
+     <p align="right"><span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></p>
+   <% end %> 
+
 <% else %>
-
-
 <div class="center hero-unit" style="background-color: #ffffff;">
       <h1>Messaging without replys</h1>
       <p>
@@ -34,11 +28,10 @@
       <br/>
       <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>  
     </div>
-  <p style="font-size: 10px;color: gray;">Samples</p>
   
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Julia', message:'Missing you :(', color: '#ff77a8' %>
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Lisa', message:'We are leaving for the pizza place now, feel free to join.', color: '#fcbf49' %>
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Ben', message:'Dont forget the milk!', color: '#8BE8C8' %> 
+ <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Julia', message:'Missing you :(', color: randomColor() %>
+ <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Lisa', message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
+ <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Ben', message:'Dont forget the milk!', color: randomColor() %> 
 
  
 

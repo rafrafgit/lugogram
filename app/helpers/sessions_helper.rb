@@ -41,5 +41,25 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.url
   end
+
+  def randomColor
+     
+    emerald = '#009B77'
+    tangerine = '#DD4124'
+    honeysuckle = '#D65076'
+    turquoise = '#45B8AC'
+    mimosa = '#EFC050'
+    izis = '#5B5EA6'
+    chili = '#9B2335'
+    sand = '#DFCFBE'
+    tigerlily = '#E15D44'
+    aqua = '#7FCDCD'
+    red = '#BC243C'
+    fuchsia = '#C3447A'
+    cerulean = '#98B4D4'
+ 
+    colors = [emerald, tangerine, honeysuckle, turquoise, mimosa, izis, chili, sand, tigerlily, aqua, red, fuchsia, cerulean]
+    colors[rand(colors.length)]
+  end
   
 end

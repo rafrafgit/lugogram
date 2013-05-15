@@ -11,6 +11,7 @@ class UserMailer < ActionMailer::Base
     micropost = user.microposts[0]
     @user = user
     @lugogram_message = micropost.content
+    @lugogram_color = micropost.filter
     mail(:to => micropost.recipients, :subject => "Message for you") do |format|
       format.html { render :layout => "cute" }
       #format.text

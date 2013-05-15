@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <%= render 'shared/lugogram_message', avatar: @user.avatar, name: @user.name, message:@lugogram_message, color: '#8BE8C8' %>
+    <%= render 'shared/lugogram_message', avatar: @user.avatar, name: @user.name, message:@lugogram_message, color: @lugogram_color %>
 
    		<div class="aftertext" style="margin-top: 30px;margin-bottom: 30px">
    		 <p style="font-size: 10px;color: gray"><%= @user.name %> is not expecting you to reply. Just lean back and enjoy your <a href="https://lugogram.herokuapp.com"><span style="font-size: 10px;color: gray">Lugogram</span></a>.
