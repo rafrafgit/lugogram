@@ -1,7 +1,12 @@
 <li>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(micropost.created_at) %> ago to <%= micropost.recipients %>
-  </span>
-  <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message: micropost.content, color: micropost.filter %>
+  <%= render 'shared/lugogram_message', avatar: micropost.user.avatar, name: micropost.user.name, message: micropost.content, color: micropost.filter %>  
+  <% if current_user?(micropost.user) %>
+  	<span class="timestamp">Posted by you <%= time_ago_in_words(micropost.created_at) %> ago to <%= micropost.recipients %></span>
+    <%= link_to "delete", micropost, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: micropost.content %>
+  <% else %>
+  	<span class="timestamp">Posted by <%= micropost.user.name %> <%= time_ago_in_words(micropost.created_at) %> ago </span>
+  <% end %>
 </li>
 
