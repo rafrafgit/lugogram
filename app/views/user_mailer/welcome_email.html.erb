@@ -4,7 +4,6 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h1>Welcome to Lugogram, <%= @user.name %></h1>
-    <p>Thanks for joining and have a great day!</p>
+    <%= render 'shared/lugogram_message', avatar: @lugogram_avatar, name: @lugogram_name, message:@lugogram_message, color: @lugogram_color %>
   </body>
 </html>

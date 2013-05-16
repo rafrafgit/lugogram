@@ -1,10 +1,17 @@
 class UserMailer < ActionMailer::Base
-  default :from => "Lugogram@heroku.com"
+  default :from => "noreply@lugogram.com"
 
   def welcome_email(user)
+    #@user = user
+    #mail(:to => user.email, :subject => "Welcome to Lugogram!")
+
     @user = user
-    @url  = "http://lugogram.com/signin"
+    @lugogram_message = "Welcome to Lugogram " + @user.name + "! Thanks for joining and have a great day!"
+    @lugogram_color = '#DD4124'
+    @lugogram_avatar = @user.avatar
+    @lugogram_name = 'Staff'
     mail(:to => user.email, :subject => "Welcome to Lugogram!")
+
   end
 
   def lugogram_email(user)
@@ -12,7 +19,11 @@ class UserMailer < ActionMailer::Base
     @user = user
     @lugogram_message = micropost.content
     @lugogram_color = micropost.filter
-    mail(:to => micropost.recipients, :subject => "Message for you") do |format|
+    @lugogram_avatar = @user.avatar
+    @lugogram_name = @user.name
+    @lugogram_url = 'http://lugogram.com'
+    subject = "Message from " + @user.name
+    mail(:to => micropost.recipients, :subject => subject) do |format|
       format.html { render :layout => "cute" }
       #format.text
     end

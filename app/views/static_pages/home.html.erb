@@ -8,6 +8,7 @@
     </script>
 
     <% current_color = randomColor() %>  
+    <h1>Send message</h1>
     <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Your message here', color: current_color %>
     <%= form_for(@micropost) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>   
