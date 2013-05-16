@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @user.avatar = "https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png"
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to Lugogram!"
