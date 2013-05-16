@@ -13,7 +13,7 @@
     <%= form_for(@micropost) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>   
       <div class="field">
-      <%= f.text_area :content, rows: "3", cols: "6", placeholder: " ", maxlength: "100", autofocus: "true", onkeyup: "change()"  %>   
+      <%= f.text_area :content, rows: "3", cols: "4", placeholder: " ", maxlength: "100", autofocus: "true", onkeyup: "change()"  %>   
       <%= f.hidden_field :filter, value: current_color %>              
       <%= f.email_field :recipients, placeholder: "to Email"  %><%= f.submit "Send", class: "btn btn-large btn-primary" %>
      </div>
