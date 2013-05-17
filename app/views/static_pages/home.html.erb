@@ -1,3 +1,4 @@
+
 <% if signed_in? %>
   <script>
     function change(){
@@ -30,10 +31,8 @@
       <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>  
     </div>
   
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Julia', message:'Missing you :(', color: randomColor() %>
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Lisa', message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
- <%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Ben', message:'Dont forget the milk!', color: randomColor() %> 
-
- 
+ <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Julia', message:'Missing you :(', color: randomColor() %>
+ <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Lisa', message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
+ <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Ben', message:'Dont forget the milk!', color: randomColor() %> 
 
 <% end %> 

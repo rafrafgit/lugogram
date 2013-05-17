@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
     @lugogram_color = micropost.filter
     @lugogram_avatar = @user.avatar
     @lugogram_name = @user.name
-    @lugogram_url = 'http://lugogram.com'
+    @lugogram_url = 'http://www.lugogram.com'
     subject = "Message from " + @user.name
     mail(:to => micropost.recipients, :subject => subject) do |format|
       format.html { render :layout => "cute" }
