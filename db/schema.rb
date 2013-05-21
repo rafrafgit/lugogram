@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130518213000) do
+ActiveRecord::Schema.define(:version => 20130521185616) do
 
   create_table "eyes", :force => true do |t|
     t.integer  "micropost_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130518213000) do
     t.string   "password_digest"
     t.string   "remember_token"
     t.string   "avatar"
+    t.boolean  "admin"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

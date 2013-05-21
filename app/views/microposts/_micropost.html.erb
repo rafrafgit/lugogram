@@ -1,7 +1,12 @@
 
   <% 
   	eyes = micropost.getUserEyes()
-  	names = "Visible to: " + micropost.user.name 
+  	names = "Visible to: " 
+    if current_user?(micropost.user)
+      names += "You"
+    else
+      names += micropost.user.name  
+    end
   	eyes.each do |u| 
   		names = names + ", " + u.name	
   	end
