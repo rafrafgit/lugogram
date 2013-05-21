@@ -5,7 +5,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = history
+    @friend  = User.new(params[:friend])
+    @friends = @user.getFriends
+    @microposts = @user.getHistory
   end
 
   def index
@@ -18,7 +20,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.avatar = "https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png"
+    @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to Lugogram!"
@@ -44,15 +46,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def friend
+    @userToFriend = User.find(params[:friend_id])
+    current_user.addFriend(@userToFriend)
+    #flash[:success] = "Friend added " + @userToFriend.name
+    redirect_to @userToFriend    
+  end
+    
+  def unfriend
+    @userToUnFriend = User.find(params[:friend_id])
+    current_user.removeFriend(@userToUnFriend)
+    #flash[:success] = "Friend removed " + @userToUnFriend.name
+    redirect_to @userToUnFriend
+  end
+
+
   private
 
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
     end
-
-    def history
-      @user.microposts
-    end  
 
 end

@@ -1,7 +1,15 @@
 
-  <%= render 'shared/lugogram_message', avatar: micropost.user.avatar, name: micropost.user.name, message: micropost.content, color: micropost.filter %>  
+  <% 
+  	eyes = micropost.getUserEyes()
+  	names = "Visible to: " + micropost.user.name 
+  	eyes.each do |u| 
+  		names = names + ", " + u.name	
+  	end
+  %>
+  
+  <%= render 'shared/lugogram_message', avatar: micropost.user.avatar, name: names, message: micropost.content, color: micropost.filter %>  
   <% if current_user?(micropost.user) %>
-  	<span class="timestamp">Posted by you <%= time_ago_in_words(micropost.created_at) %> ago to <%= micropost.recipients %></span>
+  	<span class="timestamp">Posted by You <%= time_ago_in_words(micropost.created_at) %> ago </span>
     <%= link_to "delete", micropost, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: micropost.content %>

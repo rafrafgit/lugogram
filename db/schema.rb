@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513081809) do
+ActiveRecord::Schema.define(:version => 20130518213000) do
+
+  create_table "eyes", :force => true do |t|
+    t.integer  "micropost_id"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "eyes", ["micropost_id"], :name => "index_eyes_on_micropost_id"
+  add_index "eyes", ["user_id"], :name => "index_eyes_on_user_id"
+
+  create_table "friends", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "friends", ["friend_id"], :name => "index_friends_on_friend_id"
+  add_index "friends", ["user_id"], :name => "index_friends_on_user_id"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"

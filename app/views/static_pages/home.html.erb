@@ -1,26 +1,55 @@
- <div class="row-fluid">
-        <div class="span12">
-<% if signed_in? %>
+ <% if signed_in? %>
+  <% current_color = randomColor() %>  
   <script>
     function change(){
         var el1 = document.getElementById("message");
         var el2 = document.getElementById("micropost_content");
         el1.innerHTML = el2.value;
     }
+    function buttonPress(userID){
+      document.getElementById(userID).setAttribute("class", "btn btn-large btn-success");
+      document.getElementById("micropost_recipients").value = userID;
+    }
     </script>
 
-    <% current_color = randomColor() %>  
-    <h1>Send message</h1>
-    <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Your message here', color: current_color %>
+    
+    <div class=" hero-unit">
     <%= form_for(@micropost) do |f| %>
+     <div class="row-fluid">
+      <div class="span6">
+        <h2>Message:</h2>
       <%= render 'shared/error_messages', object: f.object %>   
       <div class="field">
-      <%= f.text_area :content, rows: "3", cols: "4", placeholder: " ", maxlength: "100", autofocus: "true", onkeyup: "change()"  %>   
-      <%= f.hidden_field :filter, value: current_color %>              
-      <%= f.email_field :recipients, placeholder: "to Email"  %><%= f.submit "Send", class: "btn btn-large btn-primary" %>
+      <% if current_user.microposts.length > 1 %>
+        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true" %>   
+      <% else %>
+        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true",  onkeyup: "change()" %>
+        
+      <% end %>
+      <%= f.hidden_field :recipients %>  
+      <%= f.hidden_field :filter, value: current_color %> 
+      <%= f.submit "Post", class: "btn btn-large btn-primary" %>                  
+      </div>
+      </div> 
+    <div class="span6">
+        <h2>Visible to:</h2>
+        <%  @friends.each do |uservis| %>          
+            <button class="btn btn-large" id="<%=uservis.id%>" name="<%=uservis.id%>" type="button" onClick=buttonPress('<%=uservis.id%>')><%=uservis.name%></button>
+        <% end %>
+        <button class="btn btn-large" id="add+" name="add+" type="button" onClick=buttonPress('add+')>Add+</button>  
      </div>
-     <p align="right"><span id="char-count"><script type="text/javascript">  var maxLen = 100; $(function() { setCharCount($('#micropost_content')); }); $('#micropost_content').live('keyup keydown', function(e) {  setCharCount($(this)); });  function setCharCount(object) { var left = maxLen - object.val().length;  $('#char-count').html(left);}</script></span></p>
-   <% end %> 
+    </div> 
+    <% end %> 
+   </div> 
+
+  <% if @microposts.length > 0 %>
+    <%  @microposts.each do |micropost| %>
+      <%= render @microposts %>
+    <% end %>  
+  <% else %>
+    <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Preview. Your message here', color: current_color %>
+  <% end %>
+
 
 <% else %>
 <div class="center hero-unit" style="background-color: #ffffff;">
@@ -37,5 +66,3 @@
  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Ben', message:'Dont forget the milk!', color: randomColor() %> 
 
 <% end %> 
-</div>
-</div>

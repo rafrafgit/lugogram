@@ -20,13 +20,8 @@
           <%= link_to "lugogram", root_path, class: "brand" %>
           <% if signed_in? %>
           <div class="nav-collapse collapse">
-            <ul class="nav pull-right">
-              <li><%= link_to "About", about_path %></li>
-              <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
-            </ul>
-            <ul class="nav">
-              <li><%= link_to "Send", root_path %></li>
-              <li><%= link_to "History", current_user %></li>        
+            <ul class="nav pull-right">           
+              <li><%= link_to current_user.name, user_path(current_user) %></li>
             </ul>
           </div><!--/.nav-collapse -->
           <% else %>
@@ -39,6 +34,7 @@
         </div>
       </div>
     </div>
+    
     
     <div class="container-fluid">
       <div class="row-fluid">

@@ -1,7 +1,42 @@
-<h1>History</h1>
-<%= link_to "Settings", edit_user_path(current_user) %><br/>     
-<% if @user.microposts.any? %>
-    <%= render @microposts %>
+<h1><%= @user.name%></h1> 
+<% if(@user.id == current_user.id) %>
+	<%= link_to "Settings", edit_user_path(@user) %><br/>
+	<%= link_to "Sign out", signout_path, method: "delete" %><br/> 
+
+	</br>
+
+	<h1>Friends</h1>
+	<% @friends.each do |friend| %>
+	  <% if friend.name != nil %>
+	    <%= link_to friend.name, id: friend.id, controller: "users", action: "show" %></br>
+	  <% end %>
+	<% end %>
+
+	<%= form_for(@friend) do |f| %>
+      <h4>Add friend</h4>
+      <%= render 'shared/error_messages', object: f.object %>   
+      <%= f.label :name %>
+	  <%= f.text_field :name %>
+
+	  <%= f.label :email %>
+	  <%= f.text_field :email %>
+
+      <%= f.submit "Add", class: "btn btn-large btn-primary" %>                  
+    <% end %>
+
+    </br>
+
+	<h1>History</h1>
+	<% if @microposts.length > 0 %>
+	    <%= render @microposts %>
+	<% else %>
+		<p>You dont have no history yet.</p>
+	<% end %>	
+
 <% else %>
-	<p>You dont have no history yet.</p>
+	<% if(!current_user.isFriend?(@user)) %>		
+		<button class="btn btn-large" type="button"><%= link_to "Add", friend_id: @user.id, controller: "users", action: "friend" %></br></button>
+	<% else %>
+		<button class="btn btn-large" type="button"><%= link_to "Remove", friend_id: @user.id, controller: "users", action: "unfriend" %></br></button>
+	<% end %>
 <% end %>
