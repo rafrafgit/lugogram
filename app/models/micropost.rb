@@ -4,7 +4,7 @@ class Micropost < ActiveRecord::Base
   has_many :eyes, foreign_key: "micropost_id", dependent: :destroy
 
   
-  before_save { |micropost| micropost.recipients = recipients.downcase }
+ # before_save { |micropost| micropost.recipients = recipients.downcase }
 
   validates :content, presence: true, length: { maximum: 100 }
   validates :user_id, presence: true
@@ -12,8 +12,10 @@ class Micropost < ActiveRecord::Base
   default_scope order: 'microposts.created_at DESC'
 
 
-  def addEyes(other_user)
-    eyes.create!(user_id: other_user.id)
+  def share(other_users)
+    other_users.each do |u|
+      eyes.create!(user_id: u.id)  
+    end  
   end
 
   def getUserEyes()

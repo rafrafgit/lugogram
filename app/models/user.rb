@@ -24,11 +24,17 @@ class User < ActiveRecord::Base
       UserMailer.lugogram_email(self).deliver
   end
 
+  def share(message, other_users)
+    post = microposts.build(content: message, filter: "#DD4124", recipients: "")
+    if post.save  
+      post.share(other_users)
+    end  
+  end  
+
   def getFriends
     returnUsers = []
     friends.each do |u|
       returnUsers.push(User.find_by_id(u.friend_id))
-
     end
     returnUsers
   end 
@@ -45,17 +51,11 @@ class User < ActiveRecord::Base
     friends.find_by_friend_id(other_user.id).destroy
   end
 
-
   def getHistory
-    #microposts
-
-    #post_ids = Eye.where("user_id = ?", self.id)
-
     post_ids = %(SELECT micropost_id FROM eyes WHERE user_id = :user_id)
-
     Micropost.where("id IN (#{post_ids}) or user_id = :user_id", { user_id: self })
-
   end  
+
 
   private
 

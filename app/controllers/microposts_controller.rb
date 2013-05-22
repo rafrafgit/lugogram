@@ -3,18 +3,19 @@ class MicropostsController < ApplicationController
   before_filter :correct_user ,   only: :destroy
 
   def create
-    @micropost = current_user.microposts.build(params[:micropost])
-    
-    if @micropost.save  
-      @userEyes = User.find(@micropost.recipients)
-      @micropost.addEyes(@userEyes)
+   
+   friends_params = params[:friends]
+   post_params = params[:micropost]
 
-      #current_user.sendLugogramEmail
-      #flash[:success] =  @micropost.content + " successfully sent to " + @micropost.recipients
-      redirect_to root_url
-    else
-      render 'static_pages/home'
+   users = []
+   friends_params.each do |key, value|
+    if value != nil && value == "true"
+      users.push(User.find(key))
     end
+   end
+
+   current_user.share(post_params["content"], users) 
+   redirect_to root_url
   end
 
   def destroy

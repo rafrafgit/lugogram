@@ -20,8 +20,11 @@
           <%= link_to "lugogram", root_path, class: "brand" %>
           <% if signed_in? %>
           <div class="nav-collapse collapse">
-            <ul class="nav pull-right">           
-              <li><%= link_to current_user.name, user_path(current_user) %></li>
+            <ul class="nav pull-right">                    
+              <li><%= link_to user_path(current_user) do %>
+                 <%= image_tag(current_user.avatar, size: "24x24") %> <%= current_user.name %>
+                <% end %>
+            </li>              
             </ul>
           </div><!--/.nav-collapse -->
           <% else %>

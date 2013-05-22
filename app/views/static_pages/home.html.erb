@@ -1,14 +1,17 @@
  <% if signed_in? %>
   <% current_color = randomColor() %>  
   <script>
-    function change(){
-        var el1 = document.getElementById("message");
-        var el2 = document.getElementById("micropost_content");
-        el1.innerHTML = el2.value;
-    }
-    function buttonPress(userID){
-      document.getElementById(userID).setAttribute("class", "btn btn-large btn-success");
-      document.getElementById("micropost_recipients").value = userID;
+    function buttonPress(userID){      
+      var friend_id = "friends[" + userID + "]";
+      var button_id = "button_" + userID;
+      var visible = document.getElementById(friend_id).value;
+      if(visible == "false"){
+        document.getElementById(button_id).setAttribute("class", "btn btn-large btn-success");
+        document.getElementById(friend_id).value = "true";
+      }else{
+        document.getElementById(button_id).setAttribute("class", "btn btn-large");
+        document.getElementById(friend_id).value = "false";
+      }  
     }
     </script>
 
@@ -18,23 +21,19 @@
      <div class="row-fluid">
       <div class="span6">
         <h2>Message:</h2>
-      <%= render 'shared/error_messages', object: f.object %>   
-      <div class="field">
-      <% if current_user.microposts.length > 1 %>
-        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true" %>   
-      <% else %>
-        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true",  onkeyup: "change()" %>
-        
-      <% end %>
-      <%= f.hidden_field :recipients %>  
-      <%= f.hidden_field :filter, value: current_color %> 
-      <%= f.submit "Post", class: "btn btn-large btn-primary" %>                  
-      </div>
+        <%= render 'shared/error_messages', object: f.object %>   
+        <div class="field">
+        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true" %>        
+        <%= f.hidden_field :recipients %>  
+        <%= f.hidden_field :filter, value: current_color %> 
+        <%= f.submit "Post", class: "btn btn-large btn-primary" %>                  
+        </div>
       </div> 
     <div class="span6">
         <h2>Visible to:</h2>
-        <%  @friends.each do |uservis| %>          
-            <button class="btn btn-large" id="<%=uservis.id%>" name="<%=uservis.id%>" type="button" onClick=buttonPress('<%=uservis.id%>')><%=uservis.name%></button>
+        <%  @friends.each do |u| %>          
+            <button class="btn btn-large" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
+            <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
         <% end %>
         <button class="btn btn-large" id="add+" name="add+" type="button" onClick=buttonPress('add+')>Add+</button>  
      </div>
@@ -42,20 +41,20 @@
     <% end %> 
    </div> 
 
-  <% if @microposts.length > 0 %>
-    <%  @microposts.each do |micropost| %>
-      <%= render @microposts %>
-    <% end %>  
-  <% else %>
-    <%= render 'shared/lugogram_message', avatar: current_user.avatar, name: current_user.name, message:'Preview. Your message here', color: current_color %>
-  <% end %>
+  <%  @microposts.each do |micropost| %>
+    <%= render @microposts %>
+  <% end %>  
+
 
 
 <% else %>
 <div class="center hero-unit" style="background-color: #ffffff;">
-      <h1>Messaging without replys</h1>
+      <h1>Private sharing faster</h1>
       <p>
-        Hacking the social convention of having to reply to messages. 
+        Private sharing the way it's suppose to be. 
+      </p>
+      <p>
+        <b>Note that Lugogram is currently in development. <b/>
       </p>
       <br/>
       <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p>  

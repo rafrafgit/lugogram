@@ -23,9 +23,14 @@ class UsersController < ApplicationController
     @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to Lugogram!"
+
+      admin = User.find(1)
+      admin.share("Welcome to Lugogram!", [@user])
+      @user.addFriend(admin)
+
+      flash[:success] = "Welcome to Lugogram! " + @user.name
       redirect_to root_url
-      UserMailer.welcome_email(@user).deliver
+      #UserMailer.welcome_email(@user).deliver
     else
       render 'new'
     end
