@@ -20,9 +20,21 @@ class UserMailer < ActionMailer::Base
     @lugogram_color = '#DD4124'
     @lugogram_avatar = @user.avatar
     @lugogram_name = @user.name
-    invite_url = lugogram_url + "/login?session%5Bemail%5D=" + Rack::Utils.escape(to_user.email) + "&session%5Bpassword%5D=" + Rack::Utils.escape(to_user.password)
-    @lugogram_message = "You have been invited to join Lugogram by " + from_user.name + ". Click the link to join: " + invite_url
+    @invite_url = lugogram_url + "/login?session%5Bemail%5D=" + Rack::Utils.escape(to_user.email) + "&session%5Bpassword%5D=" + Rack::Utils.escape(to_user.password)
+    @lugogram_message = "You have been invited to join Lugogram by " + from_user.name
     subject = @user.name + " have invited you to join Lugogram"
+    mail(:to => to_user.email, :subject => subject) 
+  end  
+
+  def invite_email(post, from_user, to_user)
+    @user = from_user
+    lugogram_url = 'http://www.lugogram.com'
+    @lugogram_color = post.filter
+    @lugogram_avatar = @user.avatar
+    @lugogram_name = @user.name
+    @lugogram_url = lugogram_url + "/login?session%5Bemail%5D=" + Rack::Utils.escape(to_user.email) + "&session%5Bpassword%5D=" + Rack::Utils.escape(to_user.password)
+    @lugogram_message = post.content
+    subject = "Message from " + @user.name
     mail(:to => to_user.email, :subject => subject) 
   end  
 

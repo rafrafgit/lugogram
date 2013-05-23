@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   	  user = User.find_by_email(params[:session][:email].downcase)
 	  if user && user.authenticate(params[:session][:password])
 	    sign_in user
-	    if (user.name == "guest")
+	    if (user.name == user.email)
 	    	admin = User.find(1)
       		admin.share("Welcome to Lugogram!", [user])
       		user.addFriend(admin)

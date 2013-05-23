@@ -52,11 +52,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find(params[:id]) 
+    sign_out unless (@user.id == current_user.id)
     @user.destroy
-    if @user.id == current_user.id #unless it is admin deleting users
-      sign_out
-    end
     redirect_to root_url
   end  
 
@@ -86,7 +84,7 @@ class UsersController < ApplicationController
       end  
     else  
       @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
-      @user.name = "guest"
+      @user.name = @user.email
       @user.password = "guest123"
       @user.password_confirmation = @user.password
       if @user.save

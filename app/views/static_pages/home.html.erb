@@ -17,28 +17,28 @@
 
     
     <div class=" hero-unit" style="background-color:<%=current_color%>">
-      <h2>Message:</h2>
     <%= form_for(@micropost) do |f| %>
      <div class="row-fluid">
-      <div class="span4">
+      <div class="span2"></div> 
+      <div class="span6">
         <%= render 'shared/error_messages', object: f.object %>   
-        <div class="field">
-        <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true" %>        
-        <%= f.hidden_field :recipients %>  
+        <%= f.label :Message %>
+        <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>        
         <%= f.hidden_field :filter, value: current_color %> 
-                       
-        </div>
+        <%= f.label :'To' %>
+        <button class="btn btn-large" id="button_email" name="button_email" type="button" onClick=emailButton()>Email</button>
+        <%= f.email_field :recipients, placeholder: "Email", maxlength: "100", visibility: "hidden" %>
+
+          <%  @friends.each do |u| %>          
+              <button class="btn btn-large" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
+              <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
+          <% end %>
+     </div> 
+    </div>    
+    <div class="row-fluid" style="text-align: right">   
+       <div class="span8">         
+        <%= f.submit "Share", class: "btn btn-large btn-primary" %>
       </div> 
-    <div class="span4">
-        <%  @friends.each do |u| %>          
-            <button class="btn btn-large" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
-            <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
-        <% end %>
-        <button class="btn btn-large" id="add+" name="add+" type="button" onClick=buttonPress('add+')>Add+</button>  
-     </div>
-     <div class="span4 pull-left">
-      <%= f.submit "Share", class: "btn btn-large btn-primary" %>   
-    </div> 
     </div> 
     <% end %> 
    </div> 

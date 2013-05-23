@@ -26,8 +26,23 @@ class User < ActiveRecord::Base
   end
 
 
-  def share(message, other_users)
-    post = microposts.build(content: message, filter: "#DD4124", recipients: "")
+  def shareAndInvite(post)
+    if post.save 
+      @user = User.new()
+      @user.email = post.recipients
+      @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
+      @user.name = "guest"
+      @user.password = @user.email
+      @user.password_confirmation = @user.password
+      if @user.save
+        self.addFriend(@user) 
+        post.setVisibility([@user])
+        UserMailer.invite_email(post, self, @user).deliver
+      end  
+    end  
+  end
+
+  def share(post, other_users)
     if post.save  
       post.setVisibility(other_users)
       other_users.each do |u|
