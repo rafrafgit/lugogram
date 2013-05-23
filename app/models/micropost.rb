@@ -12,21 +12,26 @@ class Micropost < ActiveRecord::Base
   default_scope order: 'microposts.created_at DESC'
 
 
-  def share(other_users)
+  def setVisibility(other_users)
     other_users.each do |u|
       eyes.create!(user_id: u.id)  
     end  
   end
 
-  def getUserEyes()
+  def getVisibility()
     returnUsers = []
     eyes.each do |u|
-      returnUsers.push(User.find_by_id(u.user_id))
+      user = User.find_by_id(u.user_id)
+      if user == nil #if the user has been deleted in the meanwhile
+        u.destroy #remove the eye
+      else
+        returnUsers.push(user)
+      end 
     end
     returnUsers
   end
 
-  def removeEyes(user_id)
+  def removeVisibility(user_id)
     eyes.find_by_user_id(user_id).destroy!
   end
 

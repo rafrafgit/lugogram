@@ -16,27 +16,29 @@
     </script>
 
     
-    <div class=" hero-unit">
+    <div class=" hero-unit" style="background-color:<%=current_color%>">
+      <h2>Message:</h2>
     <%= form_for(@micropost) do |f| %>
      <div class="row-fluid">
-      <div class="span6">
-        <h2>Message:</h2>
+      <div class="span4">
         <%= render 'shared/error_messages', object: f.object %>   
         <div class="field">
         <%= f.text_area :content, rows: "2", placeholder: " ", maxlength: "100", autofocus: "true" %>        
         <%= f.hidden_field :recipients %>  
         <%= f.hidden_field :filter, value: current_color %> 
-        <%= f.submit "Post", class: "btn btn-large btn-primary" %>                  
+                       
         </div>
       </div> 
-    <div class="span6">
-        <h2>Visible to:</h2>
+    <div class="span4">
         <%  @friends.each do |u| %>          
             <button class="btn btn-large" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
             <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
         <% end %>
         <button class="btn btn-large" id="add+" name="add+" type="button" onClick=buttonPress('add+')>Add+</button>  
      </div>
+     <div class="span4 pull-left">
+      <%= f.submit "Share", class: "btn btn-large btn-primary" %>   
+    </div> 
     </div> 
     <% end %> 
    </div> 

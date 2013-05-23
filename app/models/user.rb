@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates :email, presence:   true,
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
+  
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
@@ -20,21 +21,30 @@ class User < ActiveRecord::Base
     UserMailer.welcome_email(self).deliver
   end
 
-  def sendLugogramEmail
-      UserMailer.lugogram_email(self).deliver
+  def sendInviteEmail(other_user)
+    UserMailer.invite_email(self, other_user).deliver
   end
+
 
   def share(message, other_users)
     post = microposts.build(content: message, filter: "#DD4124", recipients: "")
     if post.save  
-      post.share(other_users)
+      post.setVisibility(other_users)
+      other_users.each do |u|
+        UserMailer.lugogram_email(post, self, u).deliver
+      end  
     end  
   end  
 
   def getFriends
     returnUsers = []
     friends.each do |u|
-      returnUsers.push(User.find_by_id(u.friend_id))
+      user = User.find_by_id(u.friend_id)
+      if user == nil #if the user has been deleted in the meanwhile
+        u.destroy #remove the friend
+      else
+        returnUsers.push(user)
+      end  
     end
     returnUsers
   end 
@@ -44,7 +54,9 @@ class User < ActiveRecord::Base
   end
 
   def addFriend(other_user)
-    friends.create!(friend_id: other_user.id) unless self.id == other_user.id  
+    if !isFriend?(other_user)
+      friends.create!(friend_id: other_user.id) unless self.id == other_user.id  
+    end
   end
 
   def removeFriend(other_user)

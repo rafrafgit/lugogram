@@ -51,6 +51,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    if @user.id == current_user.id #unless it is admin deleting users
+      sign_out
+    end
+    redirect_to root_url
+  end  
+
   def friend
     @userToFriend = User.find(params[:friend_id])
     current_user.addFriend(@userToFriend)
@@ -64,6 +73,30 @@ class UsersController < ApplicationController
     #flash[:success] = "Friend removed " + @userToUnFriend.name
     redirect_to @userToUnFriend
   end
+
+  def invite
+    @user = User.new(params[:user])
+    existing_user = User.find_by_email(@user.email)
+    if existing_user
+      if current_user.isFriend?(existing_user)
+        flash[:success] = existing_user.name + " (" + existing_user.email + ") is already at Lugogram and You are already friends :)"  
+      else  
+        flash[:success] = existing_user.name + " (" + existing_user.email + ") is already at Lugogram. You are now friends :)"
+        current_user.addFriend(existing_user) 
+      end  
+    else  
+      @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
+      @user.name = "guest"
+      @user.password = "guest123"
+      @user.password_confirmation = @user.password
+      if @user.save
+        current_user.addFriend(@user) 
+        current_user.sendInviteEmail(@user)
+        flash[:success] = @user.email + " invited."
+      end
+    end  
+    redirect_to root_url
+  end  
 
 
   private

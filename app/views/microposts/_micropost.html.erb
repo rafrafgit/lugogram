@@ -1,6 +1,6 @@
 
   <% 
-  	eyes = micropost.getUserEyes()
+  	eyes = micropost.getVisibility()
   	names = "Visible to: " 
     if current_user?(micropost.user)
       names += "You"

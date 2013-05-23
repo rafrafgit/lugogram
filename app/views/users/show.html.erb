@@ -1,22 +1,27 @@
 <h1><%= @user.name%></h1> 
-<% if(@user.id == current_user.id) %>
+<% if(@user.id == current_user.id or current_user.admin) %>
 	<%= link_to "Settings", edit_user_path(@user) %><br/>
 	<%= link_to "Sign out", signout_path, method: "delete" %><br/> 
-
+	<%= link_to "Delete my account", @user, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: @user.name %>
 	</br>
 
 	<h1>Friends</h1>
-	<% @friends.each do |friend| %>
-	  <% if friend.name != nil %>
-	    <%= link_to friend.name, id: friend.id, controller: "users", action: "show" %></br>
+	<ul class="media-list">
+	<% @friends.each do |u| %>
+	  <% if u.name != nil %>
+	    <li class="media"><%= link_to u, id: u.id, controller: "users", action: "show" do %>
+             <%= image_tag(current_user.avatar, size: "48x48", class: "media-object") %> <div class="media-body"><%= u.name %></div>
+            <% end %>
+        </li>  
 	  <% end %>
 	<% end %>
+	</ul>
 
-	<%= form_for(@friend) do |f| %>
+	<%= form_for @friend, url: { action: "invite" } do |f| %>
       <h4>Add friend</h4>
       <%= render 'shared/error_messages', object: f.object %>   
-      <%= f.label :name %>
-	  <%= f.text_field :name %>
 
 	  <%= f.label :email %>
 	  <%= f.text_field :email %>
@@ -35,8 +40,8 @@
 
 <% else %>
 	<% if(!current_user.isFriend?(@user)) %>		
-		<button class="btn btn-large" type="button"><%= link_to "Add", friend_id: @user.id, controller: "users", action: "friend" %></br></button>
+		<button class="btn btn-large" type="button"><%= link_to "Add as a friend", friend_id: @user.id, controller: "users", action: "friend" %></br></button>
 	<% else %>
-		<button class="btn btn-large" type="button"><%= link_to "Remove", friend_id: @user.id, controller: "users", action: "unfriend" %></br></button>
+		<button class="btn btn-large" type="button"><%= link_to "Remove as a friend", friend_id: @user.id, controller: "users", action: "unfriend" %></br></button>
 	<% end %>
 <% end %>
