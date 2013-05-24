@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     if post.save 
       @user = User.new()
       @user.email = post.recipients
-      @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
+      @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
       @user.name = @user.email
       @user.password = @user.email
       @user.password_confirmation = @user.password

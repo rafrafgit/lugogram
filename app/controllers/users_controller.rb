@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
+    @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
     if @user.save
       sign_in @user
 
@@ -92,7 +92,7 @@ class UsersController < ApplicationController
         current_user.addFriend(existing_user) 
       end  
     else  
-      @user.avatar = "https://www.lugogram.com/images/ninja-avatar-48x48.png"
+      @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
       @user.name = @user.email
       @user.password = "guest123"
       @user.password_confirmation = @user.password

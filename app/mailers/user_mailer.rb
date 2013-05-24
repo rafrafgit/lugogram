@@ -12,7 +12,7 @@ class UserMailer < ActionMailer::Base
 
   def lugogram_email(post, from_user, to_user)  
     @user = from_user
-    @lugogram_url = 'http://www.lugogram.com'
+    @lugogram_url = 'http://lugogram.com'
     @lugogram_message = post.content
     @lugogram_color = post.filter
     @lugogram_avatar = @user.avatar
