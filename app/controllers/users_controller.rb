@@ -3,8 +3,17 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update]
   before_filter :correct_user,   only: [:edit, :update]
 
+  def home
+    if signed_in?
+      @micropost = current_user.microposts.build if signed_in?
+      @friend  = User.new(params[:friend])
+      @friends = current_user.getFriends
+      @microposts = current_user.getHistory
+    end  
+  end
+
   def show
-    @user = User.find(params[:id])
+    @user = User.find(params[:id])  
     @friend  = User.new(params[:friend])
     @friends = @user.getFriends
     @microposts = @user.getHistory
@@ -25,12 +34,12 @@ class UsersController < ApplicationController
       sign_in @user
 
       admin = User.find(1)
-      admin.share("Welcome to Lugogram!", [@user])
+     # admin.share("Welcome to Lugogram!", [@user])
       @user.addFriend(admin)
 
       flash[:success] = "Welcome to Lugogram! " + @user.name
       redirect_to root_url
-      #UserMailer.welcome_email(@user).deliver
+      UserMailer.welcome_email(@user).deliver
     else
       render 'new'
     end
@@ -62,14 +71,14 @@ class UsersController < ApplicationController
     @userToFriend = User.find(params[:friend_id])
     current_user.addFriend(@userToFriend)
     #flash[:success] = "Friend added " + @userToFriend.name
-    redirect_to @userToFriend    
+    redirect_to current_user    
   end
     
   def unfriend
     @userToUnFriend = User.find(params[:friend_id])
     current_user.removeFriend(@userToUnFriend)
     #flash[:success] = "Friend removed " + @userToUnFriend.name
-    redirect_to @userToUnFriend
+    redirect_to current_user
   end
 
   def invite
@@ -77,9 +86,9 @@ class UsersController < ApplicationController
     existing_user = User.find_by_email(@user.email)
     if existing_user
       if current_user.isFriend?(existing_user)
-        flash[:success] = existing_user.name + " (" + existing_user.email + ") is already at Lugogram and You are already friends :)"  
+        flash[:success] = "You are already friends with " + existing_user.name  + " :)" 
       else  
-        flash[:success] = existing_user.name + " (" + existing_user.email + ") is already at Lugogram. You are now friends :)"
+        flash[:success] = "You are now friends with " + existing_user.name  + " :)"
         current_user.addFriend(existing_user) 
       end  
     else  
@@ -89,8 +98,7 @@ class UsersController < ApplicationController
       @user.password_confirmation = @user.password
       if @user.save
         current_user.addFriend(@user) 
-        current_user.sendInviteEmail(@user)
-        flash[:success] = @user.email + " invited."
+        flash[:success] = @user.email + " added."
       end
     end  
     redirect_to root_url

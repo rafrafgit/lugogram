@@ -2,20 +2,21 @@ Lugogram::Application.routes.draw do
   resources :users do
     member do
       get :friend, :unfriend
+      get :invite
       post :invite
     end
   end  
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
 
-  root to: 'static_pages#home'
+  root to: 'users#home' #'static_pages#home'
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/login',   to: 'sessions#create'
   match '/signout', to: 'sessions#destroy'
-  match '/home',    to: 'static_pages#home'
-  match '/about',   to: 'static_pages#about'
+  match '/home',    to: 'users#home' #'static_pages#home'
+  #match '/about',   to: 'static_pages#about'
   
 
   # The priority is based upon order of creation:

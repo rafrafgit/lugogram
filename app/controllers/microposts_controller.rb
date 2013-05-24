@@ -8,7 +8,7 @@ class MicropostsController < ApplicationController
    post = current_user.microposts.build(params[:micropost])
 
    if(post.recipients != nil and post.recipients.length > 0)      #if user has sent to an email address, invite that user to join if it is not already a member
-    existing_user = User.find_by_email(post.recipients)
+    existing_user = User.find_by_email(post.recipients.downcase)
     if existing_user                                    #if user has send an email to an existing user, add her as a friend and send message
       current_user.addFriend(existing_user)
       current_user.share(post, [existing_user]) 

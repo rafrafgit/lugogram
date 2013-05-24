@@ -21,10 +21,6 @@ class User < ActiveRecord::Base
     UserMailer.welcome_email(self).deliver
   end
 
-  def sendInviteEmail(other_user)
-    UserMailer.invite_email(self, other_user).deliver
-  end
-
 
   def shareAndInvite(post)
     if post.save 
@@ -37,7 +33,7 @@ class User < ActiveRecord::Base
       if @user.save
         self.addFriend(@user) 
         post.setVisibility([@user])
-        UserMailer.invite_email(post, self, @user).deliver
+        UserMailer.lugogram_email(post, self, @user).deliver
       end  
     end  
   end
@@ -65,7 +61,11 @@ class User < ActiveRecord::Base
   end 
 
   def isFriend?(other_user)
-    friends.find_by_friend_id(other_user.id)   
+    if self.id == other_user.id
+      true
+    else    
+      friends.find_by_friend_id(other_user.id)   
+    end  
   end
 
   def addFriend(other_user)
@@ -83,6 +83,9 @@ class User < ActiveRecord::Base
     Micropost.where("id IN (#{post_ids}) or user_id = :user_id", { user_id: self })
   end  
 
+  def hasNotLoggedIn
+    self.name == self.email
+  end
 
   private
 

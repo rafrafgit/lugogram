@@ -3,9 +3,6 @@ class Micropost < ActiveRecord::Base
   belongs_to :user
   has_many :eyes, foreign_key: "micropost_id", dependent: :destroy
 
-  
-  before_save { |micropost| micropost.recipients = recipients.downcase }
-
   validates :content, presence: true, length: { maximum: 100 }
   validates :user_id, presence: true
   

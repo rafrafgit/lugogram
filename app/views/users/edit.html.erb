@@ -1,4 +1,4 @@
-<h1>Profile</h1>
+<h1>Update Profile</h1>
 
 <%= form_for(@user) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
@@ -20,3 +20,8 @@
 
   <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
 <% end %>
+
+<br/>
+<%= link_to "Delete my account", @user, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: @user.name %>
