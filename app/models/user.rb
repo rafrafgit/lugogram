@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     if post.save 
       @user = User.new()
       @user.email = post.recipients
-      @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
+      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
       @user.name = @user.email
       @user.password = @user.email
       @user.password_confirmation = @user.password

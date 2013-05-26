@@ -31,5 +31,8 @@
                                      title: micropost.content %>
   <% else %>
   	<span class="timestamp">Posted by <%= link_to micropost.user.name, user_path(micropost.user) %> <%= time_ago_in_words(micropost.created_at) %> ago </span>
+    <% if (current_user && !current_user.isFriend?(micropost.user)) %>
+      <span class="timestamp"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
+    <% end %>
   <% end %>
 <br/>

@@ -1,5 +1,10 @@
 @import "bootstrap";
 
+.btn btn-primary {
+  
+text-color: gray;
+}
+
 
 $grayMediumLight: #eaeaea;
 
@@ -125,3 +130,8 @@ input {
   color: $grayLight;
 }
 
+.messageBox {
+  a:link {text-decoration: underline; color: black }
+  a:visited {text-decoration: underline; color: black }
+  a:hover {text-decoration: underline}
+}

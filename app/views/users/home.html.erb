@@ -21,20 +21,18 @@
     <br/>
     <div class="messageBox" style="background-color:<%=current_color%>;border-color: gray;padding: 30px;margin-top: 10px;margin-bottom: 10px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
       <div class="row-fluid">
-      <div class="span2">
+      <div class="span4">
         <%= image_tag(current_user.avatar, :size => "48x48") %>
         <br/><p style="font-size: 10px;color: black;"><%= current_user.name %></p>
       </div>
       <div class="span4">
         <%= render 'shared/error_messages', object: f.object %>   
-        <%= f.label :Message %>
-        <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>        
-        <%= f.hidden_field :filter, value: current_color %> 
-        <%= f.submit "Share", class: "btn btn-large btn-primary" %>       
+        <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
+        <%= f.hidden_field :filter, value: current_color %>
+        <%= f.submit "Share", class: "btn btn-primary" %>
       </div>
-      <div class="span1"></div>
-      <div class="span3">
-        <%= f.label :'Visible to' %>
+      <div class="span4">
+        <p style=";text-align:right">
         <% if @friends.length == 0 %>
           <%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %>
         <% else  %>
@@ -43,6 +41,7 @@
               <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/>
           <% end %>
         <% end %>
+      </p>
      </div>
      </div>    
    </div> 

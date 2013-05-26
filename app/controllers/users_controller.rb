@@ -29,19 +29,32 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
-    if @user.save
-      sign_in @user
+    existing_user = User.find_by_email(@user.email)
+    if existing_user
+       if existing_user.hasNotLoggedIn
+          if existing_user.update_attributes(params[:user])
+            flash[:success] = "Welcome to Lugogram! " + existing_user.name
+            sign_in existing_user
+            redirect_to root_url 
+          end   
+       else
+        render 'new'
+      end 
+    else  
+      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
+      if @user.save
+        sign_in @user
 
-      admin = User.find(1)
-     # admin.share("Welcome to Lugogram!", [@user])
-      @user.addFriend(admin)
+        admin = User.find(1)
+       # admin.share("Welcome to Lugogram!", [@user])
+        @user.addFriend(admin)
 
-      flash[:success] = "Welcome to Lugogram! " + @user.name
-      redirect_to root_url
-      UserMailer.welcome_email(@user).deliver
-    else
-      render 'new'
+        flash[:success] = "Welcome to Lugogram! " + @user.name
+        redirect_to root_url
+        UserMailer.welcome_email(@user).deliver
+      else
+        render 'new'
+      end
     end
   end
 
@@ -71,14 +84,14 @@ class UsersController < ApplicationController
     @userToFriend = User.find(params[:friend_id])
     current_user.addFriend(@userToFriend)
     #flash[:success] = "Friend added " + @userToFriend.name
-    redirect_to current_user    
+    redirect_to root_url 
   end
     
   def unfriend
     @userToUnFriend = User.find(params[:friend_id])
     current_user.removeFriend(@userToUnFriend)
     #flash[:success] = "Friend removed " + @userToUnFriend.name
-    redirect_to current_user
+    redirect_to root_url
   end
 
   def invite
@@ -92,7 +105,7 @@ class UsersController < ApplicationController
         current_user.addFriend(existing_user) 
       end  
     else  
-      @user.avatar = "http://lugogram.com/images/ninja-avatar-48x48.png"
+      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
       @user.name = @user.email
       @user.password = "guest123"
       @user.password_confirmation = @user.password

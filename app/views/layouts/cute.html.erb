@@ -2,6 +2,13 @@
 <html>
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style type="text/css">
+      .messageBox {
+        a:link {text-decoration: underline; color: black }
+        a:visited {text-decoration: underline; color: black }
+        a:hover {text-decoration: underline}
+      }
+    </style>
   </head>
   <body>
     <%= render 'shared/lugogram_message', avatar: @lugogram_avatar, name: @lugogram_name, visibility: "", message:@lugogram_message, color: @lugogram_color %>

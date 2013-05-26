@@ -18,9 +18,9 @@ class UserMailer < ActionMailer::Base
     @lugogram_avatar = @user.avatar
     @lugogram_name = @user.name
 
-    if(to_user.hasNotLoggedIn) 
-      @lugogram_url = @lugogram_url + "/login?session%5Bemail%5D=" + Rack::Utils.escape(to_user.email) + "&session%5Bpassword%5D=" + Rack::Utils.escape(to_user.password)
-    end
+    #if(to_user.hasNotLoggedIn) 
+    #  @lugogram_url = @lugogram_url + "/login?session%5Bemail%5D=" + Rack::Utils.escape(to_user.email) + "&session%5Bpassword%5D=" + Rack::Utils.escape(to_user.password)
+    #end
     subject = "Message from " + @user.name
     mail(:to => to_user.email, :subject => subject) do |format|
       format.html { render :layout => "cute" }
