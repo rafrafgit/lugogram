@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   def getHistory
     post_ids = %(SELECT micropost_id FROM eyes WHERE user_id = :user_id)
     Micropost.where("id IN (#{post_ids}) or user_id = :user_id", { user_id: self })
-  end  
+  end 
 
   def hasNotLoggedIn
     self.name == self.email

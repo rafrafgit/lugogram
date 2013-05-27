@@ -2,8 +2,7 @@ class MicropostsController < ApplicationController
   before_filter :signed_in_user
   before_filter :correct_user ,   only: :destroy
 
-  def create
-   
+  def create   
    friends_params = params[:friends]
    post = current_user.microposts.build(params[:micropost])
 
@@ -31,6 +30,13 @@ class MicropostsController < ApplicationController
     @micropost.destroy
     redirect_to root_url
   end
+
+  def show
+    @micropost = current_user.microposts.find_by_id(params[:id])
+    if (@micropost.nil? or !@micropost.isVisible(current_user))
+      redirect_to root_url 
+    end  
+  end  
 
   private
 

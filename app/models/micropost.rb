@@ -28,6 +28,20 @@ class Micropost < ActiveRecord::Base
     returnUsers
   end
 
+  def isVisible(user)
+    visble = false
+    if user.id == self.user.id
+      visible = true
+    else
+      eyes.each do |eye|
+        if eye.user_id ==  user.id 
+          visible = true
+        end 
+      end  
+    end
+    visble  
+  end
+
   def removeVisibility(user_id)
     eyes.find_by_user_id(user_id).destroy!
   end
