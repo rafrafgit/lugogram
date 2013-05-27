@@ -1,4 +1,4 @@
- <% if signed_in? %>
+<% if signed_in? %>
   <% current_color = randomColor() %>  
   <script>
     function buttonPress(userID){      
@@ -9,13 +9,14 @@
         document.getElementById(button_id).setAttribute("class", "btn btn-success");
         document.getElementById(friend_id).value = "true";
       }else{
-        document.getElementById(button_id).setAttribute("class", "btn btn-inverse");
+        document.getElementById(button_id).setAttribute("class", "btn btn-inverse btn-gray");
         document.getElementById(friend_id).value = "false";
       }  
     }
     </script>
-
-    
+<div class="container-fluid">    
+<div class="row-fluid">   
+  <div class="span12">  
     <%= form_for(@micropost) do |f| %>
     <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
     <br/>
@@ -37,8 +38,8 @@
           <%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %>
         <% else  %>
           <%  @friends.each do |u| %>          
-              <button class="btn btn-success" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
-              <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/>
+              <button class="btn btn-inverse btn-gray" id="button_<%=u.id%>" name="button_<%=u.id%>" type="button" onClick=buttonPress('<%=u.id%>')><%=u.name%></button>
+              <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
           <% end %>
         <% end %>
       </p>
@@ -47,15 +48,37 @@
    </div> 
    </div> 
    <% end %> 
+ </div> 
+</div> 
 
+<% newRow = true %> 
   <%  @microposts.each do |micropost| %>
-    <%= render @microposts %>
-  <% end %>  
+  <% if newRow %>
+    <div class="row-fluid">
+    <% newRow = false %>
+  <% else %>
+    <% newRow = true %>
+  <% end %>
+   <div class="span6">
+    <%= render micropost %>
+    <% if current_user?(micropost.user) %>
+      <span class="timestamp">Posted by You <%= time_ago_in_words(micropost.created_at) %> ago </span>
+      <%= link_to "delete", micropost, method: :delete,
+                                       data: { confirm: "You sure?" },
+                                       title: micropost.content %>
+    <% else %>
+      <span class="timestamp">Posted by <%= link_to micropost.user.name, user_path(micropost.user) %> <%= time_ago_in_words(micropost.created_at) %> ago </span>
+      <% if (current_user && !current_user.isFriend?(micropost.user)) %>
+        <span class="timestamp"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
+      <% end %>
+    <% end %>
+    </div> 
+  <% end %>
 
-
-
+</div> 
+</div>
 <% else %>
-<div class="center hero-unit" style="background-color: #ffffff;">
+  <div class="center hero-unit" style="background-color: #ffffff;">
       <h1>Private sharing: faster</h1>
       <p>
         Private sharing the way it's suppose to be. 
@@ -66,10 +89,10 @@
       <p>
         <b>Lugogram is currently in development. <b/>
       </p> 
-    </div>
-  
- <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Julia', visibility: "", message:'Missing you :(', color: randomColor() %>
- <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Lisa', visibility: "", message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
- <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Ben', visibility: "", message:'Dont forget the milk!', color: randomColor() %> 
-
+  </div>
+  <div class="container-fluid">  
+  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Julia', time: "", visibility: "", message:'Missing you :(', color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', color: randomColor() %> 
+  </div>
 <% end %> 
