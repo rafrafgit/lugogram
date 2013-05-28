@@ -3,29 +3,26 @@
 
 
 .avatar {
-  border:3px;
+  border:4px;
   border-style:solid;
-  border-color:gray;
+  border-color:#eaeaea;
   border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4;
 }
 
 .avatar_selected {
-  border:3px;
+  border:4px;
   border-style:solid;
-  border-color:black;
+  border-color:green;
   border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4;
 }
 
 .avatar_visible {
-  border:3px;
+  border:4px;
   border-style:solid;
   border-color:black;
   border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4;
 }
 
-.btn-gray  {  
-    color: gray;
-}
 
 
 $grayMediumLight: #eaeaea;

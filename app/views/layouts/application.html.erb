@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lugogram</title>
     <%= stylesheet_link_tag    "application", media: "all" %>
-    <%= javascript_include_tag "application" %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Lugogram</title>
 </head>
 <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-            <%= link_to "lugogram", root_path, class: "brand" %>
-          <div class="nav-collapse collapse">
-          <% if signed_in? %>
-            <ul class="nav pull-right">                    
-              <li><%= link_to "Home", root_path %></li>
-              <li><%= link_to "Friends", user_path(current_user) %></li>
-              <li><%= link_to "Profile", edit_user_path(current_user) %></li>  
-              <li><%= link_to "Sign Out", signout_path, method: "delete" %></li>
-            </ul>
-          <% else %>
-              <ul class="nav pull-right"> 
-                <li><%= link_to "Sign in", signin_path %></li>
-              </ul>
-         <% end %>
-         </div>
+  
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container-fluid">
+              <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <%= link_to "lugogram", root_path, class: "brand" %>
+              <div class="nav-collapse collapse">
+              <% if signed_in? %>
+                <ul class="nav pull-right">                    
+                  <li><%= link_to "Home", root_path %></li>
+                  <li><%= link_to "Friends", user_path(current_user) %></li>
+                  <li><%= link_to "Profile", edit_user_path(current_user) %></li>  
+                  <li><%= link_to "Sign Out", signout_path, method: "delete" %></li>
+                </ul>
+              <% else %>
+                  <ul class="nav pull-right"> 
+                    <li><%= link_to "Sign in", signin_path %></li>
+                  </ul>
+             <% end %>
+             </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-   
-    <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
-    <%= yield %>
+      <div class="container-fluid">           
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+        <% end %>
+        <%= yield %>
+      </div> 
+<%= javascript_include_tag "application" %>
 </body>
 </html>

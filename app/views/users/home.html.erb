@@ -3,8 +3,8 @@
   <script>
     function buttonPress(userID){      
       var friend_id = "friends[" + userID + "]";
-      var button_id = "button_" + userID;
       var image_id = "image_"  + userID;
+
       var visible = document.getElementById(friend_id).value;
       if(visible == "false"){        
         document.getElementById(image_id).setAttribute("class", "avatar_selected");   
@@ -15,74 +15,43 @@
       }  
     }
     </script>
-<div class="container-fluid">    
-<div class="row-fluid">   
-  <div class="span12">  
-    <%= form_for(@micropost) do |f| %>
-    <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
-    <br/>
-    <div class="messageBox" style="background-color:gray;border-color: black;padding: 30px;margin-top: 10px;margin-bottom: 10px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-      <div class="row-fluid">
-      <div class="span1">
-        <%= image_tag(current_user.avatar, :class => "avatar_visible", :size => "48x48") %>
-        <br/><p style="font-size: 10px;color: black;"><%= current_user.name %></p>
-      </div>
-      <div class="span3">
-        <%= render 'shared/error_messages', object: f.object %>   
-        <%= f.text_area :content, rows: "2", placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
-        <% if @friends.length == 0 %><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %><% end  %>
-      </div>
-      
-      <div class="span6">           
+    
+<div class="row-fluid"> 
+  
+    <div class="span3">
+      <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+            <li class="nav-header">Send Message</li>
+            <%= form_for(@micropost) do |f| %>
+              <li><%= render 'shared/error_messages', object: f.object %></li>   
+              <li><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %><%= f.hidden_field :filter, value: current_color %></li> 
+              <li class="nav-header">Visible for</li>             
+              <%  @friends.each do |u| %>          
+                  <li style="font-size: 10px;color: black;">
+                    <a onClick=buttonPress('<%=u.id%>')><img src="<%=u.avatar%>" id="image_<%=u.id%>" size="48x48" class="avatar") %></a>
+                    <p style="font-size: 10px;color: black;"><%= u.name %></p>
+                    <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
+                  </li>
+              <% end %>
+              <% if @friends.length == 0 %><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %><% end %> 
+              <li><%= f.submit "Share", class: "btn btn-success" %></li>
+          <% end %> 
+          </ul>
+        </div><!--/.well -->
+    </div>    
+
+    <div class="span8">    
+      <%  @microposts.each do |micropost| %> 
         <div class="row-fluid">
-          <%  @friends.each do |u| %>          
-              <div class="span2">
-                <a onClick=buttonPress('<%=u.id%>')><img src="<%=u.avatar%>" id="image_<%=u.id%>" size="48x48" class="avatar") %></a>
-                <br/><p style="font-size: 10px;color: black;"><%= u.name %></p>
-              </div>
-              <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
-          <% end %>
-          <div class="span2">
-            <%= f.hidden_field :filter, value: current_color %>
-            <%= f.submit "Share", class: "btn btn-success" %>
-          </div>
-        </div>
-     </div>
-     </div>    
-   </div> 
-   </div> 
-   <% end %> 
- </div> 
-</div> 
-
-
-<% newRow = true %> 
-  <%  @microposts.each do |micropost| %>
-  <% if newRow %>
-    <div class="row-fluid">
-    <% newRow = false %>
-  <% else %>
-    <% newRow = true %>
-  <% end %>
-   <div class="span6">
-    <%= render micropost %>
-    <% if current_user?(micropost.user) %>
-      <span class="timestamp">Posted by You <%= time_ago_in_words(micropost.created_at) %> ago </span>
-      <%= link_to "delete", micropost, method: :delete,
-                                       data: { confirm: "You sure?" },
-                                       title: micropost.content %>
-    <% else %>
-      <span class="timestamp">Posted by <%= link_to micropost.user.name, user_path(micropost.user) %> <%= time_ago_in_words(micropost.created_at) %> ago </span>
-      <% if (current_user && !current_user.isFriend?(micropost.user)) %>
-        <span class="timestamp"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
+        <div class="span12">
+        <%= render micropost %>
+        </div> 
+       </div>  
       <% end %>
-    <% end %>
-    </div> 
-  <% end %>
-</div> 
-
-
+    </div>
+    <div class="span1"></div>
 </div>
+
 <% else %>
   <div class="center hero-unit" style="background-color: #ffffff;">
       <h1>Private sharing: faster</h1>

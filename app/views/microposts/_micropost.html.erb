@@ -1,27 +1,35 @@
 <% 
   	visibility = micropost.getVisibility()
-  %>
+    visible_for = ""
+    visibility.each do |u| 
+      visible_for +=  u.name + " "
+    end  
+%>
   <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
-   <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-top: 10px;margin-bottom: 10px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+   <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
       <div class="span2">
-      <%= image_tag(micropost.user.avatar, :class => "avatar_visible", :size => "48x48") %>
-      <br/><p style="font-size: 10px;color: black;"><%= micropost.user.name %></p>
+          <%= image_tag(micropost.user.avatar, :class => "avatar_visible", :size => "48x48") %>
+          <br/><p style="font-size: 10px;color: black;"><%= link_to micropost.user.name, user_path(micropost.user) %> </p>
+          <% if (current_user && !current_user.isFriend?(micropost.user)) %>
+            <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
+          <% end %>
       </div>
       <div class="span8"> 
       <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.content) %></h1>
       </div>
-      <div class="span2" style="text-align:right"> 
-        <% if visibility.length == 1 %>
-            <%= image_tag(visibility[0].avatar, :class => "avatar_visible", :size => "48x48") %>
-            <br/><p style="font-size: 8px;color: black;"><%= visibility[0].name %></p>
-            <input type="hidden" id="friends[<%=visibility[0].id%>]" name="friends[<%=visibility[0].id%>]" value="false"/>               
-        <% else %> 
-               
-          <% visibility.each do |u| %> 
-            <p style="font-size: 10px;color: black;font-style: italic;text-align: right"><%= u.name %></p>
-          <% end %>
-        <% end %>    
+    </div>
+    <div class="row-fluid">  
+      <div class="span12" style="text-align:right;"> 
+        <% if current_user?(micropost.user) %>
+          <span style="font-size: 10px;color: black;">To <%=visible_for%> <%= time_ago_in_words(micropost.created_at) %> ago 
+          <%= link_to "delete", micropost, method: :delete,
+                                           data: { confirm: "You sure?" },
+                                           title: micropost.content %></span>
+
+        <% else %>
+          <span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago </span>
+        <% end %>     
       </div>
     </div>
   </div>
