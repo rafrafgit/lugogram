@@ -1,25 +1,28 @@
 <% 
-  	eyes = micropost.getVisibility()
-  	visible_for = "Visible to: " 
-    if current_user?(micropost.user)
-      visible_for += "You"
-    else
-      visible_for += micropost.user.name  
-    end
-  	eyes.each do |u| 
-  		if current_user?(u)
-        visible_for = visible_for + ", " + "You" 
-      else 
-        visible_for = visible_for + ", " + u.name	
-      end  
-  	end
-
-    name = ""
-    if current_user?(micropost.user)
-      name = "You"
-    else
-      name = micropost.user.name  
-    end
-
-    time = time_ago_in_words(micropost.created_at) + " ago"
-  %><%= render 'shared/lugogram_message', avatar: micropost.user.avatar, name: name, time: time, visibility: visible_for, message: micropost.content, color: micropost.filter %>
+  	visibility = micropost.getVisibility()
+  %>
+  <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+   <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-top: 10px;margin-bottom: 10px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+    <div class="row-fluid">
+      <div class="span2">
+      <%= image_tag(micropost.user.avatar, :class => "avatar_visible", :size => "48x48") %>
+      <br/><p style="font-size: 10px;color: black;"><%= micropost.user.name %></p>
+      </div>
+      <div class="span8"> 
+      <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.content) %></h1>
+      </div>
+      <div class="span2" style="text-align:right"> 
+        <% if visibility.length == 1 %>
+            <%= image_tag(visibility[0].avatar, :class => "avatar_visible", :size => "48x48") %>
+            <br/><p style="font-size: 8px;color: black;"><%= visibility[0].name %></p>
+            <input type="hidden" id="friends[<%=visibility[0].id%>]" name="friends[<%=visibility[0].id%>]" value="false"/>               
+        <% else %> 
+               
+          <% visibility.each do |u| %> 
+            <p style="font-size: 10px;color: black;font-style: italic;text-align: right"><%= u.name %></p>
+          <% end %>
+        <% end %>    
+      </div>
+    </div>
+  </div>
+</div>
