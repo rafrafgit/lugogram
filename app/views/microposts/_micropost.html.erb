@@ -27,7 +27,7 @@
       <div class="span12" style="text-align:right;"> 
         <% if current_user?(micropost.user) %>
           <span style="font-size: 10px;color: black;">To <%=visible_for%> <%= time_ago_in_words(micropost.created_at) %> ago 
-          <%= link_to "delete", id: micropost.id, controller: "microposts", action: "destroy" %></span>
+          
         <% else %>
           <span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago </span>
         <% end %>     

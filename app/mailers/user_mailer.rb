@@ -6,7 +6,14 @@ class UserMailer < ActionMailer::Base
     @lugogram_url = 'https://lugogram.herokuapp.com'
     @lugogram_message = post.content
     @lugogram_color = post.filter
-    @lugogram_avatar = @lugogram_url + @user.getAvatarURL
+    @lugogram_avatar = @user.getAvatarURL
+    @lugogram_avatar = ""
+    if (@user.avatar == nil or @user.avatar.length == 0)
+      @lugogram_avatar = @lugogram_url + @user.getAvatarURL
+    else
+      @lugogram_avatar = @user.getAvatarURL
+    end  
+    
     @lugogram_name = @user.name
 
     #if(to_user.hasNotLoggedIn) 
