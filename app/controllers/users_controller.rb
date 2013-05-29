@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   
-  before_filter :signed_in_user, only: [:index, :edit, :update]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_filter :correct_user,   only: [:edit, :update]
+  before_filter :admin_user,     only: :index
 
   def home
     if signed_in?
@@ -33,25 +34,20 @@ class UsersController < ApplicationController
     if existing_user
        if existing_user.hasNotLoggedIn
           if existing_user.update_attributes(params[:user])
-            flash[:success] = "Welcome to Lugogram! " + existing_user.name
             sign_in existing_user
+            sendWelcomeMessage(existing_user) 
+            flash[:success] = "Welcome to Lugogram! " + existing_user.name
             redirect_to root_url 
           end   
        else
         render 'new'
       end 
     else  
-      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
       if @user.save
         sign_in @user
-
-        admin = User.find(1)
-       # admin.share("Welcome to Lugogram!", [@user])
-        @user.addFriend(admin)
-
+        sendWelcomeMessage(@user) 
         flash[:success] = "Welcome to Lugogram! " + @user.name
         redirect_to root_url
-        UserMailer.welcome_email(@user).deliver
       else
         render 'new'
       end
@@ -75,7 +71,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id]) 
-    sign_out unless (@user.id == current_user.id)
+    sign_out unless current_user.admin?
     @user.destroy
     redirect_to root_url
   end  
@@ -105,7 +101,6 @@ class UsersController < ApplicationController
         current_user.addFriend(existing_user) 
       end  
     else  
-      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
       @user.name = @user.email
       @user.password = "guest123"
       @user.password_confirmation = @user.password
@@ -124,5 +119,18 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
     end
+
+    def admin_user
+      redirect_to(root_path) unless current_user.admin?
+    end
+
+    def sendWelcomeMessage(user)
+      # Send welcome message from Lugogram Staff:
+      admin = User.find(1)
+      welcome_message = admin.microposts.build()
+      welcome_message.content = "Welcome to Lugogram " + user.name + "! Thanks for joining and have a great day!"
+      welcome_message.filter = '#DD4124'
+      admin.share(welcome_message, [user])
+    end  
 
 end

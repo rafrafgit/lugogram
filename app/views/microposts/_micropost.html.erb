@@ -9,8 +9,12 @@
    <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
       <div class="span2">
-          <%= image_tag(micropost.user.avatar, :class => "avatar_visible", :size => "48x48") %>
-          <br/><p style="font-size: 10px;color: black;"><%= link_to micropost.user.name, user_path(micropost.user) %> </p>
+          
+         <%= link_to micropost.user do  %> 
+            <%= image_tag(micropost.user.getAvatarURL, :class => "avatar_visible", :size => "48x48") %>
+            <br/><p style="font-size: 10px;color: black;"><%= micropost.user.name %> </p>
+          <% end %>
+
           <% if (current_user && !current_user.isFriend?(micropost.user)) %>
             <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
           <% end %>
@@ -23,10 +27,7 @@
       <div class="span12" style="text-align:right;"> 
         <% if current_user?(micropost.user) %>
           <span style="font-size: 10px;color: black;">To <%=visible_for%> <%= time_ago_in_words(micropost.created_at) %> ago 
-          <%= link_to "delete", micropost, method: :delete,
-                                           data: { confirm: "You sure?" },
-                                           title: micropost.content %></span>
-
+          <%= link_to "delete", id: micropost.id, controller: "microposts", action: "destroy" %></span>
         <% else %>
           <span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago </span>
         <% end %>     

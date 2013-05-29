@@ -17,16 +17,13 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
-  def sendWelcomeEmail
-    UserMailer.welcome_email(self).deliver
-  end
+  
 
-
+  # Save the user and send her a lugogram
   def shareAndInvite(post)
     if post.save 
       @user = User.new()
       @user.email = post.recipients
-      @user.avatar = "https://i0.wp.com/api.heroku.com/images/v3/profile/ninja-avatar-48x48.png?ssl=1"
       @user.name = @user.email
       @user.password = @user.email
       @user.password_confirmation = @user.password
@@ -46,6 +43,15 @@ class User < ActiveRecord::Base
       end  
     end  
   end  
+
+  def getAvatarURL
+    if (self.avatar == nil or self.avatar.length == 0)
+      "/images/ninja-avatar-48x48.png"
+    else
+      avatar
+    end
+  end
+
 
   def getFriends
     returnUsers = []

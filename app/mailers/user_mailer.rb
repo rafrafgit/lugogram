@@ -1,21 +1,12 @@
 class UserMailer < ActionMailer::Base
   default :from => "Lugogram@lugogram.com"
 
-  def welcome_email(user)
-    @user = user
-    @lugogram_message = "Welcome to Lugogram " + @user.name + "! Thanks for joining and have a great day!"
-    @lugogram_color = '#DD4124'
-    @lugogram_avatar = @user.avatar
-    @lugogram_name = 'Staff'
-    mail(:to => user.email, :subject => "Welcome to Lugogram!")
-  end
-
   def lugogram_email(post, from_user, to_user)  
     @user = from_user
-    @lugogram_url = 'http://lugogram.com'
+    @lugogram_url = 'https://lugogram.herokuapp.com'
     @lugogram_message = post.content
     @lugogram_color = post.filter
-    @lugogram_avatar = @user.avatar
+    @lugogram_avatar = @lugogram_url + @user.getAvatarURL
     @lugogram_name = @user.name
 
     #if(to_user.hasNotLoggedIn) 

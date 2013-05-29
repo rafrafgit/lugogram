@@ -27,7 +27,9 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
-    @micropost.destroy
+    if @micropost.destroy
+      flash[:success] = "Post deleted :)"
+    end
     redirect_to root_url
   end
 
@@ -42,7 +44,11 @@ class MicropostsController < ApplicationController
 
     def correct_user
       @micropost = current_user.microposts.find_by_id(params[:id])
-      redirect_to root_url if @micropost.nil?
+      
+      if @micropost.nil?
+        flash[:error] = "Could not find post to delete :("
+        redirect_to root_url 
+      end  
     end
 
 end

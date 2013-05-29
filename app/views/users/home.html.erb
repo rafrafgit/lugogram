@@ -14,27 +14,71 @@
         document.getElementById(friend_id).value = "false";
       }  
     }
+    
+    function makeShort() 
+    {
+       var longUrl=document.getElementById("url").value;
+       if (longUrl != null && longUrl.length > 0){
+          var request = gapi.client.urlshortener.url.insert({
+            'resource': {
+            'longUrl': longUrl
+          }
+          });
+          request.execute(function(response) 
+          {    
+              if(response.id != null){                
+
+                  document.getElementById("url").value = response.id;
+              }
+          
+       
+          });
+        }
+     }
+
+     function submitPost(){
+      document.getElementById("micropost_content").value = document.getElementById("message").value + ' ' + document.getElementById("url").value;
+      document.forms["micropost"].submit();
+     }
+     
+    function load()
+    {
+        //Get your own Browser API Key from  https://code.google.com/apis/console/
+        gapi.client.setApiKey('AIzaSyCF1DzfpTiMuzKk2TjudaZ-bPIPGjaL6NY');
+        gapi.client.load('urlshortener', 'v1',function(){document.getElementById("output").innerHTML="";});
+     
+    }
+    window.onload = load;
+     
     </script>
+    <script src="https://apis.google.com/js/client.js"> </script>
+       
     
 <div class="row-fluid"> 
   
-    <div class="span3">
+    <div class="span4">
       <div class="well sidebar-nav">
           <ul class="nav nav-list">
-            <li class="nav-header">Send Message</li>
+            <li class="nav-header">Message</li>
+            <li><input type="text" id="message" placeholder="Dont forget to buy milk!" maxlength="100" autofocus="true"/></li>
             <%= form_for(@micropost) do |f| %>
               <li><%= render 'shared/error_messages', object: f.object %></li>   
-              <li><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %><%= f.hidden_field :filter, value: current_color %></li> 
-              <li class="nav-header">Visible for</li>             
+                <%= f.hidden_field :filter, value: current_color %>
+                <%= f.hidden_field :content %>
+              </li>
+              <li class="nav-header">Link (opional)</li>
+                <input type="text" id="url" name="url" value="" onBlur="makeShort();" />
+              </li> 
+              <li class="nav-header">Visible (click profile pic)</li>             
               <%  @friends.each do |u| %>          
                   <li style="font-size: 10px;color: black;">
-                    <a onClick=buttonPress('<%=u.id%>')><img src="<%=u.avatar%>" id="image_<%=u.id%>" size="48x48" class="avatar") %></a>
-                    <p style="font-size: 10px;color: black;"><%= u.name %></p>
+                    <a onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" size="48x48" class="avatar") %></a>
+                    <p style="font-size: 10px;color: gray;"><%= u.name %></p>
                     <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/>
                   </li>
               <% end %>
               <% if @friends.length == 0 %><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %><% end %> 
-              <li><%= f.submit "Share", class: "btn btn-success" %></li>
+              <li><%= f.button "Share", class: "btn btn-success", onClick: "submitPost();"%></li>
           <% end %> 
           </ul>
         </div><!--/.well -->
@@ -49,25 +93,20 @@
        </div>  
       <% end %>
     </div>
-    <div class="span1"></div>
 </div>
 
 <% else %>
+<div class="row-fluid"><div class="span12">  
   <div class="center hero-unit" style="background-color: #ffffff;">
       <h1>Private sharing: faster</h1>
-      <p>
-        Private sharing the way it's suppose to be. 
-      </p>
-      
+      <p>Private sharing the way it's suppose to be.</p>
       <br/>
       <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p> 
-      <p>
-        <b>Lugogram is currently in development. <b/>
-      </p> 
   </div>
-  <div class="container-fluid">  
-  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Julia', time: "", visibility: "", message:'Missing you :(', color: randomColor() %>
-  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
-  <%= render 'shared/lugogram_message', avatar: '/images/ninja-avatar-48x48.png', name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', color: randomColor() %> 
+</div></div>
+  <div class="row-fluid">
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Julia', time: "", visibility: "", message:'Missing you :(', color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', color: randomColor() %> 
   </div>
 <% end %> 

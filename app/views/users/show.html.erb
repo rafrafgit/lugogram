@@ -15,7 +15,7 @@
 	<% @friends.each do |u| %>
 	    <div class="row-fluid">
       	<div class="span4">
-        <%= image_tag(u.avatar, size: "48x48") %>
+        <%= image_tag(u.getAvatarURL, size: "48x48") %>
         <br/><%= u.name %>
         </div> 
         <div class="span1">
