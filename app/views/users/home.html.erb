@@ -3,20 +3,20 @@
   <script>
     function buttonPress(userID){      
       var friend_id = "friends[" + userID + "]";
-      //var image_id = "image_"  + userID;
+      var image_id = "image_"  + userID;
       var name_id = "name_"  + userID;
-      var select_id = "select_"  + userID;
+      //var select_id = "select_"  + userID;
 
       var visible = document.getElementById(friend_id).value;
       if(visible == "false"){        
-       // document.getElementById(image_id).setAttribute("class", "avatar_selected");   
+        document.getElementById(image_id).setAttribute("class", "avatar_selected");   
         document.getElementById(name_id).setAttribute("class", "name_selected");
-        document.getElementById(select_id).setAttribute("class", "avatar_selected");       
+       // document.getElementById(select_id).setAttribute("class", "avatar_selected");       
         document.getElementById(friend_id).value = "true";
       }else{ 
-       // document.getElementById(image_id).setAttribute("class", "invisible");
+        document.getElementById(image_id).setAttribute("class", "avatar");
         document.getElementById(name_id).setAttribute("class", "name_unselected"); 
-        document.getElementById(select_id).setAttribute("class", "avatar");
+       // document.getElementById(select_id).setAttribute("class", "avatar");
         document.getElementById(friend_id).value = "false";
       }  
     }
@@ -73,36 +73,20 @@
                 <%= f.hidden_field :content %>
               </li>
               <li class="nav-header">Link (opional)</li>
-              <li><input type="text" id="url" name="url" value="" onBlur="makeShort();" /></li> 
-              
-              
+              <li><input type="text" id="url" name="url" value="" onBlur="makeShort();" /></li>         
               <% if @friends.length == 0 %>
                 <li><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %></li>
-              <% else %>   
-                <li><div class="row-fluid"><div class="span6" style="margin-bottom:20px"><div class="btn-group">
-                  <button class="btn">To</button>
-                  <button class="btn dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <%  @friends.each do |u| %>          
-                      <li><a onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="select_<%=u.id%>" size="24x24" class="avatar") %><p style="font-size: 10px;color: black;"><%= u.name %></p></a></li>
-                      <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
-                   <% end %>
-                  </ul>
-                </div></div>
-                <div class="span6" style="margin-bottom:20px"><%= f.button "Share", class: "btn btn-success", onClick: "submitPost();"%></div>
-                </div>
-               </li> 
-               <li class="nav-header">Visible to friends</li>
-               <%  @friends.each do |u| %>          
-                 <li style="margin-top:0px;margin-bottom:0px">
-                    <p id="name_<%=u.id%>" class="name_unselected"><%= u.name %></p> 
-                 </li> 
+              <% else %>               
+                 <li class="nav-header">To (click to add)</li>
+                 <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
+                 <%  @friends.each do |u| %>          
+                   <tr><td><a onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"></a></td><td><p id="name_<%=u.id%>" class="name_unselected"><%= u.name %></p></td></tr> 
+                   <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
+                <% end %> 
+              </table></li>
               <% end %> 
-              
-              
-              <% end %> 
+
+              <li style="margin-top:10px"><%= f.button "Share", class: "btn btn-success", onClick: "submitPost();"%></li> 
           <% end %> 
           </ul>
         </div><!--/.well -->
