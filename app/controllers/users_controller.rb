@@ -106,6 +106,7 @@ class UsersController < ApplicationController
       @user.password_confirmation = @user.password
       if @user.save
         current_user.addFriend(@user) 
+        @user.addFriend(current_user)           #this should be removed later
         flash[:success] = @user.email + " added."
       end
     end  

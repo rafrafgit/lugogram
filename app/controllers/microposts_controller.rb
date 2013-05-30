@@ -16,11 +16,13 @@ class MicropostsController < ApplicationController
     end  
    else                                             #else send message to all friends
      users = []
-     friends_params.each do |key, value|
-      if value != nil && value == "true"
-        users.push(User.find(key))
-      end
-     end
+     if friends_params != nil
+       friends_params.each do |key, value|
+        if value != nil && value == "true"
+          users.push(User.find(key))
+        end
+       end
+     end  
      current_user.share(post, users) 
    end
    redirect_to root_url

@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
       @user.password_confirmation = @user.password
       if @user.save
         self.addFriend(@user) 
+        @user.addFriend(self)       #this should be removed later
         post.setVisibility([@user])
         UserMailer.lugogram_email(post, self, @user).deliver
       end  
