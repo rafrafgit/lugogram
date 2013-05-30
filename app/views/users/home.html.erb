@@ -72,7 +72,7 @@
                 <%= f.hidden_field :filter, value: current_color %>
                 <%= f.hidden_field :content %>
               </li>
-              <li class="nav-header">Link (opional)</li>
+              <li class="nav-header">Add link (opional)</li>
               <li><input type="text" id="url" name="url" value="" onBlur="makeShort();" /></li>         
               <% if @friends.length == 0 %>
                 <li><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %></li>

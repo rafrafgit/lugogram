@@ -1,19 +1,17 @@
-<% 
-  	visibility = micropost.getVisibility()
-    visible_for = ""
-    visibility.each do |u| 
-      visible_for +=  u.name + " "
-    end  
-%>
-  <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
-   <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+<div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+  <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
-      <div class="span2">
-          
+      <div class="span2">         
          <%= link_to micropost.user do  %> 
             <%= image_tag(micropost.user.getAvatarURL, :class => "avatar_visible", :size => "48x48") %>
-            <br/><p style="font-size: 10px;color: black;"><%= micropost.user.name %> </p>
-          <% end %>
+         <% end %>   
+          <br/>
+          <% if current_user?(micropost.user) %>
+            <span style="font-size: 10px;color: black;">You</span>
+          <% else  %>  
+            <span style="font-size: 10px;color: black;"><%= micropost.user.name %></span>
+          <% end  %>  
+          </br><span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
 
           <% if (current_user && !current_user.isFriend?(micropost.user)) %>
             <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
@@ -25,12 +23,19 @@
     </div>
     <div class="row-fluid">  
       <div class="span12" style="text-align:right;"> 
-        <% if current_user?(micropost.user) %>
-          <span style="font-size: 10px;color: black;">To <%=visible_for%> <%= time_ago_in_words(micropost.created_at) %> ago 
-          
-        <% else %>
-          <span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago </span>
-        <% end %>     
+          <% visibility = micropost.getVisibility() %>    
+          <% if visibility.length == 0 %>
+            <span style="font-size: 10px;color: black;">Private</span>
+          <% else  %>  
+            <span style="font-size: 10px;color: black;">Visible to </span>
+            <% visibility.each do |u| %>
+                <% if current_user?(u) %>
+                  <span style="font-size: 10px;color: black;">You</span><br/>
+                <% else  %>  
+                  <span><%= link_to u.name, u, class: "noline" %></span><br/>
+                <% end  %>
+            <% end  %> 
+          <% end  %>     
       </div>
     </div>
   </div>
