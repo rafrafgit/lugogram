@@ -2,11 +2,21 @@
 @import "bootstrap-responsive";
 
 
-.avatar {
-  border:4px;
-  border-style:solid;
-  border-color:#eaeaea;
-  border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4;
+.invisible {
+  visibility:hidden;
+}
+
+.visible {
+  visibility:visible;
+}
+
+.name_selected {
+  font-size: 10px;
+  color: gray;
+}
+
+.name_unselected {
+  visibility:hidden;
 }
 
 .avatar_selected {
