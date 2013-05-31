@@ -1,6 +1,17 @@
 <% if signed_in? %>
   <% current_color = randomColor() %>  
+ 
   <script>
+      
+    $(document).ready(function() {
+      $('#linkadd').click(function() {
+        $('#message').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100"  onBlur="makeShort();" /></li>');
+        $('#linkadd').remove();
+      });
+      
+    });
+      
+
     function buttonPress(userID){      
       var friend_id = "friends[" + userID + "]";
       var image_id = "image_"  + userID;
@@ -43,7 +54,12 @@
      }
 
      function submitPost(){
-      document.getElementById("micropost_content").value = document.getElementById("message").value + ' ' + document.getElementById("url").value;
+      var message = document.getElementById("message").value;
+      var url = "";
+      if(document.getElementById("url") != null){
+        url = document.getElementById("url").value;
+      }
+      document.getElementById("micropost_content").value =  message + ' ' + url;
       document.forms["micropost"].submit();
      }
      
@@ -51,7 +67,7 @@
     {
         //Get your own Browser API Key from  https://code.google.com/apis/console/
         gapi.client.setApiKey('AIzaSyCF1DzfpTiMuzKk2TjudaZ-bPIPGjaL6NY');
-        gapi.client.load('urlshortener', 'v1',function(){document.getElementById("output").innerHTML="";});
+        gapi.client.load('urlshortener', 'v1',function(){});
      
     }
     window.onload = load;
@@ -64,16 +80,19 @@
   
     <div class="span4">
       <div class="well sidebar-nav">
+      
+        
           <ul class="nav nav-list">
-            <li class="nav-header">Message</li>
+            <li class="nav-header">
+               <table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:30px">+link </span></td></tr></table></li>
             <li><input type="text" id="message" placeholder="Dont forget to buy milk!" maxlength="100" autofocus="true"/></li>
+            
             <%= form_for(@micropost) do |f| %>
               <li><%= render 'shared/error_messages', object: f.object %></li>   
                 <%= f.hidden_field :filter, value: current_color %>
                 <%= f.hidden_field :content %>
               </li>
-              <li class="nav-header">Add link (opional)</li>
-              <li><input type="text" id="url" name="url" value="" onBlur="makeShort();" /></li>         
+              
               <% if @friends.length == 0 %>
                 <li><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %></li>
               <% else %>               
@@ -89,6 +108,7 @@
               <li style="margin-top:10px"><%= f.button "Share", class: "btn btn-success", onClick: "submitPost();"%></li> 
           <% end %> 
           </ul>
+
         </div><!--/.well -->
     </div>    
 

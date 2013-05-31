@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
     if post.save  
       post.setVisibility(other_users)
       other_users.each do |u|
-        UserMailer.lugogram_email(post, self, u).deliver
+        UserMailer.lugogram_email(post, self, u).deliver unless u.admin?
       end  
     end  
   end  
