@@ -32,6 +32,7 @@
   </div>
   <div class="row-fluid">  
     <div class="span12" style="text-align:right;"> 
+      <% if hasimage %></br></br></br></br></br></br><% end  %> 
       </br>
         <% visibility = micropost.getVisibility() %>    
         <% if visibility.length == 0 %>
@@ -46,7 +47,7 @@
               <% end  %>
           <% end  %> 
         <% end  %> 
-        <% if hasimage %></br></br></br></br></br></br></br></br><% end  %> 
+        
 
     </div>
   </div>
