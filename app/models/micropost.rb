@@ -1,5 +1,5 @@
 class Micropost < ActiveRecord::Base
-  attr_accessible :content, :filter, :recipients
+  attr_accessible :content, :filter, :weblink, :imagelink
   belongs_to :user
   has_many :eyes, foreign_key: "micropost_id", dependent: :destroy
 

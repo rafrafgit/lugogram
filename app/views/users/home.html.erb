@@ -1,16 +1,23 @@
 <% if signed_in? %>
   <% current_color = randomColor() %>  
  
-  <script>
+<script>
       
     $(document).ready(function() {
       $('#linkadd').click(function() {
-        $('#message').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100"  onBlur="makeShort();" /></li>');
+        $('#micropost_content').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100" onBlur="makeShort()"/></li>');
         $('#linkadd').remove();
+      });
+
+      $('#showSendMessage').click(function() {
+        $('#showSendMessage').remove();
       });
       
     });
       
+    function showSendMessage(){
+      document.getElementById('sendMessage').setAttribute("class", "well sidebar-nav");
+    }
 
     function buttonPress(userID){      
       var friend_id = "friends[" + userID + "]";
@@ -46,6 +53,7 @@
               if(response.id != null){                
 
                   document.getElementById("url").value = response.id;
+                  document.getElementById("micropost_weblink").value = response.id;
               }
           
        
@@ -53,15 +61,6 @@
         }
      }
 
-     function submitPost(){
-      var message = document.getElementById("message").value;
-      var url = "";
-      if(document.getElementById("url") != null){
-        url = document.getElementById("url").value;
-      }
-      document.getElementById("micropost_content").value =  message + ' ' + url;
-      document.forms["micropost"].submit();
-     }
      
     function load()
     {
@@ -73,42 +72,38 @@
     window.onload = load;
      
     </script>
-    <script src="https://apis.google.com/js/client.js"> </script>
+    <script src="https://apis.google.com/js/client.js"> </script>  
        
     
 <div class="row-fluid"> 
   
     <div class="span4">
-      <div class="well sidebar-nav">
-      
-        
-          <ul class="nav nav-list">
-            <li class="nav-header">
-               <table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:30px">+link </span></td></tr></table></li>
-            <li><input type="text" id="message" placeholder="Dont forget to buy milk!" maxlength="100" autofocus="true"/></li>
-            
-            <%= form_for(@micropost) do |f| %>
-              <li><%= render 'shared/error_messages', object: f.object %></li>   
+      <div id="showSendMessage" class="well sidebar-nav visible-phone">
+        <div class="row-fluid"><div class="span12" style="text-align: center;"><button class="btn btn-primary" onClick="showSendMessage();">Compose new message</button></div></div>
+      </div>
+      <div id="sendMessage" class="well sidebar-nav visible-desktop">
+          <ul class="nav nav-list">  
+            <% if @friends.length == 0 %>
+              <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. <%= link_to "Add some", current_user %></span></li>
+            <% else %>   
+              <%= form_for(@micropost) do |f| %>  
                 <%= f.hidden_field :filter, value: current_color %>
-                <%= f.hidden_field :content %>
-              </li>
-              
-              <% if @friends.length == 0 %>
-                <li><%= f.text_field :recipients, placeholder: "Email", maxlength: "100" %></li>
-              <% else %>               
-                 <li class="nav-header">To (click to add)</li>
-                 <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
-                 <%  @friends.each do |u| %>          
+                <%= f.hidden_field :weblink %>
+                <li><%= render 'shared/error_messages', object: f.object %></li>   
+                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:30px">+link </span></td></tr></table></li>
+                <li><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %></li>
+                
+                <li class="nav-header">To (click to add)</li>
+                <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
+                <%  @friends.each do |u| %>          
                    <tr><td><a onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"></a></td><td><p id="name_<%=u.id%>" class="name_unselected"><%= u.name %></p></td></tr> 
                    <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
                 <% end %> 
-              </table></li>
+                </table></li>
+                <li style="margin-top:10px"><%= f.submit "Share", class: "btn btn-success" %></li> 
               <% end %> 
-
-              <li style="margin-top:10px"><%= f.button "Share", class: "btn btn-success", onClick: "submitPost();"%></li> 
-          <% end %> 
+            <% end %> 
           </ul>
-
         </div><!--/.well -->
     </div>    
 

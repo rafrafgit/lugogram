@@ -11,25 +11,26 @@
     <br/><br/>
     <br/><br/>
 
-	<h2>Your Friends</h2>
-	<% @friends.each do |u| %>
-	    <div class="row-fluid">
-      	<div class="span4">
-        <%= image_tag(u.getAvatarURL, size: "48x48") %>
-        <br/><%= u.name %>
-        </div> 
-        <div class="span1">
-        <button class="btn btn-large" type="button"><%= link_to "Remove", friend_id: u.id, controller: "users", action: "unfriend" %></button>  
-		</div> 
-		<% if(current_user.admin) %>
-		<div class="span1"><button class="btn btn-large" type="button"><%= link_to "Delete", @user, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: @user.name %></button>
-		</div> 
+	<% if @friends.length !=0 %>
+		<h2>Your Friends</h2>
+		<% @friends.each do |u| %>
+		    <div class="row-fluid">
+	      	<div class="span4">
+	        <%= image_tag(u.getAvatarURL, size: "48x48") %>
+	        <br/><%= u.name %>
+	        </div> 
+	        <div class="span1">
+	        <button class="btn btn-large" type="button"><%= link_to "Remove", friend_id: u.id, controller: "users", action: "unfriend" %></button>  
+			</div> 
+			<% if(current_user.admin) %>
+			<div class="span1"><button class="btn btn-large" type="button"><%= link_to "Delete", @user, method: :delete,
+	                                     data: { confirm: "You sure?" },
+	                                     title: @user.name %></button>
+			</div> 
+			<% end %>
+			</div> 
 		<% end %>
-		</div> 
 	<% end %>
-	
 
 <% else %>
 	<h1><%= @user.name %></h1>

@@ -19,30 +19,13 @@ class User < ActiveRecord::Base
 
   
 
-  # Save the user and send her a lugogram
-  def shareAndInvite(post)
-    if post.save 
-      @user = User.new()
-      @user.email = post.recipients
-      @user.name = @user.email
-      @user.password = @user.email
-      @user.password_confirmation = @user.password
-      if @user.save
-        self.addFriend(@user) 
-        @user.addFriend(self)       #this should be removed later
-        post.setVisibility([@user])
-        UserMailer.lugogram_email(post, self, @user).deliver
-      end  
-    end  
-  end
-
   def share(post, other_users)
     if post.save  
       post.setVisibility(other_users)
       other_users.each do |u|
         UserMailer.lugogram_email(post, self, u).deliver unless u.admin?
       end  
-    end  
+    end   
   end  
 
   def getAvatarURL

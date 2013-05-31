@@ -5,26 +5,15 @@ class MicropostsController < ApplicationController
   def create   
    friends_params = params[:friends]
    post = current_user.microposts.build(params[:micropost])
-
-   if(post.recipients != nil and post.recipients.length > 0)      #if user has sent to an email address, invite that user to join if it is not already a member
-    existing_user = User.find_by_email(post.recipients.downcase)
-    if existing_user                                    #if user has send an email to an existing user, add her as a friend and send message
-      current_user.addFriend(existing_user)
-      current_user.share(post, [existing_user]) 
-    else                                                #else invite user
-      current_user.shareAndInvite(post)
-    end  
-   else                                             #else send message to all friends
-     users = []
-     if friends_params != nil
-       friends_params.each do |key, value|
-        if value != nil && value == "true"
-          users.push(User.find(key))
-        end
-       end
-     end  
-     current_user.share(post, users) 
-   end
+   users = []
+   if friends_params != nil
+     friends_params.each do |key, value|
+      if value != nil && value == "true"
+        users.push(User.find(key))
+      end
+     end
+   end  
+   current_user.share(post, users) 
    redirect_to root_url
   end
 
