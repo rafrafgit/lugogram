@@ -7,6 +7,7 @@ class UserMailer < ActionMailer::Base
     @lugogram_message = post.content
     @lugogram_color = post.filter
     @lugogram_weblink = post.weblink
+    @lugogram_imagelink = post.imagelink
     @lugogram_avatar = @user.getAvatarURL
     @lugogram_avatar = ""
     if (@user.avatar == nil or @user.avatar.length == 0)

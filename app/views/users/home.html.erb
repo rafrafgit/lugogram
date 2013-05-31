@@ -4,10 +4,17 @@
 <script>
       
     $(document).ready(function() {
+      
       $('#linkadd').click(function() {
         $('#micropost_content').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100" onBlur="makeShort()"/></li>');
         $('#linkadd').remove();
       });
+
+      $('#imagelinkadd').click(function() {
+        $('#micropost_content').after('<li><input type="text" id="imageurl" name="imageurl" placeholder="www...link to image" maxlength="100" onBlur="checkImage()"/></li>');
+        $('#imagelinkadd').remove();
+      });
+
 
       $('#showSendMessage').click(function() {
         $('#showSendMessage').remove();
@@ -39,6 +46,20 @@
       }  
     }
     
+
+    function checkImage(){
+      var imageurl = document.getElementById("imageurl").value;
+      $("<img>", {
+          src: imageurl,
+          error: function() { 
+          },
+          load: function() { 
+            document.getElementById("micropost_imagelink").value = imageurl;
+          }
+      });
+    }
+
+
     function makeShort() 
     {
        var longUrl=document.getElementById("url").value;
@@ -89,8 +110,9 @@
               <%= form_for(@micropost) do |f| %>  
                 <%= f.hidden_field :filter, value: current_color %>
                 <%= f.hidden_field :weblink %>
+                <%= f.hidden_field :imagelink %>
                 <li><%= render 'shared/error_messages', object: f.object %></li>   
-                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:30px">+link </span></td></tr></table></li>
+                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:20px">+link </span></td><td><span id="imagelinkadd" class="nav-header" style="margin-left:20px">+image </span></td></tr></table></li>
                 <li><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %></li>
                 
                 <li class="nav-header">To (click to add)</li>
@@ -128,8 +150,8 @@
   </div>
 </div></div>
   <div class="row-fluid">
-  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Julia', time: "", visibility: "", message:'Thanks for the dinner yesterday, the food was fantastic!', weblink: "", color: randomColor() %>
-  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', weblink: "", color: randomColor() %>
-  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", color: randomColor() %> 
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Julia', time: "", visibility: "", message:'Thanks for the dinner yesterday, the food was fantastic!', weblink: "", imagelink: "", color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', weblink: "", imagelink: "", color: randomColor() %>
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", imagelink: "", color: randomColor() %> 
   </div>
 <% end %> 

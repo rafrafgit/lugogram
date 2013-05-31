@@ -1,41 +1,54 @@
-<div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
-  <div class="messageBox" style="background-color:<%= micropost.filter %>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-    <div class="row-fluid">
-      <div class="span2">         
-         <%= link_to micropost.user do  %><%= image_tag(micropost.user.getAvatarURL, :size => "48x48") %><% end %>   
-          <br/>
-          <% if current_user?(micropost.user) %>
-            <span style="font-size: 10px;color: black;">You</span>
-          <% else  %>  
-            <span style="font-size: 10px;color: black;"><%= micropost.user.name %></span>
-          <% end  %>  
-          </br><span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
+<% 
+  styling = "";
+  hasimage = micropost.imagelink != nil && micropost.imagelink.length > 0 
+  if hasimage   
+    styling = "background-color: transparent;background-image: url(" + micropost.imagelink + ");background-repeat: no-repeat;background-position: left top;background-attachment: scroll;background-size: 100%;"
+  else
+    styling = "background-color:" + micropost.filter
+  end 
+%>
 
-          <% if (current_user && !current_user.isFriend?(micropost.user)) %>
-            <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
-          <% end %>
-      </div>
-      <div class="span8"> 
-      <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
-      </br><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.weblink) %></h2>
-      </div>
+<div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
+<div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+  <div class="row-fluid">
+    <div class="span2">         
+       <%= link_to micropost.user do  %><%= image_tag(micropost.user.getAvatarURL, :size => "48x48") %><% end %>   
+        <br/>
+        <% if current_user?(micropost.user) %>
+          <span style="font-size: 10px;color: black;">You</span>
+        <% else  %>  
+          <span style="font-size: 10px;color: black;"><%= micropost.user.name %></span>
+        <% end  %>  
+        </br><span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
+
+        <% if (current_user && !current_user.isFriend?(micropost.user)) %>
+          <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
+        <% end %>
     </div>
-    <div class="row-fluid">  
-      <div class="span12" style="text-align:right;"> 
-          <% visibility = micropost.getVisibility() %>    
-          <% if visibility.length == 0 %>
-            <span style="font-size: 10px;color: black;">Private</span>
-          <% else  %>  
-            <span style="font-size: 10px;color: black;">Visible to </span>
-            <% visibility.each do |u| %>
-                <% if current_user?(u) %>
-                  <span style="font-size: 10px;color: black;">You</span><br/>
-                <% else  %>  
-                  <%= link_to u.name, u, class: "noline" %><br/>
-                <% end  %>
-            <% end  %> 
-          <% end  %>     
-      </div>
+    <div class="span8"> 
+    <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
+    </br><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.weblink) %></h2>
     </div>
   </div>
+  <div class="row-fluid">  
+    <div class="span12" style="text-align:right;"> 
+      </br>
+        <% visibility = micropost.getVisibility() %>    
+        <% if visibility.length == 0 %>
+          <span style="font-size: 10px;color: black;">Private</span>
+        <% else  %>  
+          <span style="font-size: 10px;color: black;font-weight:bold;">Visible to </span>
+          <% visibility.each do |u| %>
+              <% if current_user?(u) %>
+                <span style="font-size: 10px;color: black;font-weight:bold;">You</span><br/>
+              <% else  %>  
+                <%= link_to u.name, u, class: "noline" %><br/>
+              <% end  %>
+          <% end  %> 
+        <% end  %> 
+        <% if hasimage %></br></br></br></br></br></br></br></br><% end  %> 
+
+    </div>
+  </div>
+</div>
 </div>
