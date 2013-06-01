@@ -122,22 +122,22 @@
                 <li><%= render 'shared/error_messages', object: f.object %></li>   
                 <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:20px">+link </span></td><td><span id="imagelinkadd" class="nav-header" style="margin-left:20px">+image </span></td></tr></table></li>
                 <li>
-                  <div class="row-fluid"><div class="span6"><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %></div><div class="span2"><%= f.submit "Share", class: "btn btn-primary" %></div></div>
+                  <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
                 </li>
                 
-                
+                <li class="nav-header">To</li>
                 <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
                 <%  @friends.each do |u| %>          
                    <tr>
                     <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
                     </td>
-                    
-                  </tr> 
-                  
+                  </tr>            
                    <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
                 <% end %> 
                 </table></li>
-                
+                <li style="margin-top:20px">
+                  <%= f.submit "Share", class: "btn btn-success" %>
+                </li>
               <% end %> 
             <% end %> 
           </ul>
@@ -145,20 +145,6 @@
         
         <div id="addFriend"class="well sidebar-nav hidden-phone">
           <ul class="nav nav-list"> 
-            <li class="nav-header">Friends</li>    
-            <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
-            <%  @friends.each do |u| %>          
-                   <tr>
-                    <td>
-                      <%= link_to u.name, u, class: 'noline' %>
-                    </td>
-                    <td width="20px"></td>
-                    <td>
-                     
-                    </td>
-                  </tr> 
-                <% end %>
-              </table></li> 
               <li class="nav-header">Add friend</li>  
               <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
               <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add+", class: "btn" %></div></div>

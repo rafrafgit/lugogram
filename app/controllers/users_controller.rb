@@ -14,10 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])  
-    @friend  = User.new(params[:friend])
-    @friends = @user.getFriends
-    @microposts = @user.getHistory
+    @user = User.find(params[:id])
   end
 
   def index
@@ -56,6 +53,8 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    @friend  = User.new(params[:friend])
+    @friends = @user.getFriends
   end
 
   def update

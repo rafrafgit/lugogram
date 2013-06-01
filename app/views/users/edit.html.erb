@@ -1,4 +1,21 @@
-<h1>Settings</h1>
+<div class="well">
+<% if @friends.length !=0 %>
+  <h4>Friends</h4>
+    <% @friends.each do |u| %>
+        <div class="row-fluid">
+          <div class="span1">
+            <%= image_tag(u.getAvatarURL, size: "48x48") %>
+            <br/><%= link_to u.name, u, class: "noline" %>
+          </div> 
+          <div class="span1">
+          <%= button_to "Remove", {friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %>    
+          </div> 
+      </div> 
+    <% end %>
+  <% end %>
+</div>
+<div class="well">
+<h4>Settings</h4>
 
 <%= form_for(@user) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
@@ -18,10 +35,11 @@
   <%= f.label :password_confirmation, "Confirm Password" %>
   <%= f.password_field :password_confirmation %>
 
-  <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+  <%= f.submit "Save changes", class: "btn btn-primary" %>
 <% end %>
 
 <br/>
 <%= link_to "Delete my account", @user, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: @user.name %>
+</div>

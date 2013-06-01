@@ -5,27 +5,24 @@
 			<h4><%=@user.email%></h4>
 		<% end %>
 	
-	</br>Joined as user number <%=@user.id%>
+	</br>Joined lugogram as user number <%=@user.id%>
 	</br><%=@user.microposts.length%> messages sent, <%=@user.getHistory.length%> recieved
 		
 	</br></br>
 	<% if(@user.id == current_user.id) %>
 	
 
-
-	
-
-<% else %>
-	<% if(!current_user.isFriend?(@user)) %>		
-		<%= button_to "Add as a friend", {friend_id: @user.id, controller: "users", action: "friend"}, class: "btn btn-primary" %>
-
 	<% else %>
-		<%= button_to "Remove as a friend", {friend_id: @user.id, controller: "users", action: "unfriend"}, class: "btn btn-primary" %>
-	<% end %>
-	<% if(current_user.admin) %>
-		<br/><button class="btn" type="button"><%= link_to "Delete user", @user, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: @user.name %></button>
+		<% if(!current_user.isFriend?(@user)) %>		
+			<%= button_to "Add as a friend", {friend_id: @user.id, controller: "users", action: "friend"}, class: "btn btn-primary" %>
+
+		<% else %>
+			<%= button_to "Remove as a friend", {friend_id: @user.id, controller: "users", action: "unfriend"}, class: "btn btn-primary" %>
 		<% end %>
-<% end %>
+		<% if(current_user.admin) %>
+			<br/><button class="btn" type="button"><%= link_to "Delete user", @user, method: :delete,
+	                                     data: { confirm: "You sure?" },
+	                                     title: @user.name %></button>
+			<% end %>
+	<% end %>
 </div>
