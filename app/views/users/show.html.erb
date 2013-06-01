@@ -1,46 +1,29 @@
 <div class="hero-unit">
-<% if(@user.id == current_user.id) %>
-	<h2>Add Friend</h2>
-	<%= form_for @friend, url: { action: "invite" } do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>   
-	  <%= f.email_field :email, placeholder: "Email", class: "span4" %>
-	  <br/>
-      <%= f.submit "Add", class: "btn btn-large btn-primary" %>                  
-    <% end %>
-
-    <br/><br/>
-    <br/><br/>
-
-	<% if @friends.length !=0 %>
-		<h2>Your Friends</h2>
-		<% @friends.each do |u| %>
-		    <div class="row-fluid">
-	      	<div class="span4">
-	        <%= image_tag(u.getAvatarURL, size: "48x48") %>
-	        <br/><%= u.name %>
-	        </div> 
-	        <div class="span1">
-	        <button class="btn btn-large" type="button"><%= link_to "Remove", friend_id: u.id, controller: "users", action: "unfriend" %></button>  
-			</div> 
-			<% if(current_user.admin) %>
-			<div class="span1"><button class="btn btn-large" type="button"><%= link_to "Delete", @user, method: :delete,
-	                                     data: { confirm: "You sure?" },
-	                                     title: @user.name %></button>
-			</div> 
-			<% end %>
-			</div> 
+	<%= image_tag(@user.getAvatarURL, size: "48x48") %>
+	<h2><%=@user.name%></h2>
+		<% if(current_user.isFriend?(@user)) %>
+			<h4><%=@user.email%></h4>
 		<% end %>
-	<% end %>
+	
+	</br>Joined as user number <%=@user.id%>
+	</br><%=@user.microposts.length%> messages sent, <%=@user.getHistory.length%> recieved
+		
+	</br></br>
+	<% if(@user.id == current_user.id) %>
+	
+
+
+	
 
 <% else %>
-	<h1><%= @user.name %></h1>
 	<% if(!current_user.isFriend?(@user)) %>		
-		<button class="btn btn-large" type="button"><%= link_to "Add as a friend", friend_id: @user.id, controller: "users", action: "friend" %></br></button>
+		<%= button_to "Add as a friend", {friend_id: @user.id, controller: "users", action: "friend"}, class: "btn btn-primary" %>
+
 	<% else %>
-		<button class="btn btn-large" type="button"><%= link_to "Remove as a friend", friend_id: @user.id, controller: "users", action: "unfriend" %></br></button>
+		<%= button_to "Remove as a friend", {friend_id: @user.id, controller: "users", action: "unfriend"}, class: "btn btn-primary" %>
 	<% end %>
 	<% if(current_user.admin) %>
-		<br/><button class="btn btn-large" type="button"><%= link_to "Delete user", @user, method: :delete,
+		<br/><button class="btn" type="button"><%= link_to "Delete user", @user, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: @user.name %></button>
 		<% end %>

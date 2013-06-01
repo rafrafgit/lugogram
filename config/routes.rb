@@ -1,7 +1,7 @@
 Lugogram::Application.routes.draw do
   resources :users do
     member do
-      get :friend, :unfriend
+      post :friend, :unfriend
       post :invite
     end
   end  
