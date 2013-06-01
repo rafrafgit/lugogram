@@ -106,21 +106,21 @@
       
       <div id="showSendMessage" class="well sidebar-nav visible-phone">
         <div class="row-fluid"> 
-          <div class="span12 center"><button class="btn btn-success" onClick="showSendMessage();">New message</button></div>
+          <div class="span12 center"><button class="btn btn-success" onClick="showSendMessage();">Compose new message</button></div>
         </div>
       </div>
 
       <div id="sendMessage" class="well sidebar-nav hidden-phone">
           <ul class="nav nav-list">  
             <% if @friends.length == 0 %>
-              <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. <%= link_to "Add some", current_user %></span></li>
+              <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. Add some!</span></li>
             <% else %>   
               <%= form_for(@micropost) do |f| %>  
                 <%= f.hidden_field :filter, value: current_color %>
                 <%= f.hidden_field :weblink %>
                 <%= f.hidden_field :imagelink %>
                 <li><%= render 'shared/error_messages', object: f.object %></li>   
-                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:20px">+link </span></td><td><span id="imagelinkadd" class="nav-header" style="margin-left:20px">+image </span></td></tr></table></li>
+                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:20px">+link </span></td></tr></table></li>
                 <li>
                   <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
                 </li>

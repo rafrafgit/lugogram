@@ -20,10 +20,6 @@
           <span style="font-size: 10px;color: black;"><%= micropost.user.name %></span>
         <% end  %>  
         </br><span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
-
-        <% if (current_user && !current_user.isFriend?(micropost.user)) %>
-          <br/><span style="font-size: 10px;color: black;"><%= link_to "Add as a friend", id: current_user.id, friend_id: micropost.user.id, controller: "users", action: "friend" %></span>
-        <% end %>
     </div>
     <div class="span8"> 
     <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>

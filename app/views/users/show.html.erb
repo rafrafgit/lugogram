@@ -2,10 +2,10 @@
 	<%= image_tag(@user.getAvatarURL, size: "48x48") %>
 	<h2><%=@user.name%></h2>
 		<% if(current_user.isFriend?(@user)) %>
-			<h4><%=@user.email%></h4>
+			<p>Email: <%=@user.email%> (visible to friends) </p>
 		<% end %>
 	
-	</br>Joined lugogram as user number <%=@user.id%>
+	</br>Joined lugogram as number <%=@user.id%>
 	</br><%=@user.microposts.length%> messages sent, <%=@user.getHistory.length%> recieved
 		
 	</br></br>
