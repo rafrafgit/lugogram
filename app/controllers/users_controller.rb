@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    existing_user = User.find_by_email(@user.email)
+    existing_user = User.find_by_email(@user.email.downcase)
     if existing_user
        if existing_user.hasNotLoggedIn
           if existing_user.update_attributes(params[:user])
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
 
   def invite
     @user = User.new(params[:user])
-    existing_user = User.find_by_email(@user.email)
+    existing_user = User.find_by_email(@user.email.downcase)
     if existing_user
       if current_user.isFriend?(existing_user)
         flash[:success] = "You are already friends with " + existing_user.name  + " :)" 
@@ -100,7 +100,7 @@ class UsersController < ApplicationController
         current_user.addFriend(existing_user) 
       end  
     else  
-      @user.name = @user.email
+      @user.name = @user.email.downcase
       @user.password = "guest123"
       @user.password_confirmation = @user.password
       if @user.save

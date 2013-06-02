@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
         	redirect_to root_url
         end	
 	  else
-	    flash.now[:error] = 'Invalid email/password combination ' + params[:session][:email].downcase + " and " + params[:session][:password]
+	    flash.now[:error] = 'Invalid email/password combination'
         render 'new'
 	  end
 	end

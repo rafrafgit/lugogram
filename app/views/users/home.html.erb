@@ -106,7 +106,7 @@
       
       <div id="showSendMessage" class="well sidebar-nav visible-phone">
         <div class="row-fluid"> 
-          <div class="span12 center"><button class="btn btn-success" onClick="showSendMessage();">Compose new message</button></div>
+          <div class="span12 center"><button class="btn btn-success" href="#" onClick="showSendMessage();">Compose new message</button></div>
         </div>
       </div>
 
@@ -120,13 +120,14 @@
                 <%= f.hidden_field :weblink %>
                 <%= f.hidden_field :imagelink %>
                 <li><%= render 'shared/error_messages', object: f.object %></li>   
-                <li class="nav-header"><table style="margin-top:0px;margin-bottom:0px;"><tr><td>Message </td><td><span id="linkadd" class="nav-header" style="margin-left:20px">+link </span></td></tr></table></li>
+                <li class="nav-header">Message</li>
                 <li>
                   <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
                 </li>
-                
-                <li class="nav-header">To</li>
+                <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
+                <li class="nav-header">Visible for</li>
                 <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
+                <tr><td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td></tr> 
                 <%  @friends.each do |u| %>          
                    <tr>
                     <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
