@@ -100,10 +100,12 @@
     <script src="https://apis.google.com/js/client.js"> </script>  
        
     
-<div class="row-fluid"> 
-  
+
+  <div class="row-fluid">   
     <div class="span4">
       
+      
+
       <div id="showSendMessage" class="well sidebar-nav visible-phone">
         <div class="row-fluid"> 
           <div class="span12 center"><button class="btn btn-success" href="#" onClick="showSendMessage();">Compose new message</button></div>
@@ -120,20 +122,30 @@
                 <%= f.hidden_field :weblink %>
                 <%= f.hidden_field :imagelink %>
                 <li><%= render 'shared/error_messages', object: f.object %></li>   
-                <li class="nav-header">Message</li>
+                <li class="nav-header">New Message</li>
                 <li>
                   <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
                 </li>
                 <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
-                <li class="nav-header">Visible for</li>
+                <li class="nav-header">Visible to</li>
                 <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
                 <tr><td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td></tr> 
                 <%  @friends.each do |u| %>          
+                   <%
+                    avatar_class = "avatar"
+                    name_class = "name_unselected"
+                    friend_value = "false"
+                    if @visible_users.include?(u)
+                      avatar_class = "avatar_selected"
+                      name_class = "name_selected"
+                      friend_value = "true"
+                    end  
+                   %>
                    <tr>
-                    <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
+                    <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="<%=avatar_class%>" width="24" height="24"><span id="name_<%=u.id%>" class="<%=name_class%>"> <%= u.name %></span></a>
                     </td>
                   </tr>            
-                   <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
+                   <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="<%=friend_value%>"/> 
                 <% end %> 
                 </table></li>
                 <li style="margin-top:20px">
@@ -144,7 +156,7 @@
           </ul>
         </div>
         
-        <div id="addFriend"class="well sidebar-nav hidden-phone">
+        <div id="addFriend" class="well sidebar-nav hidden-phone">
           <ul class="nav nav-list"> 
               <li class="nav-header">Add friend</li>  
               <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
@@ -154,7 +166,21 @@
         </div>  
     </div>    
 
-    <div class="span8">    
+    <div class="span8">
+
+      <% if @visible_users.length > 0 %>
+        <div class="well">
+          <table width="100%"><tr>
+              <td align="left"><%= image_tag("glyphicons_203_lock.png", size: "16x16")%><span class="textline"> Conversations visible to <img src="<%=current_user.getAvatarURL%>" width="24" height="24"> You,   
+              <% @visible_users.each do |u| %> 
+                   <img src="<%=u.getAvatarURL%>"  width="24" height="24"> <%=u.name%>  
+              <% end %></span>
+              </td><td align="right"><a href="<%=root_path%>"><%= image_tag("glyphicons_207_remove_2.png", style: "margin-left:30px;margin-right:10px;", size: "16x16")%></a></td>   
+         </tr></table> 
+        </div>
+      <% end %>
+
+
       <%  @microposts.each do |micropost| %> 
         <div class="row-fluid">
         <div class="span12">

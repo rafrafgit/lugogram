@@ -1,13 +1,28 @@
+<script>
+    function checkImage(){
+      var imageurl = document.getElementById("user_avatar").value;
+      $("<img>", {
+          src: imageurl,
+          error: function() { 
+            document.getElementById("user_avatar").value = "Avatar link is not working :( Try again or leave empty.";
+          },
+          load: function() { 
+            
+          }
+      });
+    }
+</script>
+
 <div class="well">
 <% if @friends.length !=0 %>
   <h4>Friends</h4>
     <% @friends.each do |u| %>
         <div class="row-fluid">
-          <div class="span1">
+          <div class="span2">
             <%= image_tag(u.getAvatarURL, size: "48x48") %>
-            <br/><%= link_to u.name, u, class: "noline" %>
+            <br/><%= u.name %>
           </div> 
-          <div class="span1">
+          <div class="span2">
           <%= button_to "Remove", {friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %>    
           </div> 
       </div> 
@@ -27,7 +42,7 @@
   <%= f.text_field :email %>
 
   <%= f.label :avatar %>
-  <%= f.text_field :avatar %>
+  <%= f.text_field :avatar, placeholder: "www...link to image", onBlur: "checkImage()" %>
 
   <%= f.label :password %>
   <%= f.password_field :password %>

@@ -7,9 +7,20 @@ class UsersController < ApplicationController
   def home
     if signed_in?
       @micropost = current_user.microposts.build if signed_in?
-      @friend  = User.new(params[:friend])
+      @friend  = User.new()
       @friends = current_user.getFriends
-      @microposts = current_user.getHistory
+      @visible_users = []
+      @microposts = nil
+      visible_ids = params[:ids]
+        
+      if visible_ids != nil
+        visible_ids.each do |id|
+          @visible_users.push(User.find(id)) 
+        end
+        @microposts = current_user.getVisiblePosts(@visible_users)    
+      else
+        @microposts = current_user.getHistory
+      end 
     end  
   end
 
@@ -69,9 +80,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id]) 
-    sign_out unless current_user.admin?
-    @user.destroy
+    User.find(params[:id]).destroy 
     redirect_to root_url
   end  
 

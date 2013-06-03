@@ -21,7 +21,12 @@ class User < ActiveRecord::Base
 
   def share(post, other_users)
     if post.save  
-      post.setVisibility(other_users)
+      #Set visibility
+      visible = other_users.clone
+      visible.push(self)
+      post.setVisibility(visible)
+      
+      #Send notifications
       other_users.each do |u|
         UserMailer.lugogram_email(post, self, u).deliver unless u.admin?
       end  
@@ -71,6 +76,14 @@ class User < ActiveRecord::Base
   def getHistory
     post_ids = %(SELECT micropost_id FROM eyes WHERE user_id = :user_id)
     Micropost.where("id IN (#{post_ids}) or user_id = :user_id", { user_id: self })
+  end 
+
+  def getVisiblePosts(other_users)
+    if other_users != nil
+      visible = other_users.clone
+      visible.push(self)
+      Micropost.joins(:eyes).where(:eyes => {:user_id => visible}).group("id").having("COUNT(*) = ?", visible.length)
+    end  
   end 
 
   def hasNotLoggedIn
