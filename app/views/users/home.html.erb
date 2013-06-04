@@ -171,7 +171,7 @@
           <li><%= render 'shared/error_messages', object: f.object %></li>   
           
           <li>
-            <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
+            <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100" %>
           </li>
           <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
           
@@ -246,5 +246,5 @@
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", imagelink: "", color: randomColor() %> 
   </div>
 
-  <p><i>All icons courtesy of <a href="http://glyphicons.com/">Glyphicons</a></i></p>
+  
 <% end %> 
