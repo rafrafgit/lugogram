@@ -123,7 +123,7 @@
   <ul class="thumbnails">
     <li class="span3">
       <div class="thumbnail" style="border:0px;">
-        <img src="<%=current_user.getAvatarURL%>" width="64" height="64">
+        <img src="<%=current_user.getAvatarURL%>" width="48" height="48">
         <h4 style="text-align:center;">You</h4>
       </div>
     </li>
@@ -131,8 +131,16 @@
       <li class="span1"></li>
       <li class="span3">
         <div class="thumbnail" style="border:0px;">
-          <img src="<%=u.getAvatarURL%>" width="64" height="64">
-            <h4 style="text-align:center;"><%=u.name%></h4>               
+          <img src="<%=u.getAvatarURL%>" width="48" height="48">
+            <h4 style="text-align:center;"><%=u.name%></h4>   
+            <% if !@friends.include?(u) %>
+              <span style="text-align:center;">
+                <%= form_for u, url: {id: current_user.id, action: "invite"}, html: {method: :post} do |f| %>
+                  <%= f.hidden_field :email, value: u.email %>
+                  <%= f.submit "Add as a friend", class: "btn" %>
+                <% end %> 
+              </span>  
+            <% end %> 
         </div>
       </li>  
     <% end %>            
@@ -143,7 +151,7 @@
   </div>   
 <% end %>
 
-<div class="well sidebar-nav" style="border:0px">
+<div class="well sidebar-nav" style="background-color:white;">
   <div class="slideToggler2">
     <div class="nav nav-list">
       <li class="nav-header"><%= image_tag("glyphicons_010_envelope.png", size: "16x16")%> Compone new message <% if @visible_users.length > 0 %> to this group <% end %></li>
@@ -154,7 +162,7 @@
   <div class="slideContent2" style="display:none">
     <ul class="nav nav-list">  
       <% if @friends.length == 0 %>
-        <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. Add some!</span></li>
+        <li class="nav-header">You haven't added any friends yet. Add some!</li>
       <% else %>   
         <%= form_for(@micropost) do |f| %>  
           <%= f.hidden_field :filter, value: current_color %>
@@ -166,6 +174,7 @@
             <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
           </li>
           <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
+          
           <% if @visible_users.length == 0 %>
             <li class="nav-header">Visible to</li>
             <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
@@ -178,7 +187,12 @@
               </tr>            
                <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
             <% end %> 
-          <% end %>   
+          <% else %>
+              <%  @visible_users.each do |u| %>
+                <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/> 
+             <% end %> 
+          <% end %>  
+
           </table></li>
           <li style="margin-top:20px">
             <%= f.submit "Share", class: "btn btn-success" %>
@@ -189,7 +203,7 @@
     <% if @visible_users.length == 0 %>
       <hr>
       <ul class="nav nav-list"> 
-          <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Or Add a friend</li>  
+          <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add a friend</li>  
           <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
           <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
         <% end %> 

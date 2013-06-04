@@ -15,7 +15,7 @@ class UsersController < ApplicationController
         
       if visible_ids != nil
         visible_ids.each do |id|
-          @visible_users.push(User.find(id)) 
+          @visible_users.push(User.find(id)) unless current_user.id.to_s == id
         end
         @microposts = current_user.getVisiblePosts(@visible_users)    
       else
@@ -64,7 +64,6 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    @friend  = User.new(params[:friend])
     @friends = @user.getFriends
   end
 

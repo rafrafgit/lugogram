@@ -4,7 +4,7 @@
       $("<img>", {
           src: imageurl,
           error: function() { 
-            document.getElementById("user_avatar").value = "Avatar link is not working :( Try again or leave empty.";
+            alert("Avatar link is not working :( Try again or leave empty.");
           },
           load: function() { 
             
@@ -18,8 +18,8 @@
   <h4>Friends</h4>
     <% @friends.each do |u| %>
         <div class="row-fluid">
-          <div class="span2">
-            <%= image_tag(u.getAvatarURL, size: "48x48") %>
+          <div class="span4">
+            <%= image_tag(u.getAvatarURL, size: "24x24") %>
             <br/><%= u.name %>
           </div> 
           <div class="span2">
