@@ -36,7 +36,7 @@
 <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
   <div class="row-fluid">
     <div class="span2">         
-       <%= image_tag(micropost.user.getAvatarURL, :size => "48x48") %>   
+       <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
         <br/>
         <% if current_user?(micropost.user) %>
           <span style="font-size: 10px;color: black;">You</span>

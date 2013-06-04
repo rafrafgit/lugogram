@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
 
   def getAvatarURL
     if (self.avatar == nil or self.avatar.length == 0)
-      "/images/ninja-avatar-48x48.png"
+      "glyphicons_003_user.png"
     else
       avatar
     end

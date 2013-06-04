@@ -54,9 +54,15 @@ a.noline {
 }
 
 .textline {
-  font-size: 12px;
+  font-size: 1em;
   color: gray; 
 }
+
+.textline_big {
+  font-size: 3em;
+  color: gray; 
+}
+
 
 $grayMediumLight: #eaeaea;
 

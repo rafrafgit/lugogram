@@ -3,201 +3,227 @@
  
 <script>
       
-    $(document).ready(function() {
-      
-      $('#linkadd').click(function() {
-        $('#micropost_content').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100" onBlur="makeShort()"/></li>');
-        $('#linkadd').remove();
-      });
+  $(document).ready(function() {
+    
 
-      $('#imagelinkadd').click(function() {
-        $('#micropost_content').after('<li><input type="text" id="imageurl" name="imageurl" placeholder="www...link to image (experimental)" maxlength="100" onBlur="checkImage()"/></li>');
-        $('#imagelinkadd').remove(); 
-      });
-
-
-      $('#showSendMessage').click(function() {
-        $('#showSendMessage').remove();
-      });
-      
+    $('.slideToggler2').click(function(){
+      $('.slideContent2').slideToggle('slow');
+      $(this).toggleClass('slideSign2');
+      return false;
     });
-      
-    function showSendMessage(){
-      document.getElementById('sendMessage').setAttribute("class", "well sidebar-nav");
-      document.getElementById('addFriend').setAttribute("class", "well sidebar-nav");
-    }
     
+    $('.collaps2').click(function(){
+      $('.slideContent2').slideToggle('slow');
+      $('.slideToggler2').toggleClass('slideSign2');
+      return false;
+    });
+  
 
-    function buttonPress(userID){      
-      var friend_id = "friends[" + userID + "]";
-      var image_id = "image_"  + userID;
-      var name_id = "name_"  + userID;
-      //var select_id = "select_"  + userID;
 
-      var visible = document.getElementById(friend_id).value;
-      if(visible == "false"){        
-        document.getElementById(image_id).setAttribute("class", "avatar_selected");   
-        document.getElementById(name_id).setAttribute("class", "name_selected");
-       // document.getElementById(select_id).setAttribute("class", "avatar_selected");       
-        document.getElementById(friend_id).value = "true";
-      }else{ 
-        document.getElementById(image_id).setAttribute("class", "avatar");
-        document.getElementById(name_id).setAttribute("class", "name_unselected"); 
-       // document.getElementById(select_id).setAttribute("class", "avatar");
-        document.getElementById(friend_id).value = "false";
-      }  
-    }
+    $('#linkadd').click(function() {
+      $('#micropost_content').after('<li><input type="text" id="url" name="url" placeholder="www..." maxlength="100" onBlur="makeShort()"/></li>');
+      loadURLShortener();
+      $('#linkadd').remove();
+    });
+
+    $('#imagelinkadd').click(function() {
+      $('#micropost_content').after('<li><input type="text" id="imageurl" name="imageurl" placeholder="www...link to image (experimental)" maxlength="100" onBlur="checkImage()"/></li>');
+      $('#imagelinkadd').remove(); 
+    });
+
+
+    $('#showSendMessage').click(function() {
+      $('#showSendMessage').remove();
+    });
     
+  });
+    
+  function showSendMessage(){
+    document.getElementById('sendMessage').setAttribute("class", "well sidebar-nav");
+    
+  }
+  
 
-    function checkImage(){
-      var imageurl = document.getElementById("imageurl").value;
-      $("<img>", {
-          src: imageurl,
-          error: function() { 
-            document.getElementById("imageurl").value = "Image link is not working :(";
-          },
-          load: function() { 
-            document.getElementById("imageurl").value = "Image OK";
-            document.getElementById("micropost_imagelink").value = imageurl;
-          }
-      });
-    }
+  function buttonPress(userID){      
+    var friend_id = "friends[" + userID + "]";
+    var image_id = "image_"  + userID;
+    var name_id = "name_"  + userID;
+    //var select_id = "select_"  + userID;
 
+    var visible = document.getElementById(friend_id).value;
+    if(visible == "false"){        
+      document.getElementById(image_id).setAttribute("class", "avatar_selected");   
+      document.getElementById(name_id).setAttribute("class", "name_selected");
+     // document.getElementById(select_id).setAttribute("class", "avatar_selected");       
+      document.getElementById(friend_id).value = "true";
+    }else{ 
+      document.getElementById(image_id).setAttribute("class", "avatar");
+      document.getElementById(name_id).setAttribute("class", "name_unselected"); 
+     // document.getElementById(select_id).setAttribute("class", "avatar");
+      document.getElementById(friend_id).value = "false";
+    }  
+  }
+  
 
-    function makeShort() 
-    {
-       var longUrl=document.getElementById("url").value;
-       if (longUrl != null && longUrl.length > 0){
-          var request = gapi.client.urlshortener.url.insert({
-            'resource': {
-            'longUrl': longUrl
-          }
-          });
-          request.execute(function(response) 
-          {    
-              if(response.id != null){                
-
-                  document.getElementById("url").value = response.id;
-                  document.getElementById("micropost_weblink").value = response.id;
-              }
-          
-       
-          });
+  function checkImage(){
+    var imageurl = document.getElementById("imageurl").value;
+    $("<img>", {
+        src: imageurl,
+        error: function() { 
+          document.getElementById("imageurl").value = "Image link is not working :(";
+        },
+        load: function() { 
+          document.getElementById("imageurl").value = "Image OK";
+          document.getElementById("micropost_imagelink").value = imageurl;
         }
-     }
+    });
+  }
 
-     
-    function load()
-    {
-        //Get your own Browser API Key from  https://code.google.com/apis/console/
-        gapi.client.setApiKey('AIzaSyCF1DzfpTiMuzKk2TjudaZ-bPIPGjaL6NY');
-        gapi.client.load('urlshortener', 'v1',function(){});
-     
-    }
-    window.onload = load;
-     
-    </script>
-    <script src="https://apis.google.com/js/client.js"> </script>  
-       
-    
 
-  <div class="row-fluid">   
-    <div class="span4">
-      
-      
+  function makeShort() 
+  {
+     var longUrl=document.getElementById("url").value;
+     if (longUrl != null && longUrl.length > 0){
+        var request = gapi.client.urlshortener.url.insert({
+          'resource': {
+          'longUrl': longUrl
+        }
+        });
+        request.execute(function(response) 
+        {    
+            if(response.id != null){                
 
-      <div id="showSendMessage" class="well sidebar-nav visible-phone">
-        <div class="row-fluid"> 
-          <div class="span12 center"><button class="btn btn-success" href="#" onClick="showSendMessage();">Compose new message</button></div>
-        </div>
-      </div>
-
-      <div id="sendMessage" class="well sidebar-nav hidden-phone">
-          <ul class="nav nav-list">  
-            <% if @friends.length == 0 %>
-              <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. Add some!</span></li>
-            <% else %>   
-              <%= form_for(@micropost) do |f| %>  
-                <%= f.hidden_field :filter, value: current_color %>
-                <%= f.hidden_field :weblink %>
-                <%= f.hidden_field :imagelink %>
-                <li><%= render 'shared/error_messages', object: f.object %></li>   
-                <li class="nav-header">New Message</li>
-                <li>
-                  <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
-                </li>
-                <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
-                <li class="nav-header">Visible to</li>
-                <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
-                <tr><td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td></tr> 
-                <%  @friends.each do |u| %>          
-                   <%
-                    avatar_class = "avatar"
-                    name_class = "name_unselected"
-                    friend_value = "false"
-                    if @visible_users.include?(u)
-                      avatar_class = "avatar_selected"
-                      name_class = "name_selected"
-                      friend_value = "true"
-                    end  
-                   %>
-                   <tr>
-                    <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="<%=avatar_class%>" width="24" height="24"><span id="name_<%=u.id%>" class="<%=name_class%>"> <%= u.name %></span></a>
-                    </td>
-                  </tr>            
-                   <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="<%=friend_value%>"/> 
-                <% end %> 
-                </table></li>
-                <li style="margin-top:20px">
-                  <%= f.submit "Share", class: "btn btn-success" %>
-                </li>
-              <% end %> 
-            <% end %> 
-          </ul>
-        </div>
+                document.getElementById("url").value = response.id;
+                document.getElementById("micropost_weblink").value = response.id;
+            }
         
-        <div id="addFriend" class="well sidebar-nav hidden-phone">
-          <ul class="nav nav-list"> 
-              <li class="nav-header">Add friend</li>  
-              <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
-              <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add+", class: "btn" %></div></div>
-            <% end %> 
-          </ul>
-        </div>  
-    </div>    
+     
+        });
+      }
+   }
 
-    <div class="span8">
+   
+  function loadURLShortener()
+  {
+      //Get your own Browser API Key from  https://code.google.com/apis/console/
+      gapi.client.setApiKey('AIzaSyCF1DzfpTiMuzKk2TjudaZ-bPIPGjaL6NY');
+      gapi.client.load('urlshortener', 'v1',function(){});
+   
+  }
+  //window.onload = load;
+   
+</script>
+<script src="https://apis.google.com/js/client.js"> </script>  
+       
 
-      <% if @visible_users.length > 0 %>
-        <div class="well">
-          <table width="100%"><tr>
-              <td align="left"><%= image_tag("glyphicons_203_lock.png", size: "16x16")%><span class="textline"> Conversations visible to <img src="<%=current_user.getAvatarURL%>" width="24" height="24"> You,   
-              <% @visible_users.each do |u| %> 
-                   <img src="<%=u.getAvatarURL%>"  width="24" height="24"> <%=u.name%>  
-              <% end %></span>
-              </td><td align="right"><a href="<%=root_path%>"><%= image_tag("glyphicons_207_remove_2.png", style: "margin-left:30px;margin-right:10px;", size: "16x16")%></a></td>   
-         </tr></table> 
+
+<% if @visible_users.length > 0 %>
+<div class="well" style="background-color:white;">
+  <table width="100%" style="margin:0px"><tr><td>
+  <ul class="thumbnails">
+    <li class="span3">
+      <div class="thumbnail" style="border:0px;">
+        <img src="<%=current_user.getAvatarURL%>" width="64" height="64">
+        <h4 style="text-align:center;">You</h4>
+      </div>
+    </li>
+    <% @visible_users.each do |u| %> 
+      <li class="span1"></li>
+      <li class="span3">
+        <div class="thumbnail" style="border:0px;">
+          <img src="<%=u.getAvatarURL%>" width="64" height="64">
+            <h4 style="text-align:center;"><%=u.name%></h4>               
         </div>
-      <% end %>
+      </li>  
+    <% end %>            
+  </ul>
+  </td><td align="right" valign="top" style="margin-left:30px;margin-right:10px;">
+  <a href="<%=root_path%>"><%= image_tag("glyphicons_207_remove_2.png", style: "margin-left:30px;margin-right:10px;", size: "16x16")%></a>
+  </td></tr></table>  
+  </div>   
+<% end %>
+
+<div class="well sidebar-nav" style="border:0px">
+  <div class="slideToggler2">
+    <div class="nav nav-list">
+      <li class="nav-header"><%= image_tag("glyphicons_010_envelope.png", size: "16x16")%> Compone new message <% if @visible_users.length > 0 %> to this group <% end %></li>
+    </div>  
+  </div> 
 
 
-      <%  @microposts.each do |micropost| %> 
-        <div class="row-fluid">
-        <div class="span12">
-        <%= render micropost %>
-        </div> 
-       </div>  
-      <% end %>
-    </div>
+  <div class="slideContent2" style="display:none">
+    <ul class="nav nav-list">  
+      <% if @friends.length == 0 %>
+        <li><span style="font-size: 12px;color: black;">You haven't added any friends yet. Add some!</span></li>
+      <% else %>   
+        <%= form_for(@micropost) do |f| %>  
+          <%= f.hidden_field :filter, value: current_color %>
+          <%= f.hidden_field :weblink %>
+          <%= f.hidden_field :imagelink %>
+          <li><%= render 'shared/error_messages', object: f.object %></li>   
+          
+          <li>
+            <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100", autofocus: "true" %>
+          </li>
+          <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
+          <% if @visible_users.length == 0 %>
+            <li class="nav-header">Visible to</li>
+            <li><table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
+            <tr><td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td></tr> 
+ 
+            <%  @friends.each do |u| %>          
+               <tr>
+                <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
+                </td>
+              </tr>            
+               <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
+            <% end %> 
+          <% end %>   
+          </table></li>
+          <li style="margin-top:20px">
+            <%= f.submit "Share", class: "btn btn-success" %>
+          </li>
+        <% end %> 
+      <% end %> 
+    </ul>
+    <% if @visible_users.length == 0 %>
+      <hr>
+      <ul class="nav nav-list"> 
+          <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Or Add a friend</li>  
+          <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
+          <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
+        <% end %> 
+      </ul>
+    <% end %>
+  </div>
 </div>
+
+
+  
+
+  <div>
+    <%  @microposts.each do |micropost| %> 
+      <div class="row-fluid">
+      <div class="span12">
+      <%= render micropost %>
+      </div> 
+     </div>  
+    <% end %>
+  </div>
+
 
 <% else %>
 <div class="row-fluid"><div class="span12">  
   <div class="center hero-unit" style="background-color: #ffffff;">
       <h1>Private sharing: faster</h1>
-      <p>Private sharing the way it's suppose to be.</p>
-      <br/>
-      <p><%= link_to "Sign up now", signup_path, class: "btn btn-large btn-success" %></p> 
+      
+      <p>
+        All messages on Lugogram are private to and from your close friends. Not companies. Not ads. Not old school mates. 
+        The contents of messages are private forever (and will never be used to target adverticing).
+      </p>
+      </br>
+      <p>Its a lot like email but easier to use: Private sharing the way it's suppose to be.</p>
+      <p><%= link_to "Sign up now, it's free", signup_path, class: "btn btn-large btn-success" %></p> 
   </div>
 </div></div>
   <div class="row-fluid">
@@ -205,4 +231,6 @@
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', weblink: "", imagelink: "", color: randomColor() %>
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", imagelink: "", color: randomColor() %> 
   </div>
+
+  <p><i>All icons courtesy of <a href="http://glyphicons.com/">Glyphicons</a></i></p>
 <% end %> 
