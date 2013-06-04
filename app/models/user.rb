@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
     if other_users != nil
       visible = other_users.clone
       visible.push(self)
-      Micropost.joins(:eyes).where(:eyes => {:user_id => visible}).group("id").having("COUNT(*) = ?", visible.length)
+      Micropost.joins(:eyes).where(:eyes => {:user_id => visible}).group("microposts.id").having("COUNT(*) = ?", visible.length)
     end  
   end 
 
