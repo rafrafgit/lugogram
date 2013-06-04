@@ -10,7 +10,7 @@ class UserMailer < ActionMailer::Base
     @lugogram_imagelink = post.imagelink
     @lugogram_avatar = @user.getAvatarURL
     @lugogram_avatar = ""
-    if (@user.avatar == nil or @user.avatar.length == 0)
+    if (@user.avatar == nil or @user.avatar.empty? or @user.avatar.start_with?("/images"))
       @lugogram_avatar = url + @user.getAvatarURL
     else
       @lugogram_avatar = @user.getAvatarURL
