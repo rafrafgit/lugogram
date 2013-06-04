@@ -20,7 +20,8 @@
   <%      
         end 
       end  
-   %> 
+   %>
+<% end  %>     
   <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif" onclick="javascript: document.forms['form_<%=micropost.id%>'].submit();">
   <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
@@ -36,8 +37,10 @@
       </div>
       <div class="span6"> 
       <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
-      </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a>
-      <% if hasimage %></br></br></br></br></br></br><% end  %> 
+      <% if micropost.weblink != nil %>
+        </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a>
+      <% end  %>
+
       </div>
       <div class="span3 offset1">
       <% if visibility.length > 1 %>  
@@ -60,5 +63,7 @@
     </div>
   </div>
   </div>
+ <%  if visibility.include?(current_user) %>  
   </form>
-<% end  %>    
+  <% end  %> 
+   
