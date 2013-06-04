@@ -49,10 +49,14 @@
           
           <% visibility.each do |u|  %>  
             <% if u.id != micropost.user.id %>
-              <tr><td><%= image_tag(u.getAvatarURL, :size => "24x24") %></td>
+              
               <% if current_user.id == u.id %>
-                <td><span style="font-size: 10px;color: black;"> You</span></td></tr>
+                 <% if visibility.length > 2 %>
+                  <tr><td><%= image_tag(current_user.getAvatarURL, :size => "24x24") %></td>
+                  <td><span style="font-size: 10px;color: black;">You</span></td></tr> 
+                <% end %>
               <% else %>
+                 <tr><td><%= image_tag(u.getAvatarURL, :size => "24x24") %></td>
                 <td><span style="font-size: 10px;color: black;"><%= u.name %></span></td></tr>
               <% end %>
             <% end %>  

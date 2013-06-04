@@ -123,16 +123,16 @@
   <ul class="thumbnails">
     <li class="span3">
       <div class="thumbnail" style="border:0px;">
-        <img src="<%=current_user.getAvatarURL%>" width="48" height="48">
-        <h4 style="text-align:center;">You</h4>
+        <img src="<%=current_user.getAvatarURL%>" width="40" height="40">
+        <h5 style="text-align:center;">You</h5>
       </div>
     </li>
     <% @visible_users.each do |u| %> 
       <li class="span1"></li>
       <li class="span3">
         <div class="thumbnail" style="border:0px;">
-          <img src="<%=u.getAvatarURL%>" width="48" height="48">
-            <h4 style="text-align:center;"><%=u.name%></h4>   
+          <img src="<%=u.getAvatarURL%>" width="40" height="40">
+            <h5 style="text-align:center;"><%=u.name%></h5>   
             <% if !@friends.include?(u) %>
               <span style="text-align:center;">
                 <%= form_for u, url: {id: current_user.id, action: "invite"}, html: {method: :post} do |f| %>
@@ -173,6 +173,7 @@
           <li>
             <%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100" %>
           </li>
+
           <li class="nav-header" id="linkadd"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link </li>
           
           <% if @visible_users.length == 0 %>
