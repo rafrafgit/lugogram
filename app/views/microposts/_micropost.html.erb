@@ -8,59 +8,57 @@
   end 
  
   visibility = micropost.getVisibility() 
-  visible_names = "Visible to "
-  #visible_params = "/?"
-  visibility.each do |u|   
-    if current_user.id == u.id
-      visible_names += "You, "
-    else
-      visible_names += u.name + ", "
-      #visible_params += "ids[]=" + u.id.to_s() + "&"
-    end 
-  end  
-   
 %> 
 
 
-
-<form id="form_<%=micropost.id%>" action="/" method="get">
-<%  visibility.each do |u|   
-      if current_user.id != u.id
-%>
-        <input type="hidden" id="ids[]" name="ids[]" value="<%=u.id%>"/> 
-<%      
-      end 
-    end  
- %> 
-<div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif" onclick="javascript: document.forms['form_<%=micropost.id%>'].submit();">
-<div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-  <div class="row-fluid">
-    <div class="span2">         
-       <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
-        <br/>
-        <% if current_user?(micropost.user) %>
-          <span style="font-size: 10px;color: black;">You</span>
-        <% else  %>  
-          <span style="font-size: 10px;color: black;"><%= micropost.user.name %></span>
-        <% end  %>  
-        </br><span style="font-size: 10px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
-    </div>
-    <div class="span8"> 
-    <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
-    </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a>
-    </div>
-  </div>
-  <div class="row-fluid">  
-    <div class="span12" style="text-align:right;"> 
+<%  if visibility.include?(current_user) %> 
+  <form id="form_<%=micropost.id%>" action="/" method="get">
+  <%  visibility.each do |u|   
+        if current_user.id != u.id
+  %>
+          <input type="hidden" id="ids[]" name="ids[]" value="<%=u.id%>"/> 
+  <%      
+        end 
+      end  
+   %> 
+  <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif" onclick="javascript: document.forms['form_<%=micropost.id%>'].submit();">
+  <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
+    <div class="row-fluid">
+      <div class="span2">         
+         <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
+          
+          <% if current_user?(micropost.user) %>
+            <span style="font-size: 10px;color: black;"> You</span>
+          <% else  %>  
+            <span style="font-size: 10px;color: black;"> <%= micropost.user.name %></span>
+          <% end  %>  
+          </br><span style="font-size: 8px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
+      </div>
+      <div class="span6"> 
+      <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
+      </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a>
       <% if hasimage %></br></br></br></br></br></br><% end  %> 
-      </br>        
-          <% if visibility.length == 1 %>
-            <span style="font-size: 10px;color: black;">Private</span>  
-          <% else %>            
-            <span style="font-size: 10px;color: black;"><%= visible_names %></span>            
-        <% end %>
+      </div>
+      <div class="span3 offset1">
+      <% if visibility.length > 1 %>  
+       
+          <table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
+          
+          <% visibility.each do |u|  %>  
+            <% if u.id != micropost.user.id %>
+              <tr><td><%= image_tag(u.getAvatarURL, :size => "24x24") %></td>
+              <% if current_user.id == u.id %>
+                <td><span style="font-size: 10px;color: black;"> You</span></td></tr>
+              <% else %>
+                <td><span style="font-size: 10px;color: black;"><%= u.name %></span></td></tr>
+              <% end %>
+            <% end %>  
+          <% end %>
+        </table>
+      <% end %>      
+      </div>
     </div>
   </div>
-</div>
-</div>
-</form>
+  </div>
+  </form>
+<% end  %>    

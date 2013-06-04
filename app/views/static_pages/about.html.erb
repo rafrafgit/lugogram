@@ -1,4 +1,35 @@
-<h1>About</h1>
-<%= render 'shared/lugogram_message', avatar: 'https://api.heroku.com/images/v3/profile/ninja-avatar-48x48.png', name: 'Martin', message:'Messaging without reply', color: randomColor() %> 
-<br/>
-<p>Follow us on <a href="https://twitter.com/lugogram" target="_blank">twitter<a/></p>
+<h2>About Lugogram</h2>
+<p>
+All messages on Lugogram are private to and from your close friends. Not companies. Not ads. Not old school mates. 
+The contents of messages are private forever (and will never be used to target adverticing).
+</p>
+
+
+<h2>How does it work?</h2>
+<ul>
+	<li>Send private messages to anyone you know the email address of. This special someone will recieve an email with your message formated very nicely. Like this:</br><%= image_tag("welcome.png") %>
+	</li>
+	<li>In the web interface you can also click on a message to view all messages between you and the people that recieved that particular message. 
+	</li>
+</ul>
+
+
+<h4>Why is it better than Facebook?</h4>
+<p>
+It's all private and You only see messages from people that have addressed you specifically. 
+</p>
+
+<h4>Why is it better than Email?</h4>
+<p>
+Its simply much faster and much more beautiful way to send messages to your friends.
+</p>
+
+
+<p><%= link_to "Sign up now, it's free", signup_path, class: "btn btn-large btn-success" %></p>
+
+</br>
+<p>
+<%= image_tag("glyphicons_411_twitter.png") %> Follow us on <a href="https://twitter.com/lugogram" target="_blank">twitter</a>
+</p>
+
+<p><i>Thanks to <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for beautiful web pages and <a href="http://glyphicons.com/">Glyphicons</a> for beautiful icons</i></p>

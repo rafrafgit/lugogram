@@ -137,7 +137,7 @@
               <span style="text-align:center;">
                 <%= form_for u, url: {id: current_user.id, action: "invite"}, html: {method: :post} do |f| %>
                   <%= f.hidden_field :email, value: u.email %>
-                  <%= f.submit "Add as a friend", class: "btn" %>
+                  <%= f.submit "Add", class: "btn" %>
                 <% end %> 
               </span>  
             <% end %> 
@@ -203,7 +203,7 @@
     <% if @visible_users.length == 0 %>
       <hr>
       <ul class="nav nav-list"> 
-          <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add a friend</li>  
+          <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add somebody</li>  
           <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
           <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
         <% end %> 

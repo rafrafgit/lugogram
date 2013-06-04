@@ -8,14 +8,14 @@ Lugogram::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:show, :create, :destroy]
 
-  root to: 'users#home' #'static_pages#home'
+  root to: 'users#home'
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/login',   to: 'sessions#create'
   match '/signout', to: 'sessions#destroy'
-  match '/home',    to: 'users#home' #'static_pages#home'
-  #match '/about',   to: 'static_pages#about'
+  match '/home',    to: 'users#home'
+  match '/about',   to: 'static_pages#about'
   
 
   # The priority is based upon order of creation:
