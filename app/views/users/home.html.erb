@@ -232,26 +232,20 @@
 
 
 <% else %>
-<div class="row-fluid"><div class="span12">  
-  <div class="center hero-unit" style="background-color: #ffffff;">
-      <h1>Private sharing: faster</h1>
-      
-      <p>
-        All messages on Lugogram are private to and from your close friends. Not companies. Not ads. Not old school mates. 
-        The contents of messages are private forever (and will never be used to target adverticing).
-      </p>
-      </br>
-      <p>Its a lot like email but easier to use: Private sharing the way it's suppose to be.</p>
-      <p><%= link_to "Sign up now, it's free", signup_path, class: "btn btn-large btn-success" %></p> 
+  <div class="center hero-unit" style="background-color: #ffffff;margin-left:0px;margin-right:0px;">
+    <h1>Private sharing: faster</h1>     
+    <p>
+      All messages on Lugogram are private to and from your close friends. Not companies. Not ads. Not old school mates. 
+      The contents of messages are private forever (and will never be used to target adverticing).
+    </p>
+    </br>
+    <p>Its a lot like email but easier to use: Private sharing the way it's suppose to be.</p>
+    <p><%= link_to "Sign up now, it's free", signup_path, class: "btn btn-large btn-success" %></p> 
   </div>
-</div></div>
   <div class="row-fluid">
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Julia', time: "", visibility: "", message:'Thanks for the dinner yesterday, the food was fantastic!', weblink: "", imagelink: "", color: randomColor() %>
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', weblink: "", imagelink: "", color: randomColor() %>
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", imagelink: "", color: randomColor() %> 
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Martin', time: "", visibility: "", message:'Bootstrap link: http://twitter.github.io/bootstrap/components.html#thumbnails', weblink: "", imagelink: "", color: randomColor() %>
-
   </div>
-
-  
 <% end %> 

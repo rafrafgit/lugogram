@@ -16,23 +16,24 @@
 <div class="well">
 <% if @friends.length !=0 %>
   <h4>People you know</h4>
+  <ul class="nav nav-list">
     <% @friends.each do |u| %>
-        <div class="row-fluid">
+        <li><div class="row-fluid">
           <div class="span4">
-            <%= image_tag(u.getAvatarURL, size: "24x24") %>
-            <br/><%= u.name %>
+            <%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %>
           </div> 
           <div class="span2">
           <%= button_to "Remove", {friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %>    
           </div> 
-      </div> 
+      </div><li> 
     <% end %>
-  <% end %>
-  <hr>
-  <ul class="nav nav-list"> 
-      <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add somebody</li>  
-      <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
-      <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
+  </ul>
+<% end %>
+<hr>
+<ul class="nav nav-list"> 
+  <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add somebody</li>  
+    <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
+      <div class="row-fluid"><div class="span4"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
     <% end %> 
   </ul>
 </div>

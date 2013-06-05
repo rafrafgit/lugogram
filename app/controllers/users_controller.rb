@@ -137,7 +137,7 @@ class UsersController < ApplicationController
       # Send welcome message from Lugogram Staff:
       admin = User.find(1)
       welcome_message = admin.microposts.build()
-      welcome_message.content = "Welcome to Lugogram " + user.name + " !"
+      welcome_message.content = "Welcome to Lugogram " + user.name + "!"
       welcome_message.filter = '#DD4124'
       admin.share(welcome_message, [user])
     end  

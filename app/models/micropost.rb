@@ -3,7 +3,7 @@ class Micropost < ActiveRecord::Base
   belongs_to :user
   has_many :eyes, foreign_key: "micropost_id", dependent: :destroy
 
-  validates :content, presence: true, length: { maximum: 100 }
+  validates :content, presence: true, length: { minimum: 1, maximum: 100 }
   validates :user_id, presence: true
   
   default_scope order: 'microposts.created_at DESC'
