@@ -1,7 +1,13 @@
 @import "bootstrap";
 @import "bootstrap-responsive";
 
-
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
 
 .invisible {
   visibility:hidden;
@@ -24,7 +30,8 @@
   color: gray;
 }
 
-.avatar {
+.avatar_unselected {
+  opacity:0.4;
   border:4px;
   border-style:solid;
   border-color:#eaeaea;
@@ -38,7 +45,7 @@
   border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4;
 }
 
-.avatar_visible {
+.avatar_with_border {
   border:4px;
   border-style:solid;
   border-color:black;

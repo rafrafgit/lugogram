@@ -15,7 +15,7 @@
 
 <div class="well">
 <% if @friends.length !=0 %>
-  <h4>People</h4>
+  <h4>People you know</h4>
     <% @friends.each do |u| %>
         <div class="row-fluid">
           <div class="span4">
@@ -28,6 +28,13 @@
       </div> 
     <% end %>
   <% end %>
+  <hr>
+  <ul class="nav nav-list"> 
+      <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add somebody</li>  
+      <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
+      <div class="row-fluid"><div class="span6"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
+    <% end %> 
+  </ul>
 </div>
 <div class="well">
 <h4>Settings</h4>

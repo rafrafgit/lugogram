@@ -64,6 +64,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    @friend  = User.new()
     @friends = @user.getFriends
   end
 

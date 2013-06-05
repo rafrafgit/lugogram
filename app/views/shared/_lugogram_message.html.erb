@@ -10,17 +10,17 @@
 
 <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif">
    <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-top: 10px;margin-bottom: 10px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
-    <table><tr>
-      <td>
+    <div style="float:left"> 
         <%= image_tag(avatar, :size => "24x24") %>
-        <br/><p style="font-size: 10px;color: black;"><%= name %></p>
-      </td>
-      <td colspan-"2"> 
-        <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;margin-left:10px;"><%= message %></h1>
-        </br><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align: center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= auto_link(weblink) %></h2>
-      </td>
-      <td style="margin-right:10px;"></td> 
-    </tr></table>  
+        <br/><p style="font-size: 10px;color: black;"><%= name %></p><br/>
+     </div> 
+     <div>
+        <h1 class="wordwrap" style="font-size: 24px;font-weight: 200;line-height:1;text-align: center;white-space: pre-wrap;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;margin-left:10px;"><%= auto_link(message) %></h1>        
+        <% if weblink != nil and weblink.length > 0 %>
+          </br><a href="<%= weblink %>" taget="_blank"><h2 style="font-size: 16px;font-weight: 200;line-height:1;text-align:center;white-space: pre-wrap;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= weblink %></h2></a></br>
+        <% end  %>
+      <br/>
+      </div>    
     <% if hasimage %></br></br></br></br></br></br><% end %> 
   </div>
 </div>

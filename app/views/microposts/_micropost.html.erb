@@ -36,9 +36,9 @@
           </br><span style="font-size: 8px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
       </div>
       <div class="span6"> 
-      <h1 style="font-size: 32px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.content %></h1>
+      <h1 class="wordwrap" style="font-size: 2em;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.content) %></h1>
       <% if micropost.weblink != nil %>
-        </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a>
+        </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;white-space: pre-wrap;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a></br>
       <% end  %>
 
       </div>

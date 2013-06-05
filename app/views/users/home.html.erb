@@ -57,7 +57,7 @@
      // document.getElementById(select_id).setAttribute("class", "avatar_selected");       
       document.getElementById(friend_id).value = "true";
     }else{ 
-      document.getElementById(image_id).setAttribute("class", "avatar");
+      document.getElementById(image_id).setAttribute("class", "avatar_unselected");
       document.getElementById(name_id).setAttribute("class", "name_unselected"); 
      // document.getElementById(select_id).setAttribute("class", "avatar");
       document.getElementById(friend_id).value = "false";
@@ -119,19 +119,25 @@
 
 <% if @visible_users.length > 0 %>
 <div class="well" style="background-color:white;">
-  <table width="100%" style="margin:0px"><tr><td>
+  
+  <div class="row-fluid">
+      <div class="span12">        
+        <a href="<%=root_path%>"><%= image_tag("glyphicons_207_remove_2.png", style: "margin-left:20px;", size: "16x16")%></a>
+      </div>  
+      
+  </div>
+  
   <ul class="thumbnails">
-    <li class="span3">
-      <div class="thumbnail" style="border:0px;">
+    <li class="span4">
+      <div class="thumbnail" style="margin:0px;border:0px;">
         <img src="<%=current_user.getAvatarURL%>" width="40" height="40">
         <h5 style="text-align:center;">You</h5>
       </div>
     </li>
     <% @visible_users.each do |u| %> 
-      <li class="span1"></li>
-      <li class="span3">
-        <div class="thumbnail" style="border:0px;">
-          <img src="<%=u.getAvatarURL%>" width="40" height="40">
+      <li class="span4">
+        <div class="thumbnail" style="margin:0px;border:0px;">
+          <img  src="<%=u.getAvatarURL%>" width="40" height="40">
             <h5 style="text-align:center;"><%=u.name%></h5>   
             <% if !@friends.include?(u) %>
               <span style="text-align:center;">
@@ -145,9 +151,7 @@
       </li>  
     <% end %>            
   </ul>
-  </td><td align="right" valign="top" style="margin-left:30px;margin-right:10px;">
-  <a href="<%=root_path%>"><%= image_tag("glyphicons_207_remove_2.png", style: "margin-left:30px;margin-right:10px;", size: "16x16")%></a>
-  </td></tr></table>  
+  
   </div>   
 <% end %>
 
@@ -183,7 +187,7 @@
  
             <%  @friends.each do |u| %>          
                <tr>
-                <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
+                <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
                 </td>
               </tr>            
                <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
@@ -245,6 +249,8 @@
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Julia', time: "", visibility: "", message:'Thanks for the dinner yesterday, the food was fantastic!', weblink: "", imagelink: "", color: randomColor() %>
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Lisa', time: "", visibility: "", message:'We are leaving for the pizza place now, feel free to join.', weblink: "", imagelink: "", color: randomColor() %>
   <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Ben', time: "", visibility: "", message:'Dont forget the milk!', weblink: "", imagelink: "", color: randomColor() %> 
+  <%= render 'shared/lugogram_message', avatar: defaultAvatar, name: 'Martin', time: "", visibility: "", message:'Bootstrap link: http://twitter.github.io/bootstrap/components.html#thumbnails', weblink: "", imagelink: "", color: randomColor() %>
+
   </div>
 
   

@@ -3,18 +3,23 @@ class MicropostsController < ApplicationController
   before_filter :correct_user ,   only: :destroy
 
   def create   
-   friends_params = params[:friends]
-   post = current_user.microposts.build(params[:micropost])
-   users = []
-   if friends_params != nil
-     friends_params.each do |key, value|
-      if value != nil && value == "true"
-        users.push(User.find(key))
+    friends_params = params[:friends]
+    post = current_user.microposts.build(params[:micropost])
+    users = []
+    if friends_params != nil
+      friends_params.each do |key, value|
+        if value != nil && value == "true"
+          users.push(User.find(key))
+        end
       end
-     end
-   end  
-   current_user.share(post, users) 
-   redirect_to root_url
+    end  
+    current_user.share(post, users) 
+   
+    url = root_url + "/?"
+    post.getVisibility().each do |u| 
+       url += "ids[]=" + u.id.to_s() + "&"
+    end
+    redirect_to url
   end
 
   def destroy
