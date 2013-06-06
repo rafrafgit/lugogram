@@ -200,7 +200,7 @@
           
           <li>
             <div class="row-fluid">
-              <div class="span6"><%= f.text_field :content, placeholder: "Dont forget to buy milk!", maxlength: "100" %></div>
+              <div class="span6"><%= f.text_area :content, rows: "2", placeholder: "Dont forget to buy milk!", maxlength: "100" %></div>
             </div>   
           </li>
 
@@ -222,7 +222,8 @@
  
             <%  @friends.each do |u| %>          
                <tr>
-                <td><a class="noline" href="#" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></a>
+                <td>
+                  <div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div>
                 </td>
               </tr>            
                <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 

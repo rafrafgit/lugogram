@@ -59,14 +59,13 @@ module SessionsHelper
     turquoise = '#45B8AC'
     mimosa = '#EFC050'
     izis = '#5B5EA6'
-    chili = '#9B2335'
     sand = '#DFCFBE'
     tigerlily = '#E15D44'
     aqua = '#7FCDCD'
-    fuchsia = '#C3447A'
+    fuchsia = '#C3447A' 
     cerulean = '#98B4D4'
  
-    colors = [emerald, tangerine, honeysuckle, turquoise, mimosa, izis, chili, sand, tigerlily, aqua, fuchsia, cerulean]
+    colors = [emerald, tangerine, honeysuckle, turquoise, mimosa, izis, sand, tigerlily, aqua, fuchsia, cerulean]
     colors[rand(colors.length)]
   end
   

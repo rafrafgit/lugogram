@@ -25,6 +25,7 @@
   <div class="cuteEmail" style="font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif" onclick="javascript: document.forms['form_<%=micropost.id%>'].submit();">
   <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
+      
       <div class="span2">         
          <% if micropost.user.hasDefaultAvatar? %>
           <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
@@ -37,23 +38,14 @@
           <% else  %>  
             <span style="font-size: 10px;color: black;"> <%= micropost.user.name %></span>
           <% end  %>  
-          </br><span style="font-size: 8px;color: black;"><%= time_ago_in_words(micropost.created_at) %> ago</span>
+          <span style="font-size: 8px;color: black;"> <%= time_ago_in_words(micropost.created_at) %> ago</span>
       </div>
-      <div class="span6"> 
-      <h1 class="wordwrap" style="font-size: 2em;font-weight: 200;line-height:1;text-align:center;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.content) %></h1>
-      <% if micropost.weblink != nil %>
-        </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;text-align:center;white-space: pre-wrap;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a></br>
-      <% end  %>
 
-      </div>
-      <div class="span3 offset1">
-      <% if visibility.length > 1 %>  
-       
-          <table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">
-          
+      <div class="span3">
+      <% if visibility.length > 1 %>         
+          <table style="margin-top:0px;margin-bottom:0px;white-space:nowrap;">         
           <% visibility.each do |u|  %>  
-            <% if u.id != micropost.user.id %>
-              
+            <% if u.id != micropost.user.id %>              
               <% if current_user.id == u.id %>
                  <% if visibility.length > 2 %>
                   <tr><td>
@@ -66,8 +58,7 @@
                   <td><span style="font-size: 10px;color: black;">You</span></td></tr> 
                 <% end %>
               <% else %>
-                 <tr><td>
-                  
+                 <tr><td>                  
                   <% if u.hasDefaultAvatar? %>
                     <%= image_tag(u.getAvatarURL, :size => "24x24") %>   
                   <% else %>
@@ -79,8 +70,17 @@
             <% end %>  
           <% end %>
         </table>
+        </br>
       <% end %>      
       </div>
+
+      <div class="span7"> 
+        <h1 class="wordwrap" style="font-size: 2em;font-weight: 200;line-height:1;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= auto_link(micropost.content) %></h1>
+        <% if micropost.weblink != nil %>
+          </br><a href="<%= micropost.weblink %>" taget="_blank"><h2 style="font-size: 18px;font-weight: 200;line-height:1;white-space: pre-wrap;color: black;padding: 0px;margin-top:0px;margin-bottom:0px;"><%= micropost.weblink %></h2></a></br>
+        <% end  %>
+      </div>
+
     </div>
   </div>
   </div>
