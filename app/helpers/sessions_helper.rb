@@ -22,7 +22,7 @@ module SessionsHelper
   end 
 
   def defaultAvatar
-    "glyphicons_003_user.png"
+    "/images/glyphicons_003_user.png"
   end
 
   def signed_in_user

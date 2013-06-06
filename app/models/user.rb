@@ -33,8 +33,12 @@ class User < ActiveRecord::Base
     end   
   end  
 
+  def hasDefaultAvatar?
+    self.avatar == nil or self.avatar.length == 0
+  end
+      
   def getAvatarURL
-    if (self.avatar == nil or self.avatar.length == 0)
+    if hasDefaultAvatar?
       "/images/glyphicons_003_user.png"
     else
       avatar

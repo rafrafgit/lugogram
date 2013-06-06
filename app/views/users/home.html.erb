@@ -144,14 +144,24 @@
   <ul class="thumbnails">
     <li class="span4">
       <div class="thumbnail" style="margin:0px;border:0px;">
-        <img src="<%=current_user.getAvatarURL%>" width="40" height="40">
+        <% if current_user.hasDefaultAvatar? %>
+          <%= image_tag(current_user.getAvatarURL, :size => "40x40") %>   
+        <% else %>
+          <%= image_tag(current_user.getAvatarURL, :size => "40x40", class: "avatar_with_border") %> 
+        <% end %>
         <h5 style="text-align:center;">You</h5>
       </div>
     </li>
     <% @visible_users.each do |u| %> 
       <li class="span4">
         <div class="thumbnail" style="margin:0px;border:0px;">
-          <img  src="<%=u.getAvatarURL%>" width="40" height="40">
+          
+          <% if u.hasDefaultAvatar? %>
+            <%= image_tag(u.getAvatarURL, :size => "40x40") %>   
+          <% else %>
+            <%= image_tag(u.getAvatarURL, :size => "40x40", class: "avatar_with_border") %> 
+          <% end %>
+
             <h5 style="text-align:center;"><%=u.name%></h5>   
             <% if !@friends.include?(u) %>
               <span style="text-align:center;">
@@ -172,7 +182,7 @@
 <div class="well sidebar-nav" style="background-color:white;">
   <div class="slideToggler2">
     <div class="nav nav-list">
-      <li class="nav-header"><%= image_tag("glyphicons_010_envelope.png", size: "16x16")%> Compone new message <% if @visible_users.length > 0 %> to this group <% end %></li>
+      <li class="nav-header"><%= image_tag("glyphicons_010_envelope.png", size: "16x16")%> Compose new message <% if @visible_users.length > 0 %> to this group <% end %></li>
     </div>  
   </div> 
 

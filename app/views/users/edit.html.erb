@@ -1,17 +1,34 @@
 <script>
+    function loadDropBoxListener(){
+    document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
+        function(e) {
+            var fulllink =  e.files[0].link;
+            var thumbnail = e.files[0].thumbnails["64x64"];
+            document.getElementById("user_avatar").value = thumbnail;
+            checkImage();
+        }, false);
+    }   
+
     function checkImage(){
       var imageurl = document.getElementById("user_avatar").value;
-      $("<img>", {
-          src: imageurl,
-          error: function() { 
-            alert("Avatar link is not working :( Try again or leave empty.");
-          },
-          load: function() { 
-            
-          }
-      });
+      if (imageurl.length == 0){
+        document.getElementById("avatar_preview").src = "<%=defaultAvatar%>";
+      }else{
+        $("<img>", {
+            src: imageurl,
+            error: function() { 
+              alert("Avatar link is not working :( Try again or leave empty.");
+            },
+            load: function() { 
+              document.getElementById("avatar_preview").src = imageurl;
+            }
+        });
+      }
     }
+
+    window.onload = loadDropBoxListener;
 </script>
+<script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="s0y1a8bft03ts1x"></script> 
 
 <div class="well">
 <% if @friends.length !=0 %>
@@ -50,7 +67,12 @@
   <%= f.text_field :email %>
 
   <%= f.label :avatar %>
-  <%= f.text_field :avatar, placeholder: "www...link to image", onBlur: "checkImage()" %>
+  <div class="row-fluid">
+  <div class="span4"><%= f.text_field :avatar, placeholder: "www...link to image (or leave empty)", onBlur: "checkImage()" %></div> 
+  <div class="span2"><input type="dropbox-chooser" name="selected-file" id="db-chooser" data-link-type="direct" /></div>  
+  <div class="span2">Preview: <img id="avatar_preview" src="<%=current_user.getAvatarURL()%>" size="24x24" /></div>
+  
+  </div> 
 
   <%= f.label :password %>
   <%= f.password_field :password %>

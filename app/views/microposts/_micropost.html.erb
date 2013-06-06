@@ -26,8 +26,12 @@
   <div class="messageBox" style="<%=styling%>;border-color: gray;padding: 30px;margin-bottom: 20px;border-radius: 4px;-moz-border-radius: 4px;-webkit-border-radius: 4px">
     <div class="row-fluid">
       <div class="span2">         
-         <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
-          
+         <% if micropost.user.hasDefaultAvatar? %>
+          <%= image_tag(micropost.user.getAvatarURL, :size => "24x24") %>   
+         <% else %>
+          <%= image_tag(micropost.user.getAvatarURL, :size => "24x24", class: "avatar_with_border") %> 
+         <% end %>
+
           <% if current_user?(micropost.user) %>
             <span style="font-size: 10px;color: black;"> You</span>
           <% else  %>  
@@ -52,11 +56,24 @@
               
               <% if current_user.id == u.id %>
                  <% if visibility.length > 2 %>
-                  <tr><td><%= image_tag(current_user.getAvatarURL, :size => "24x24") %></td>
+                  <tr><td>
+                    <% if current_user.hasDefaultAvatar? %>
+                      <%= image_tag(current_user.getAvatarURL, :size => "24x24") %>   
+                    <% else %>
+                      <%= image_tag(current_user.getAvatarURL, :size => "24x24", class: "avatar_with_border") %> 
+                   <% end %>
+                  </td>
                   <td><span style="font-size: 10px;color: black;">You</span></td></tr> 
                 <% end %>
               <% else %>
-                 <tr><td><%= image_tag(u.getAvatarURL, :size => "24x24") %></td>
+                 <tr><td>
+                  
+                  <% if u.hasDefaultAvatar? %>
+                    <%= image_tag(u.getAvatarURL, :size => "24x24") %>   
+                  <% else %>
+                    <%= image_tag(u.getAvatarURL, :size => "24x24", class: "avatar_with_border") %> 
+                 <% end %>
+                </td>
                 <td><span style="font-size: 10px;color: black;"><%= u.name %></span></td></tr>
               <% end %>
             <% end %>  
