@@ -1,15 +1,7 @@
 <script>
-    function loadDropBoxListener(){
-    document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
-        function(e) {
-            var fulllink =  e.files[0].link;
-            var thumbnail = e.files[0].thumbnails["64x64"];
-            document.getElementById("user_avatar").value = thumbnail;
-            checkImage();
-        }, false);
-    }   
+    
 
-    function checkImage(){
+    function checkImageURL(){
       var imageurl = document.getElementById("user_avatar").value;
       if (imageurl.length == 0){
         document.getElementById("avatar_preview").src = "<%=defaultAvatar%>";
@@ -26,34 +18,10 @@
       }
     }
 
-    window.onload = loadDropBoxListener;
+   
 </script>
-<script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="s0y1a8bft03ts1x"></script> 
 
-<div class="well">
-<% if @friends.length !=0 %>
-  <h4>People you know</h4>
-  <ul class="nav nav-list">
-    <% @friends.each do |u| %>
-        <li><div class="row-fluid">
-          <div class="span4">
-            <%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %>
-          </div> 
-          <div class="span2">
-          <%= button_to "Remove", {friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %>    
-          </div> 
-      </div><li> 
-    <% end %>
-  </ul>
-<% end %>
-<hr>
-<ul class="nav nav-list"> 
-  <li class="nav-header"><%= image_tag("glyphicons_006_user_add.png", size: "16x16")%> Add somebody</li>  
-    <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
-      <div class="row-fluid"><div class="span4"><%= f.email_field :email, placeholder: "Email" %></div><div class="span2"><%= f.submit "Add", class: "btn" %></div></div>
-    <% end %> 
-  </ul>
-</div>
+
 <div class="well">
 <h4>Settings</h4>
 
@@ -68,9 +36,8 @@
 
   <%= f.label :avatar %>
   <div class="row-fluid">
-  <div class="span4"><%= f.text_field :avatar, placeholder: "www...link to image (or leave empty)", onBlur: "checkImage()" %></div> 
-  <div class="span2"><input type="dropbox-chooser" name="selected-file" id="db-chooser" data-link-type="direct" /></div>  
-  <div class="span2">Preview: <img id="avatar_preview" src="<%=current_user.getAvatarURL()%>" size="24x24" /></div>
+  <div class="span6"><%= f.text_field :avatar, placeholder: "www...link to image (or leave empty)", onBlur: "checkImageURL()" %></div> 
+  <div class="span2"><%= image_tag(current_user.getAvatarURL, :id => "avatar_preview", :size => "30x30") %></div>
   
   </div> 
 
@@ -84,6 +51,8 @@
 <% end %>
 
 <br/>
+<%= link_to "Sign Out", signout_path, method: "delete" %>
+<br/><br/>
 <%= link_to "Delete my account", @user, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: @user.name %>

@@ -24,11 +24,24 @@ class UsersController < ApplicationController
     end  
   end
 
+  def edit
+    @micropost = current_user.microposts.build #remove later
+    
+    @user = User.find(params[:id])
+    @friend  = User.new()
+    @friends = @user.getFriends
+  end
+
   def show
     @user = User.find(params[:id])
   end
 
   def index
+    @micropost = current_user.microposts.build #remove later
+    @friend  = User.new() #remove later
+    @friends = current_user.getFriends #remove later
+    @visible_users = [] #remove later
+
     @users = User.all
   end
 
@@ -57,26 +70,20 @@ class UsersController < ApplicationController
         flash[:success] = "Welcome to Lugogram! " + @user.name
         redirect_to root_url
       else
-        render 'new'
+        edit
       end
     end
   end
 
-  def edit
-    @user = User.find(params[:id])
-    @friend  = User.new()
-    @friends = @user.getFriends
-  end
+  
 
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:success] = "Profile updated"
       sign_in @user
-      redirect_to root_url
-    else
-      render 'edit'
+      flash[:success] = "Profile updated"
     end
+    redirect_to root_url
   end
 
   def destroy
