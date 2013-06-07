@@ -178,19 +178,6 @@ input {
 }
 
 
-/* microposts */
-
-.microposts {
-  list-style: none;
-
-  li {
-    padding: 0px 0;
-  }
-}
-.content {
-  display: block;
-  background-color : pink;
-}
 .timestamp {
   color: $grayLight;
 }
@@ -199,4 +186,11 @@ input {
   a:link {text-decoration: underline; color: black }
   a:visited {text-decoration: underline; color: black }
   a:hover {text-decoration: underline}
+}
+
+
+@media (max-width: 767px) {
+  #content .modal.fade.in {
+    top: 5%;
+  }
 }
