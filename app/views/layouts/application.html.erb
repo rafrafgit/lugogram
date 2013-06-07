@@ -6,20 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Lugogram</title> 
-    <%= javascript_include_tag "application" %>
     <%= favicon_link_tag %>
+    <%= javascript_include_tag "application" %>
+    <script type="text/javascript" src="https://apis.google.com/js/client.js"> </script>  
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="s0y1a8bft03ts1x"></script>       
 
     <script>
       
-  $(document).ready(function() {
-    
-    $('#tooltip').click(function(){
-      $('#tooltip').remove(); 
-      $.cookie("tip_reply_read", "true", { expires: 7 }); 
-      return false;
+    $(document).ready(function() {
+      
+      $('#tooltip').click(function(){
+        $('#tooltip').remove(); 
+        $.cookie("tip_reply_read", "true", { expires: 7 }); 
+        return false;
+      });
+      
     });
-    
-  });
     
 
 
@@ -75,21 +77,10 @@
       }
     }
 
-  function loadDropBoxListener(){   
-    document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
-        function(e) {
-            makeShort(e.files[0].link);
-        }, false);
-    }          
 
-  
-  function makeShortFromTextInput(){
-    var longUrl = document.getElementById("url").value;
-    makeShort(longUrl); 
-  }
-
-  function makeShort(longUrl) {      
-     if (longUrl != null && longUrl.length > 0){
+  function makeShort() {       
+    var longUrl = document.getElementById("url").value;      
+    if (longUrl != null && longUrl.length > 0){
         var request = gapi.client.urlshortener.url.insert({
           'resource': {
           'longUrl': longUrl
@@ -99,33 +90,44 @@
             if(response.id != null){                
                 document.getElementById("url").value = response.id;
                 document.getElementById("micropost_weblink").value = response.id;
+                
+            }else{
+              //alert('urlshorten failed');              
+              document.getElementById("micropost_weblink").value = longUrl; 
             }
         });
       }
    }
 
-   
+  function loadDropBoxListener(){   
+    document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
+      function(e) {
+          document.getElementById("url").value = e.files[0].link;
+      }, false);
+  } 
+
   function loadURLShortener(){
       //Get your own Browser API Key from  https://code.google.com/apis/console/
       gapi.client.setApiKey('AIzaSyCF1DzfpTiMuzKk2TjudaZ-bPIPGjaL6NY');
       gapi.client.load('urlshortener', 'v1',function(){});
-   
+      
   }
 
-  function load(){
-    loadDropBoxListener;
-    loadURLShortener(); 
+  function loadToolTip(){
     var checkedToolTip = $.cookie("tip_reply_read");
     if (checkedToolTip == null){
       $('#tooltip').append('<div id="alert" class="alert alert-info"><div id="tooltipDismiss" type="button" class="close">&times;</div><strong>Tip: </strong> Click on a message to reply</div>');
     }
   }
+
+  function load(){
+    loadDropBoxListener();
+    loadURLShortener(); 
+    loadToolTip();
+  }
   window.onload = load;
    
 </script>
-<script src="https://apis.google.com/js/client.js"> </script>  
-<script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="s0y1a8bft03ts1x"></script>       
-
 
 </head>
 <body>
@@ -140,51 +142,53 @@
   </div>
   <div class="modal-body">
     <ul class="nav nav-list">  
-      
-        
-          <%= f.hidden_field :filter, value: current_color %>
-          <%= f.hidden_field :weblink %>
-          <%= f.hidden_field :imagelink %>
-          <li><%= render 'shared/error_messages', object: f.object %></li>   
-          <li class="nav-header">Message</li>
-          <li>
-            <%= f.text_area :content, rows: "2", placeholder: "Dont forget to buy milk!", maxlength: "100" %>
-          </li>
+         
+      <%= f.hidden_field :filter, value: current_color %>
+      <%= f.hidden_field :weblink %>
+      <%= f.hidden_field :imagelink %>
+      <li><%= render 'shared/error_messages', object: f.object %></li>   
+      <li class="nav-header">Message</li>
+      <li>
+        <%= f.text_area :content, rows: "2", placeholder: "Dont forget to buy milk!", maxlength: "100" %>
+      </li>
 
-          <li class="nav-header" >
-            <div class="row-fluid">
-              <div class="span8"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link (optional)</div>
-              <div class="span4"><input type="dropbox-chooser" name="selected-file" id="db-chooser" /></div>  
-            </div>
-            <input type="text" id="url" name="url" placeholder="www..." maxlength="100" onBlur="makeShortFromTextInput()"/>
-          <li>
-            
-          
-          <% if @visible_users == nil or @visible_users.empty? %>
-            <li class="nav-header">Visible to</li>
-            <li>
-              <div class="row-fluid">
-              <div class="span2"><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"></div>
-              <div class="span10"><span class="name_selected"> You</span></div>
-              </div> 
-            <%  @friends.each do |u| %>          
-              <div class="row-fluid">
-              <div class="span2" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"></div>
-              <div class="span10"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div>                   
-              <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
-               </div>
-            <% end %>
-            </li> 
-          <% else %>
-              <%  @visible_users.each do |u| %>
-                <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/> 
-             <% end %> 
-          <% end %>           
+      <li class="nav-header" >
+        <div class="row-fluid">
+          <div class="span6"><%= image_tag("glyphicons_050_link.png", size: "16x16")%> Add link (optional)</div>
+          <div class="span6"><input type="dropbox-chooser" name="selected-file" id="db-chooser" /></div>  
+        </div>
+        <div class="row-fluid">
+          <div class="span10"><input type="text" id="url" name="url" placeholder="www..." maxlength="100" /></div>
+          <div class="span2"><button class="btn" type="button" onClick="makeShort()">Shorten</button></div>
+        </div>  
+      <li>
+        
+      
+      <% if @visible_users == nil or @visible_users.empty? %>
+        <li class="nav-header">Visible to</li>
+        <li>
+          <div class="row-fluid">
+          <div class="span2"><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"></div>
+          <div class="span10"><span class="name_selected"> You</span></div>
+          </div> 
+        <%  @friends.each do |u| %>          
+          <div class="row-fluid">
+          <div class="span2" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"></div>
+          <div class="span10"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div>                   
+          <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
+           </div>
+        <% end %>
+        </li> 
+      <% else %>
+          <%  @visible_users.each do |u| %>
+            <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/> 
+         <% end %> 
+      <% end %>           
 
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <%= f.submit "Share", class: "btn btn-success" %>
+    <%=f.submit "Share", class: "btn btn-success" %>
   </div>
   <% end %> 
 </div>
@@ -247,8 +251,6 @@
     <%= f.label :password_confirmation, "Confirm Password" %>
     <%= f.password_field :password_confirmation %>
 
-
-
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -274,9 +276,7 @@
         <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
-              
-              <%= link_to "lugogram (beta)", root_path, class: "brand" %>
-              
+              <%= link_to "lugogram (beta)", root_path, class: "brand" %>             
               <% if signed_in? %>
                 <ul class="nav pull-right">    
                   <li><a href="#newMessage" role="button" data-toggle="modal"><%= image_tag("glyphicons_010_envelope.png", :size => "28x28") %></a></li>               
@@ -295,11 +295,10 @@
                     <li><%= link_to "Sign in", signin_path %></li>
                   </ul>
              <% end %>
-
             </div>
           </div>
         </div>
-        <div class="visible-desktop" style="padding-top: 60px;"></div>  
+        <div class="visible-desktop" style="padding-top: 90px;"></div>  
       </div>
       <div class="row-fluid"> 
       <div class="span1"></div>  
