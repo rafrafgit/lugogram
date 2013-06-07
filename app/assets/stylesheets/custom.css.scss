@@ -190,7 +190,13 @@ input {
 
 
 @media (max-width: 767px) {
-  #content .modal.fade.in {
+  #messageWrap .modal.fade.in {
+    top: 5%;
+  }
+  #usersWrap .modal.fade.in {
+    top: 5%;
+  }
+  #settingsWrap .modal.fade.in {
     top: 5%;
   }
 }

@@ -134,7 +134,7 @@
 
 <% if signed_in? %>
 
-<div id="content">
+<div id="messageWrap">
   <div id="newMessage" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <%= form_for(@micropost) do |f| %>  
   <div class="modal-header">
@@ -186,8 +186,7 @@
          <% end %> 
       <% end %>           
 
-  </div>
-  <div class="modal-footer">
+  
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <%=f.submit "Share", class: "btn btn-success" %>
   </div>
@@ -195,6 +194,7 @@
 </div>
 </div>
 
+<div id="usersWrap">
   <div id="addFriend" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="friendModalLabel" aria-hidden="true">   
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -216,16 +216,15 @@
   <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
   <h4 id="myModalLabel">Add someone</h4>
     <%= f.email_field :email, placeholder: "Email" %>
-  </div>
-  <div class="modal-footer">
+  
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <%= f.submit "Add", class: "btn btn-success" %>
   </div>
   <% end %>
 </div>
+</div>
 
-
-
+<div id="settingsWrap">
 <div id="settings" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">   
   <%= form_for(current_user) do |f| %>
   <div class="modal-header">
@@ -252,13 +251,10 @@
     <%= f.label :password_confirmation, "Confirm Password" %>
     <%= f.password_field :password_confirmation %>
 
-  </div>
-  <div class="modal-footer">
+  
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <%= f.submit "Save changes", class: "btn btn-success" %>
-  </div>
-
-  <div class="modal-footer">
+  
     <%= link_to "Sign Out", signout_path, method: "delete" %>
     <br/>
     <%= link_to "Delete my account", current_user, method: :delete,
@@ -267,7 +263,7 @@
   </div>                                  
   <% end %>
 </div>
-
+</div>
 
 <% end %>
 
