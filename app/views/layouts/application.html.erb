@@ -139,7 +139,7 @@
   <%= form_for(@micropost) do |f| %>  
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Compose new message <% if (@visible_users != nil and !@visible_users.empty?) %> in this group <% end %></h3>
+    <h3 id="friendModalLabel">New message <% if (@visible_users != nil and !@visible_users.empty?) %> in this group <% end %></h3>
   </div>
   <div class="modal-body">
     <ul class="nav nav-list">  
@@ -167,28 +167,32 @@
       
       <% if @visible_users == nil or @visible_users.empty? %>
         <li class="nav-header">Visible to</li>
-        <li>
-          <div class="row-fluid">
-          <div class="span2"><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"></div>
-          <div class="span10"><span class="name_selected"> You</span></div>
-          </div> 
+        <li><table>
+          <tr>
+          <td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"></div></td>
+          <td><span class="name_selected"> You</span></td>
+          </tr> 
         <%  @friends.each do |u| %>          
-          <div class="row-fluid">
-          <div class="span2" onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"></div>
-          <div class="span10"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div>                   
+          <tr>
+          <td><div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"></div></td> 
+          <td><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></td>                   
           <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
-           </div>
+          </tr>
         <% end %>
-        </li> 
+        </table></li> 
       <% else %>
           <%  @visible_users.each do |u| %>
             <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/> 
          <% end %> 
       <% end %>           
 
-  
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <%=f.submit "Share", class: "btn btn-success" %>
+    <hr>
+    <div class="pull-right">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <%=f.submit "Share", class: "btn btn-success" %>
+    </div> 
+    </br></br></br></br>
+
   </div>
   <% end %>
 </div>
@@ -202,25 +206,27 @@
   </div>
   <div class="modal-body">
     <ul class="nav nav-list">
-    <% @friends.each do |u| %>
-        <li><div class="row-fluid">
-          <div class="span8">
-            <%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %>
-          </div> 
-          <div class="span4">
-          <%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %>    
-          </div> 
-      </div><li> 
-    <% end %>
+      <li><table>
+        <% @friends.each do |u| %> 
+          <tr>
+          <td><%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %></td> 
+          <td><%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %></td> 
+          </tr> 
+        <% end %>
+    </table></li>
   </ul>
   <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
-  <h4 id="myModalLabel">Add someone</h4>
+    <h4 id="myModalLabel">Add someone</h4>
     <%= f.email_field :email, placeholder: "Email" %>
-  
+  <hr>
+  <div class="pull-right">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <%= f.submit "Add", class: "btn btn-success" %>
-  </div>
+  </div>  
   <% end %>
+
+</br></br></br></br>
+</div>
 </div>
 </div>
 
@@ -242,7 +248,6 @@
     <div class="row-fluid">
     <div class="span8"><%= f.text_field :avatar, placeholder: "www...link to image (or leave empty)", onBlur: "checkImageURL()" %></div> 
     <div class="span4"><%= image_tag(current_user.getAvatarURL, :id => "avatar_preview", :size => "30x30") %></div>
-    
     </div> 
 
     <%= f.label :password %>
@@ -251,15 +256,23 @@
     <%= f.label :password_confirmation, "Confirm Password" %>
     <%= f.password_field :password_confirmation %>
 
-  
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <%= f.submit "Save changes", class: "btn btn-success" %>
-  
+    <hr>
+
+    
+
+    <div class="pull-left">
     <%= link_to "Sign Out", signout_path, method: "delete" %>
-    <br/>
+    </br>
     <%= link_to "Delete my account", current_user, method: :delete,
                                          data: { confirm: "You sure?" },
                                          title: current_user.name %>
+    </div>
+
+    <div class="pull-right">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <%= f.submit "Save changes", class: "btn btn-success" %>
+    </div>
+
   </div>                                  
   <% end %>
 </div>

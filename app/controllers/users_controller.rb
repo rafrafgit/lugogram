@@ -70,7 +70,7 @@ class UsersController < ApplicationController
         flash[:success] = "Welcome to Lugogram! " + @user.name
         redirect_to root_url
       else
-        edit
+        render 'new'
       end
     end
   end

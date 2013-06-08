@@ -9,10 +9,10 @@
   <%= f.label :email %>
   <%= f.email_field :email %>
 
-  <%= f.label :password %>
+  <%= f.label :password, "Password (minimum 6 characters)"  %>
   <%= f.password_field :password %>
 
-  <%= f.label :password_confirmation, "Confirmation" %>
+  <%= f.label :password_confirmation, "Confirm password" %>
   <%= f.password_field :password_confirmation %>
 
   <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
