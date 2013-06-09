@@ -11,6 +11,7 @@
 
 .invisible {
   visibility:none;
+  aria-hidden:"true";
 }
 
 .visible {
@@ -189,14 +190,3 @@ input {
 }
 
 
-@media (max-width: 767px) {
-  #messageWrap .modal.fade.in {
-    top: 5%;
-  }
-  #usersWrap .modal.fade.in {
-    top: 5%;
-  }
-  #settingsWrap .modal.fade.in {
-    top: 5%;
-  }
-}
