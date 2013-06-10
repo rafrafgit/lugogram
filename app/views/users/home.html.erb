@@ -4,9 +4,9 @@
 
 
 <% if @visible_users.length > 0 %>
-<div class="well" style="background-color:white;margin=0px;padding=0px;">
+<div class="well" style="padding:5px;">
   
-  <div class="row-fluid" style="margin=0px;padding=0px;">
+  <div class="row-fluid" style="margin:0px;padding:0px;">
       
       <div class="span12"><a href="<%=root_path%>"><%= image_tag("glyphicons_192_circle_remove.png", style: "margin-left:20px;", size: "20x20")%></a></div>         
   </div>
@@ -53,12 +53,12 @@
 
   <div id="mobileInsert" ><div class="accordion-group" style="border:0;padding:0;margin:0">
     
-    <div id="newMessage" class="collapse"><div class="well">  
+    <div id="newMessage" class="collapse"><div class="well" style="padding: 5px;">  
   <%= form_for(@micropost) do |f| %>  
   <div class="modal-header">
     <h3 id="friendModalLabel">New message <% if (@visible_users != nil and !@visible_users.empty?) %> in this group <% end %></h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="padding: 0px;">
     <ul class="nav nav-list">  
          
       <%= f.hidden_field :filter, value: current_color %>
@@ -85,19 +85,16 @@
         </div>
         </div>  
       <li>
-        
-      
+            
       <% if @visible_users == nil or @visible_users.empty? %>
         <li class="nav-header">Visible to</li>
         <li><table>
           <tr>
-          <td><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"></div></td>
-          <td><span class="name_selected"> You</span></td>
+          <td colspan="2"><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td>
           </tr> 
         <%  @friends.each do |u| %>          
           <tr>
-          <td><div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"></div></td> 
-          <td><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></td>                   
+          <td colspan="2"><div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div></td>               
           <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
           </tr>
         <% end %>
@@ -116,18 +113,17 @@
   <% end %>
   </div></div>
 
-
-  <div id="addFriend" class="collapse"><div class="well">   
+  <div id="addFriend" class="collapse"><div class="well" style="padding: 5px;">   
   <div class="modal-header">
     <h3 id="friendModalLabel">Friends</h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="padding: 0px;">
     <ul class="nav nav-list">
       <li><table>
         <% @friends.each do |u| %> 
           <tr>
-          <td><%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %></td> 
-          <td><%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn" %></td> 
+          <td valign="top"><%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %> </td> 
+          <td valign="middle"><%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn btn-mini" %></td> 
           </tr> 
         <% end %>
     </table></li>
@@ -143,13 +139,12 @@
   <% end %>
 </div></div>
 
-<div id="settings" class="collapse"><div class="well">   
+<div id="settings" class="collapse"><div class="well" style="padding: 5px;">   
   <%= form_for(current_user) do |f| %>
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="settingsModalLabel">Settings</h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="padding: 0px;">
     <%= f.label :name %>
     <%= f.text_field :name %>
 
