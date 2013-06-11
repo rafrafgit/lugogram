@@ -1,4 +1,3 @@
-<% current_color = randomColor() %>  
 <% if signed_in? %>
  
 
@@ -11,9 +10,9 @@
       <div class="span12"><a href="<%=root_path%>"><%= image_tag("glyphicons_192_circle_remove.png", style: "margin-left:20px;", size: "20x20")%></a></div>         
   </div>
   
-  <ul class="thumbnails" style="margin=0px;padding=0px;">
+  <ul class="thumbnails" style="margin:0px;padding:0px;border:0px">
     <li class="span4">
-      <div class="thumbnail" style="margin:0px;border:0px;">
+      <div class="thumbnail" style="margin:0px;padding:0px;border:0px;">
         <% if current_user.hasDefaultAvatar? %>
           <%= image_tag(current_user.getAvatarURL, :size => "40x40") %>   
         <% else %>
@@ -24,7 +23,7 @@
     </li>
     <% @visible_users.each do |u| %> 
       <li class="span4">
-        <div class="thumbnail" style="margin:0px;border:0px;">
+        <div class="thumbnail" style="margin:0px;padding:0px;border:0px;">
           
           <% if u.hasDefaultAvatar? %>
             <%= image_tag(u.getAvatarURL, :size => "40x40") %>   
@@ -52,16 +51,22 @@
   <% end %>
 
   <div id="mobileInsert" ><div class="accordion-group" style="border:0;padding:0;margin:0">
-    
-    <div id="newMessage" class="collapse"><div class="well" style="padding: 5px;">  
+  
+  <% 
+  messageClass = "collapse"
+  if @visible_users.length > 0 
+    messageClass = "collapse in"
+  end 
+  %>  
+
+    <div id="newMessage" class="<%=messageClass%>"><div class="well" style="padding: 5px;">  
   <%= form_for(@micropost) do |f| %>  
   <div class="modal-header">
-    <h3 id="friendModalLabel">New message <% if (@visible_users != nil and !@visible_users.empty?) %> in this group <% end %></h3>
+    <h4 id="friendModalLabel">New message <% if (@visible_users != nil and !@visible_users.empty?) %> in this group <% end %></h4>
   </div>
   <div class="modal-body" style="padding: 0px;">
     <ul class="nav nav-list">  
-         
-      <%= f.hidden_field :filter, value: current_color %>
+        
       <%= f.hidden_field :weblink %>
       <%= f.hidden_field :imagelink %>
       <li><%= render 'shared/error_messages', object: f.object %></li>   
@@ -90,11 +95,11 @@
         <li class="nav-header">Visible to</li>
         <li><table>
           <tr>
-          <td colspan="2"><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td>
-          </tr> 
+          <td colspan="2" nowrap><img src="<%=current_user.getAvatarURL%>" class="avatar_selected" width="24" height="24"><span class="name_selected"> You</span></td>
+          </tr>
         <%  @friends.each do |u| %>          
           <tr>
-          <td colspan="2"><div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div></td>               
+          <td colspan="2" nowrap><div onClick=buttonPress('<%=u.id%>')><img src="<%=u.getAvatarURL%>" id="image_<%=u.id%>" class="avatar_unselected" width="24" height="24"><span id="name_<%=u.id%>" class="name_unselected"> <%= u.name %></span></div></td>               
           <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="false"/> 
           </tr>
         <% end %>
@@ -104,6 +109,7 @@
             <input type="hidden" id="friends[<%=u.id%>]" name="friends[<%=u.id%>]" value="true"/> 
          <% end %> 
       <% end %>           
+  </br>
   </div> 
   <div class="modal-footer">
       <button class="btn" type="button" data-toggle="collapse" data-parent="#mobileInsert" data-target="#newMessage" >Close</button>
@@ -115,22 +121,24 @@
 
   <div id="addFriend" class="collapse"><div class="well" style="padding: 5px;">   
   <div class="modal-header">
-    <h3 id="friendModalLabel">Friends</h3>
+    <h4 id="friendModalLabel">Friends</h4>
   </div>
-  <div class="modal-body" style="padding: 0px;">
-    <ul class="nav nav-list">
+  <div class="modal-body" style="padding: 5px;">
+    <ul class="nav nav-list" style="padding: 0px;">
       <li><table>
         <% @friends.each do |u| %> 
           <tr>
           <td valign="top"><%= image_tag(u.getAvatarURL, size: "24x24") %> <%= u.name %> </td> 
-          <td valign="middle"><%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn btn-mini" %></td> 
+          <td valign="top"><%= button_to "Remove", {id: current_user.id, friend_id: u.id, controller: "users", action: "unfriend"}, class: "btn btn-mini" %></td> 
           </tr> 
         <% end %>
     </table></li>
   </ul>
   <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
-    <h4 id="myModalLabel">Add someone</h4>
-    <%= f.email_field :email, placeholder: "Email" %>
+    <ul class="nav nav-list"> 
+      <li class="nav-header">Add someone</li>
+      <li><%= f.email_field :email, placeholder: "Email" %></li>
+    </ul>
   </div>  
   <div class="modal-footer">
     <button class="btn" type="button" data-toggle="collapse" data-parent="#mobileInsert" data-target="#addFriend">Close</button>
@@ -142,7 +150,7 @@
 <div id="settings" class="collapse"><div class="well" style="padding: 5px;">   
   <%= form_for(current_user) do |f| %>
   <div class="modal-header">
-    <h3 id="settingsModalLabel">Settings</h3>
+    <h4 id="settingsModalLabel">Settings</h4>
   </div>
   <div class="modal-body" style="padding: 0px;">
     <%= f.label :name %>

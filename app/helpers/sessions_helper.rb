@@ -51,6 +51,8 @@ module SessionsHelper
     session[:return_to] = request.url
   end
 
+   
+
   def randomColor
      
     emerald = '#009B77'

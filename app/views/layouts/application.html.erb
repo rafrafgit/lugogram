@@ -1,5 +1,4 @@
-<% current_color = randomColor() %>  
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <%= stylesheet_link_tag    "application", media: "all" %>
@@ -28,8 +27,6 @@
       
     });
     
-  
-
   function buttonPress(userID){      
     var friend_id = "friends[" + userID + "]";
     var image_id = "image_"  + userID;
@@ -136,17 +133,6 @@
 
 </head>
 <body>
-
-<% if signed_in? %>
-
-  
-
-
-
-
-<% end %>
-
-
 <div class="container-fluid"> 
     <div class="row-fluid">   
         <div class="navbar navbar-fixed-top">
@@ -187,8 +173,5 @@
         <div class="span1"></div>
     </div> 
   </div>   
-
-  
-
 </body>
 </html>
