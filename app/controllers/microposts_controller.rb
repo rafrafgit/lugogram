@@ -13,15 +13,24 @@ class MicropostsController < ApplicationController
         end
       end
     end 
-    post.filter = getColor(users)  
     
-    current_user.share(post, users) 
+    if post.save  
+      visible = users.clone
+      visible.push(current_user)
+      post.setVisibility(visible)
+
+      current_user.share(post) 
    
-    url = root_url + "/?"
-    post.getVisibility().each do |u| 
-       url += "ids[]=" + u.id.to_s() + "&"
+      url = root_url + "/?"
+      visible.each do |u| 
+         url += "ids[]=" + u.id.to_s() + "&"
+      end
+      redirect_to url
+    else
+      flash[:error] = "Could not create post"
+      redirect_to root_url 
     end
-    redirect_to url
+
   end
 
   def destroy
@@ -48,28 +57,5 @@ class MicropostsController < ApplicationController
         redirect_to root_url 
       end  
     end
-
-    def getColor(users)
-
-      num = 0;
-      users.each do |u|
-        num += u.id
-      end  
-
-      mimosa = '#EFC050'      #yellow
-      honeysuckle = '#D65076' #pink
-      tigerlily = '#E15D44'   #orange red     
-      turquoise = '#45B8AC'   #turkoise green
-      sand = '#DFCFBE'        #brown
-      cerulean = '#98B4D4'    #blue
-      yellow = '#f7e8aa'      #light yellow
-      green = '#c9e8dd'       #light green
-      aqua = '#7FCDCD'        #blue/green
-      fuchsia = '#C3447A'     #lila
-      
-   
-      colors = [yellow, green, honeysuckle, turquoise, mimosa, sand, tigerlily, aqua, fuchsia, cerulean]
-      colors[num % colors.length]
-    end 
 
 end

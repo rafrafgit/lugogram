@@ -9,13 +9,9 @@ class SessionsController < ApplicationController
 	    sign_in user
 	    if (user.hasNotLoggedIn)
 	    	admin = User.find(1)
-	    	#post = admin.microposts.build()
-	    	#post.content = "Welcome to Lugogram!"
-      		#admin.share(post, [user])
       		user.addFriend(admin)
       		flash[:success] = 'Welcome! Please add your name and password.'
       		redirect_to edit_user_path(user)
-      		#UserMailer.welcome_email(user).deliver
 	    else
         	redirect_to root_url
         end	

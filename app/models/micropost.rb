@@ -8,10 +8,11 @@ class Micropost < ActiveRecord::Base
   
   default_scope order: 'microposts.created_at DESC'
 
+  
 
   def setVisibility(other_users)
     other_users.each do |u|
-      eyes.create!(user_id: u.id)  
+        eyes.create!(user_id: u.id) unless isVisible(u)
     end  
   end
 
@@ -30,15 +31,11 @@ class Micropost < ActiveRecord::Base
 
   def isVisible(user)
     visble = false
-    if user.id == self.user.id
-      visible = true
-    else
-      eyes.each do |eye|
-        if eye.user_id ==  user.id 
-          visible = true
-        end 
-      end  
-    end
+    eyes.each do |eye|
+      if eye.user_id ==  user.id 
+        visible = true
+      end 
+    end      
     visble  
   end
 
@@ -46,5 +43,24 @@ class Micropost < ActiveRecord::Base
     eyes.find_by_user_id(user_id).destroy!
   end
 
+  def getColor()
+    num = 0;
+    eyes.each do |eye|
+      num += eye.user_id
+    end  
 
+    mimosa = '#EFC050'      #yellow
+    honeysuckle = '#D65076' #pink
+    tigerlily = '#E15D44'   #orange red     
+    turquoise = '#45B8AC'   #turkoise green
+    sand = '#DFCFBE'        #brown
+    cerulean = '#98B4D4'    #blue
+    yellow = '#f7e8aa'      #light yellow
+    green = '#c9e8dd'       #light green
+    aqua = '#7FCDCD'        #blue/green
+    fuchsia = '#C3447A'     #lila    
+    colors = [yellow, green, honeysuckle, turquoise, mimosa, sand, tigerlily, aqua, fuchsia, cerulean]
+
+    colors[num % colors.length]  
+  end  
 end

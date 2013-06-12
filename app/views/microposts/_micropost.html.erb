@@ -4,7 +4,7 @@
   if hasimage   
     styling = "background-color: transparent;background-image: url(" + micropost.imagelink + ");background-repeat: no-repeat;background-position: left top;background-attachment: scroll;background-size: 100%;"
   else
-    styling = "background-color:" + micropost.filter
+    styling = "background-color:" + micropost.getColor()
   end 
  
   visibility = micropost.getVisibility() 
@@ -38,7 +38,7 @@
           <% else  %>  
             <span style="font-size: 10px;color: black;"> <%= micropost.user.name %></span>
           <% end  %>  
-          </br><span style="font-size: 8px;color: black;"> <%= time_ago_in_words(micropost.created_at) %> ago</span>
+          <span style="font-size: 10px;color: black;"> <%= time_ago_in_words(micropost.created_at) %> ago</span>
       </div>
 
       

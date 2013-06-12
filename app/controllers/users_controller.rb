@@ -143,10 +143,16 @@ class UsersController < ApplicationController
     def sendWelcomeMessage(user)
       # Send welcome message from Lugogram Staff:
       admin = User.find(1)
-      welcome_message = admin.microposts.build()
-      welcome_message.content = "Welcome to Lugogram " + user.name + "!"
-      welcome_message.filter = '#DD4124'
-      admin.share(welcome_message, [user])
-    end  
-
+      post = admin.microposts.build()
+      post.content = "Welcome to Lugogram " + user.name + "!"
+      
+      if post.save  
+        #Set visibility
+        visible = []
+        visible.push(user)
+        visible.push(admin)
+        post.setVisibility(visible)
+        admin.share(post) 
+      end  
+    end
 end

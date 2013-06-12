@@ -19,18 +19,13 @@ class User < ActiveRecord::Base
 
   
 
-  def share(post, other_users)
-    if post.save  
-      #Set visibility
-      visible = other_users.clone
-      visible.push(self)
-      post.setVisibility(visible)
-      
-      #Send notifications
-      other_users.each do |u|
+  def share(post)  
+    #Send notifications
+    post.getVisibility().each do |u|
+      if self.id != u.id 
         UserMailer.lugogram_email(post, self, u).deliver unless u.admin?
-      end  
-    end   
+      end
+    end        
   end  
 
   def hasDefaultAvatar?

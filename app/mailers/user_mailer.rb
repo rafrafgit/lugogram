@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
     @user = from_user
     url = 'https://lugogram.herokuapp.com'
     @lugogram_message = post.content
-    @lugogram_color = post.filter
+    @lugogram_color = post.getColor()
     @lugogram_weblink = post.weblink
     @lugogram_imagelink = post.imagelink
     @lugogram_avatar = @user.getAvatarURL

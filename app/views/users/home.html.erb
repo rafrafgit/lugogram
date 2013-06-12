@@ -136,7 +136,7 @@
   </ul>
   <%= form_for @friend, url: {id: current_user.id, action: "invite" } do |f| %>
     <ul class="nav nav-list"> 
-      <li class="nav-header">Add someone</li>
+      <li><span class="nav-header">Add someone</span><span style="font-size: 10px;color: gray;"> Your friend wont get notified until you send him/her a message.</span></li>
       <li><%= f.email_field :email, placeholder: "Email" %></li>
     </ul>
   </div>  
